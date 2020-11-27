@@ -26,32 +26,28 @@ public class NBody{
     return array;
   }
 
-  publi void main(String args[]){
+  public static void main(String args[]){
     double T = Double.parseDouble(args[0]);
     double dt = Double.parseDouble(args[1]);
     String filename = args[2];
-    NBody nb = new NBody;
+    NBody nb = new NBody();
     double r = nb.readRadius(args[2]);
     Body[] bodies = nb.readBodies(args[2]);
 
-
-    StdDraw.enableDoubleBuffering();
-
-  		/** Sets up the universe so it goes from
-
-  		  * -100, -100 up to 100, 100 */
-
 		StdDraw.setScale(-r, r);
-    StdDraw.clear();
-		/* Stamps three copies of advice.png in a triangular pattern. */
-
-		StdDraw.picture(-r, -r, "./images/starfield.jpg");
-		/* Shows the drawing to the screen, and waits 2000 milliseconds. */
-
 		StdDraw.show();
+		//StdDraw.pause(2000);
 
-		StdDraw.pause(2000);
-
-    
+    int count = 0;
+    while (count < 300) {
+      StdDraw.clear();
+      StdDraw.picture(0, 0, "./images/starfield.jpg");
+      for (Body i : bodies){
+        i.draw();
+        i.update(dt, i.calcNetForceExertedByX(bodies), i.calcNetForceExertedByY(bodies));
+      }
+			StdDraw.pause(20);
+      count += 1;
+    }
   }
 }

@@ -10,7 +10,7 @@ public class LinkedListDequeTest {
     public void addIsEmptySizeTest() {
         System.out.println("Running add/isEmpty/Size test.");
         System.out.println("Make sure to uncomment the lines below (and delete this line).");
-        /*
+
         LinkedListDeque<String> lld1 = new LinkedListDeque<>();
 
         // Java will try to run the below code.
@@ -36,7 +36,7 @@ public class LinkedListDequeTest {
             System.out.println("Printing out deque: ");
             lld1.printDeque();
         }
-        */
+
     }
 
     /** Adds an item, then removes an item, and ensures that deque is empty afterwards. */
@@ -44,7 +44,7 @@ public class LinkedListDequeTest {
     public void addRemoveTest() {
         System.out.println("Running add/remove test.");
         System.out.println("Make sure to uncomment the lines below (and delete this line).");
-        /*
+
         LinkedListDeque<Integer> lld1 = new LinkedListDeque<>();
 
         try {
@@ -59,6 +59,6 @@ public class LinkedListDequeTest {
             System.out.println("Printing out deque: ");
             lld1.printDeque();
         }
-        */
+
     }
 }

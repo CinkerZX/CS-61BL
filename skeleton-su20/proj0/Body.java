@@ -78,8 +78,9 @@ public class Body{
   public void draw(){
     StdDraw.enableDoubleBuffering();
     /* Clears the screen. */
-		StdDraw.clear();
-		StdDraw.picture(this.xxPos, this.yyPos, imageToDraw);
+		//StdDraw.clear();
+		StdDraw.picture(this.xxPos, this.yyPos,
+    "./images/"+this.imgFileName);
 		StdDraw.show();
   }
 }
