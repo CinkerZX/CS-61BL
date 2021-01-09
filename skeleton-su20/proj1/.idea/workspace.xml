@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fc997422-3b8e-4f3a-a1a6-658756c83df6" name="Default Changelist" comment="Finish proj1" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="ProjectId" id="1lCI69BaVwlmmtR5Rr3lO1fBDnj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../proj2" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.58185405" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Cinker\Documents\Doc second year\Course\CS 61BL\skeleton-su20\proj1" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.addALot">
+    <configuration name="LinkedListDequeTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="proj1" />
+      <useClassPathOnly />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk1.8.0_261\jre" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LinkedListDequeTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LinkedListDequeTest.addIsEmptySizeTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="proj1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LinkedListDequeTest" />
+      <option name="METHOD_NAME" value="addIsEmptySizeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="addALot" type="JUnit" factoryName="JUnit">
+      <module name="proj1" />
+      <useClassPathOnly />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ArrayDequeTest" />
+      <option name="METHOD_NAME" value="addALot" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.LinkedListDequeTest" />
+      <item itemvalue="JUnit.LinkedListDequeTest.addIsEmptySizeTest" />
+      <item itemvalue="JUnit.addALot" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc997422-3b8e-4f3a-a1a6-658756c83df6" name="Default Changelist" comment="" />
+      <created>1607094469313</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607094469313</updated>
+    </task>
+    <task id="LOCAL-00001" summary="Finish proj1">
+      <created>1608757184696</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1608757184696</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Finish proj1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finish proj1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="493" y="223" key="#Notifications" timestamp="1608733730847">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="493" y="223" key="#Notifications/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608733730847" />
+    <state x="81" y="31" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608741160456">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="81" y="31" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608741160456" />
+    <state x="415" y="66" key="#com.intellij.ide.util.MemberChooser" timestamp="1607944669578">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="415" y="66" key="#com.intellij.ide.util.MemberChooser/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607944669578" />
+    <state x="101" y="154" key="FileChooserDialogImpl" timestamp="1609599436222">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="101" y="154" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609599436222" />
+    <state width="1175" height="235" key="GridCell.Tab.0.bottom" timestamp="1608756890094">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="235" key="GridCell.Tab.0.bottom/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608756890094" />
+    <state width="1175" height="235" key="GridCell.Tab.0.center" timestamp="1608756890093">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="235" key="GridCell.Tab.0.center/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608756890093" />
+    <state width="1175" height="235" key="GridCell.Tab.0.left" timestamp="1608756890093">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="235" key="GridCell.Tab.0.left/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608756890093" />
+    <state width="1175" height="235" key="GridCell.Tab.0.right" timestamp="1608756890094">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="235" key="GridCell.Tab.0.right/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608756890094" />
+    <state width="1175" height="563" key="GridCell.Tab.1.bottom" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.bottom/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.center" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.center/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.left" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.left/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.right" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.right/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state x="39" y="74" width="703" height="646" key="SettingsEditor" timestamp="1607700824464">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="39" y="74" width="703" height="646" key="SettingsEditor/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607700824464" />
+    <state x="407" y="274" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1608757141366">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="407" y="274" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608757141366" />
+    <state x="173" y="80" width="872" height="640" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1607114364994">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="173" y="80" width="872" height="640" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607114364994" />
+    <state x="490" y="21" width="592" height="699" key="dock-window-1" timestamp="1607112976419">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="490" y="21" width="592" height="699" key="dock-window-1/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607112976419" />
+    <state x="451" y="117" key="refactoring.ChangeSignatureDialog" timestamp="1607101300808">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="451" y="117" key="refactoring.ChangeSignatureDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607101300808" />
+    <state x="272" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1607700001651">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="272" y="41" width="672" height="678" key="search.everywhere.popup/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607700001651" />
+  </component>
+</project>

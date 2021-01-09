@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fc997422-3b8e-4f3a-a1a6-658756c83df6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/ArrayDeque.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LinkedListDeque.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ArrayDequeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/ArrayDequeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LinkedListDequeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/LinkedListDequeTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1lCI69BaVwlmmtR5Rr3lO1fBDnj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/jason-2.5/examples/Auditor-a" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.58185405" />
+  </component>
+  <component name="RunManager" selected="JUnit.addIsEmptySizeTest">
+    <configuration name="LinkedListDequeTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="proj1" />
+      <useClassPathOnly />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="ALTERNATIVE_JRE_PATH" value="C:\Program Files\Java\jdk1.8.0_261\jre" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LinkedListDequeTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LinkedListDequeTest.addIsEmptySizeTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <module name="proj1" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="LinkedListDequeTest" />
+      <option name="METHOD_NAME" value="addIsEmptySizeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="addIsEmptySizeTest" type="JUnit" factoryName="JUnit">
+      <module name="proj1" />
+      <useClassPathOnly />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ArrayDequeTest" />
+      <option name="METHOD_NAME" value="addIsEmptySizeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="PARAMETERS" value="" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.LinkedListDequeTest" />
+      <item itemvalue="JUnit.addIsEmptySizeTest" />
+      <item itemvalue="JUnit.LinkedListDequeTest.addIsEmptySizeTest" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fc997422-3b8e-4f3a-a1a6-658756c83df6" name="Default Changelist" comment="" />
+      <created>1607094469313</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607094469313</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="81" y="31" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1608732767535">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="81" y="31" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1608732767535" />
+    <state x="415" y="66" key="#com.intellij.ide.util.MemberChooser" timestamp="1607944669578">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="415" y="66" key="#com.intellij.ide.util.MemberChooser/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607944669578" />
+    <state x="101" y="154" key="FileChooserDialogImpl" timestamp="1607944690325">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="101" y="154" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607944690325" />
+    <state width="1175" height="563" key="GridCell.Tab.0.bottom" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.0.bottom/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.0.center" timestamp="1607715473398">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.0.center/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473398" />
+    <state width="1175" height="563" key="GridCell.Tab.0.left" timestamp="1607715473398">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.0.left/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473398" />
+    <state width="1175" height="563" key="GridCell.Tab.0.right" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.0.right/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.bottom" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.bottom/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.center" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.center/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.left" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.left/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state width="1175" height="563" key="GridCell.Tab.1.right" timestamp="1607715473399">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state width="1175" height="563" key="GridCell.Tab.1.right/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607715473399" />
+    <state x="39" y="74" width="703" height="646" key="SettingsEditor" timestamp="1607700824464">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="39" y="74" width="703" height="646" key="SettingsEditor/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607700824464" />
+    <state x="173" y="80" width="872" height="640" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1607114364994">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="173" y="80" width="872" height="640" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607114364994" />
+    <state x="490" y="21" width="592" height="699" key="dock-window-1" timestamp="1607112976419">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="490" y="21" width="592" height="699" key="dock-window-1/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607112976419" />
+    <state x="451" y="117" key="refactoring.ChangeSignatureDialog" timestamp="1607101300808">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="451" y="117" key="refactoring.ChangeSignatureDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607101300808" />
+    <state x="272" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1607700001651">
+      <screen x="0" y="0" width="1218" height="720" />
+    </state>
+    <state x="272" y="41" width="672" height="678" key="search.everywhere.popup/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1607700001651" />
+  </component>
+</project>
