@@ -1,7 +1,13 @@
+# We are going to start from here **Gitlet.java**
+    //write the commit_0 object into the .commits folder
+    //write the NBtable object
+    //write the branch object
+
 # The structure of GITLET
 
 ### Object: Gitlet Repository
-
+    //https://d1b10bmlvqabco.cloudfront.net/attach/k5eevxebzpj25b/jqr7jm9igtc7l5/k97ipfmgmb3n/Gitlet_Slides.pdf
+    //https://cs61bl.org/su20/projects/gitlet/#the-commands
     MAIN:
     init //inititalize a repository folder under the directory of the object folder
     status // check the tracked files(folder) change
@@ -9,7 +15,7 @@
     remove // 
     commit // construct the commit, accept the string text (messsage)
     update the pointers
-    log // 
+    log //
     
     
 #### Steps
@@ -19,25 +25,22 @@
 
 ### Object: Commit
 * attributes
-    - SHA1(commit-self) //SHA = secure hash algorithm
-    - SHA1(previous commit) of the previous commit object
+    - pa_sha: SHA1(previous commit) of the previous commit object
     - Metadata
         - message
         - timestamp
     - Files that tracked in the folder
-        - NBtable[ ] // Name-blob table
+        - Nb_commit: NBtable[ ] // Name-blob table
             - The full name of the file
             - The sha1(Blobs) of the file
 * Commit 0: init
-    - SHA1(commit-self)
-    - SHA1(previous commit) = NONE
+    - pa_sha: SHA1(previous commit) = NONE
     - Metadata
-    - NBtable[ ] = NONE
+    - Nb_commit: NBtable[ ] = NONE
 * Commit n
-    - SHA1(commit-self)
-    - SHA1(previous commit)
+    - pa_sha: SHA1(previous commit)
     - Metadata
-    - NBtable[ ]
+    - Nb_commit: NBtable[ ]
 * Function
     - construction
         read the file name + blob name information from the staging area
@@ -45,6 +48,7 @@
 
 ### Object: branch_mani
 * Attributes
+    //- my_sha: SHA1(commit-self) //SHA = secure hash algorithm
     - NBtable[ ]
         - Name: the name of braches
         - Hash: SHA1(latest-commit)
