@@ -1,7 +1,5 @@
 # We are going to start from here **Gitlet.java**
-    //write the commit_0 object into the .commits folder
-    //write the NBtable object
-    //write the branch object
+### Finish commit function
 
 # The structure of GITLET
 
@@ -79,3 +77,26 @@
         - information in the Staging Area that which blob represents which file (after creat the blob for the file)
     - Creat blob
     - Create commit, update the NBtable of commit
+    - log
+        - Usage: java gitlet.Main log
+    
+                   ===
+                   commit a0da1ea5a15ab613bf9961fd86f010cf74c7ee48
+                   Date: Thu Nov 9 20:00:05 2017 -0800
+                   A commit message.
+          
+                   ===
+                   commit 3e8bf1d794ca2e9ef8a4007275acf3751c7170ff
+                   Date: Thu Nov 9 17:01:33 2017 -0800
+                   Another commit message.
+          
+                   ===
+                   commit e881c9575d180a215d1a636545b8fd9abfb1d2bb
+                   Date: Wed Dec 31 16:00:00 1969 -0800
+                   initial commit
+    - global-log
+        - Usage: java gitlet.Main global-log
+        - Description: Like log, except displays information about all commits ever made. The order of the commits does not matter.
+    
+    - reset
+        - Usage: java gitlet.Main reset [commit id]

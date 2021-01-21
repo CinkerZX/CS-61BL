@@ -22,11 +22,12 @@ package gitlet;
 //        read the file name + blob name information from the staging area
 //    - findhead
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class Commit {
+public class Commit implements Serializable {
     // Attributes
     private String pa_sha;// String S need to be upper case
     private String[] metadata; // message & timestep
@@ -45,11 +46,15 @@ public class Commit {
         NB_commit = null; //null n is lower case
     }
 
-    //Constructor: commit_0
+    //Constructor: commit n
     public Commit(String Pa_sha, String Message, NBtable[] Nb_commit){
         pa_sha = Pa_sha;
         metadata = new String[] {Message, timestamp()}; //{} array
         NB_commit = Nb_commit;
+    }
+
+    public NBtable[] getNB_commit(){
+        return(NB_commit);
     }
 
 }
