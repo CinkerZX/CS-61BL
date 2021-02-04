@@ -26,7 +26,9 @@ public class Main {
                     }else{gitletRe.init();}
                 case "commit":
                     // try to construct a new commit from gitlet packge
-
+                    if(args.length > 1){
+                        System.out.println("Incorrect operands.");
+                    }else{gitletRe.commit(args[1]);}
                 default:
                     System.out.println("No command with that name exists.");
             }
