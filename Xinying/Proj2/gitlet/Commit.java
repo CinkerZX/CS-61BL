@@ -1,5 +1,6 @@
 package gitlet;
 
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ import java.util.Locale;
 */
 public class Commit implements Serializable {
     //public String mySHA;
-    public String paSHA;
+    private String paSHA;
     public String[] Metadata;  //include message and timestamp
     public NBtable[] NBCommit;
     //Commit 0 constructor
@@ -53,7 +54,11 @@ public class Commit implements Serializable {
         return timestamp.format(new Date());
     }
 
-    public Commit ParentCommit(){
+    public void setpaSHA(String paSHA){
+        this.paSHA = paSHA;
+    }
 
+    public String getPaSHA(){
+        return paSHA;
     }
 }
