@@ -1,5 +1,7 @@
 # We are going to start from here **Gitlet.java**
-### Finish commit function
+### Gitlet.java add the methods of log, reset
+
+### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 
 
 # The structure of GITLET
 
@@ -8,13 +10,22 @@
     //https://cs61bl.org/su20/projects/gitlet/#the-commands
     MAIN:
     init //inititalize a repository folder under the directory of the object folder
-    status // check the tracked files(folder) change
-    add // create the corresponding blobs; add informations in the staging area
-    remove // 
+    add // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for addition; 
+    remove // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for removal ;
     commit // construct the commit, accept the string text (messsage)
     update the pointers
     log //
-    
+    reset // return back to previous time point
+    status // check the tracked files(folder) change
+
+### Contents
+    working directory
+        .gitlet
+            Staging Area
+                Staged for addition: empty files with the name of 'sha1(blob)'
+                Staged for removal: empty files with the name of 'sha1(blob)'
+            Commits: files with the name of 'sha1(commit)', and the content of object 'commit'
+            Blobs: files with the name of 'sha1(blob)', and the content of object 'blob'
     
 #### Steps
 * Create 3 subfolders: Staging Area, Commits, and Blods. // hide direction .gitlet

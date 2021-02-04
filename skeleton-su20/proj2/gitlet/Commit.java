@@ -53,8 +53,26 @@ public class Commit implements Serializable {
         NB_commit = Nb_commit;
     }
 
+    // set the pa_sha of the commit
+    public void setPa_sha(String sha_name){
+        pa_sha = sha_name;
+    }
+
+    // set the metadata of the commit
+    public void setMetadata(String Arg){
+        metadata = new String[] {Arg, timestamp()};
+    }
+
     public NBtable[] getNB_commit(){
         return(NB_commit);
+    }
+
+    public String getPa_sha(){
+        return(pa_sha);
+    }
+
+    public String[] getMetadata (){
+        return(metadata);
     }
 
 }

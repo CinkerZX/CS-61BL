@@ -20,13 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/gitlet/Blob.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_11.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/commons_lang3_3_111.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Blob.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/proj2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/proj2.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,9 +53,18 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../../../Program Files/Java/jre1.8.0_271/lib/commons-lang3-3.11.jar!/" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="SvnConfiguration">
@@ -85,14 +97,28 @@
       <screen x="0" y="0" width="1218" height="720" />
     </state>
     <state x="65" y="16" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600009965" />
-    <state x="390" y="116" key="FileChooserDialogImpl" timestamp="1609600768487">
-      <screen x="0" y="0" width="1218" height="720" />
+    <state x="49" y="213" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1612470287435">
+      <screen x="0" y="0" width="1216" height="720" />
     </state>
+    <state x="49" y="213" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470287435" />
+    <state x="413" y="230" key="DetectedRootsChooserDialog" timestamp="1612470867506">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state x="413" y="230" key="DetectedRootsChooserDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470867506" />
+    <state x="389" y="116" key="FileChooserDialogImpl" timestamp="1612471001822">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state x="389" y="116" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612471001822" />
     <state x="390" y="116" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600768487" />
-    <state x="111" y="5" key="SettingsEditor" timestamp="1609599941585">
-      <screen x="0" y="0" width="1218" height="720" />
+    <state x="111" y="0" key="SettingsEditor" timestamp="1612471007077">
+      <screen x="0" y="0" width="1216" height="720" />
     </state>
+    <state x="111" y="0" key="SettingsEditor/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612471007077" />
     <state x="111" y="5" key="SettingsEditor/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609599941585" />
+    <state x="338" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1612470892236">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state x="338" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470892236" />
     <state x="272" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1609599958668">
       <screen x="0" y="0" width="1218" height="720" />
     </state>

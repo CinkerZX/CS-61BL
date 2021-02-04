@@ -6,6 +6,8 @@ package gitlet;
 //        * function
 //        - find: input = SHA1; output = true/false
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class NBtable{
     //attributes
     private String file_name;
@@ -33,6 +35,10 @@ public class NBtable{
         }
         else
             return(false);
+    }
+
+    public void setSha1_file_name(String sha1){
+        sha1_file_name = sha1;
     }
 
     public String getSha1_file_name(){
