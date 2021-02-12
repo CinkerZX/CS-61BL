@@ -25,7 +25,6 @@ public class Main {
                         System.out.println("Incorrect operands.");
                     }else{gitletRe.init();}
                 case "commit":
-                    // try to construct a new commit from gitlet packge
                     if(args.length > 1){
                         System.out.println("Incorrect operands.");
                     }else{gitletRe.commit(args[1]);}
