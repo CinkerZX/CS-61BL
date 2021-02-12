@@ -28,6 +28,7 @@ public class Main {
                     break;
                 case "commit":
                     // construct the commit object by gitlet method ""
+                    mygitlet.commit(args[1]);
                 default:
                     System.out.println("No command with that name exists.");
             }
