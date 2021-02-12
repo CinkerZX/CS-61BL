@@ -1,5 +1,6 @@
 # We are going to start from here **Gitlet.java**
-### Gitlet.java add the methods of log, reset
+### Gitlet.java try integration test on those existing methods by python + '.in', and Configuration
+### add the methods of reset, branchmanagement, checkout
 
 ### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 
 

@@ -22,6 +22,7 @@ package gitlet;
 //        read the file name + blob name information from the staging area
 //    - findhead
 
+import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -75,4 +76,15 @@ public class Commit implements Serializable {
         return(metadata);
     }
 
+    // Get the parent commit object
+    public Commit pa_commit(String sha_pa){ // name => sha1
+        File file = new File(".gitlet/Commits", sha_pa);
+        try{
+            Commit pa_commit = Utils.readObject(file, Commit.class); //Commit is a class
+            return pa_commit;
+        } catch (Exception e){
+            System.out.println("No parent commit found");
+            throw new RuntimeException(e);
+        }
+    }
 }

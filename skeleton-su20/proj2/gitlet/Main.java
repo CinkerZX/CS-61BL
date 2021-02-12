@@ -25,12 +25,21 @@ public class Main {
                     else{
                         System.out.println("Incorrect operands.");
                     }
-                    break;
+                    break; // need break each case
                 case "commit":
                     // construct the commit object by gitlet method ""
-                    mygitlet.commit(args[1]);
+                    if(args.length == 2){
+                        mygitlet.commit(args[1]);
+                    }else if(args.length > 2){
+                        System.out.println("Please enter in such formation: commit 'XXXXX'.");
+                    }
+                    else{
+                        System.out.println("Please enter a commit message.");
+                    }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
+                    break;
             }
         }
         else {

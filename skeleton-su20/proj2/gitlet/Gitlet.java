@@ -40,10 +40,10 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             d_2.mkdir();
             //Create the new file of "Staged for addition"
             File d_2_1 = new File(d_2.getPath(), "Staged for addition");
-            d_2_1.createNewFile(); // Create a new file
+            d_2_1.mkdir(); // Create new folder
             //Create the new file of "Staged for removal"
             File d_2_2 = new File(d_2.getPath(), "Staged for removal");
-            d_2_2.createNewFile();
+            d_2_2.mkdir();
 
             //Create the folder of ".Commits"
             File d_3 = new File(d.getPath(), "Commits");
@@ -51,11 +51,11 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
             Commit commit_0 = new Commit(); // Generate the commit_0 object
             //Create the file "commit_0" with name "sha1(commit_0)"
-            File commit0 = new File(d_3.getPath(), Utils.sha1(commit_0));
+            File commit0 = new File(d_3.getPath(), Utils.sha1(Utils.serialize(commit_0)));
             // write the object commit_0 into the direction
             Utils.writeObject(commit0, commit_0);
 
-            branchManage = new BranchManage(Utils.sha1(commit_0));
+            branchManage = new BranchManage(Utils.sha1(Utils.serialize(commit_0)));
             //Create the folder of ".Blobs"
             File d_4 = new File(d.getPath(), "Blobs");
             d_4.mkdir();
@@ -180,6 +180,23 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     public void reset (String commit_id){ // need to check if the commit_id exists in this branch
         //check all the sha1(commits) in this branch
 
+    }
+
+    // log
+    public void log() throws IOException {
+        Commit cur_commit = branchManage.current_commit(); // get the current commit
+        System.out.println("===");
+        System.out.println("commit" + " " + branchManage.get_cur_commit_sha1()); // print the sha1
+        System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
+        System.out.println(cur_commit.getMetadata()[0]);// print the message
+
+        while(cur_commit.getPa_sha() != ""){
+            System.out.println("===");
+            System.out.println("commit" + " " + cur_commit.getPa_sha()); // print the sha1
+            cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha());
+            System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
+            System.out.println(cur_commit.getMetadata()[0]);// print the message
+        }
     }
 }
 

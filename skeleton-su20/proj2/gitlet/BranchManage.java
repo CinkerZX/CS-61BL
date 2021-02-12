@@ -17,11 +17,13 @@ public class BranchManage {
     // attributes
     private NBtable[] branches; // the latest_commit of each branches
     private NBtable branch_head;
+    private int a=10; // the initial length of branches
 
     // Constructor
     public BranchManage (String sha1){
-       branches[0] = new NBtable("master", sha1);
-       branch_head = branches[0];
+        branches = new NBtable[10];
+        branches[0] = new NBtable("master", sha1);
+        branch_head = branches[0];
     }
 
     // Function update_head
@@ -68,5 +70,10 @@ public class BranchManage {
             System.out.println("Current commit file didn't find");
             throw new RuntimeException(e);
         }
+    }
+
+    // Return the sha1 of the current commit
+    public String get_cur_commit_sha1(){
+        return(branch_head.getSha1_file_name());
     }
 }
