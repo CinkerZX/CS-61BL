@@ -48,7 +48,4 @@ public class NBtable {
         this.SHA1Value = newSHA;
     }
 
-
-
-
 }

@@ -3,6 +3,7 @@ package gitlet;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -15,7 +16,8 @@ public class BranchManager  {
 
     public BranchManager(String sha1Commit0){
         NBtable master = new NBtable("master", sha1Commit0);
-        branches[0] = master;
+        NBtable[] b = new NBtable[] {master};
+        branches = b;
         head = master;
     }
 
@@ -30,15 +32,15 @@ public class BranchManager  {
 
     public Commit NewCommit(String message) throws FileNotFoundException {
         // copy current commit and set it as the parent commit
-        Commit newCommit = new Commit(head.getSHA1Value(),message,CurrentCommit().NBCommit);
+        Commit newCommit = new Commit(head.getSHA1Value(),message,FindCommit(head.getSHA1Value()).NBCommit);
         return newCommit;
     }
 
-    public Commit CurrentCommit() throws FileNotFoundException {
+    public Commit FindCommit(String SHA1Value) throws FileNotFoundException {
         try{
-            File file = new File("./.gitlet/Commits",head.getSHA1Value());
-            Commit CurrentCommit = Utils.readObject(file, Commit.class);
-            return CurrentCommit;
+            File file = new File("./.gitlet/Commits",SHA1Value);
+            Commit thisCommit = Utils.readObject(file, Commit.class);
+            return thisCommit;
         } catch(Exception e){
             System.out.println("Current Commit File Not Found");
             throw new FileNotFoundException();
@@ -46,8 +48,12 @@ public class BranchManager  {
     }
 
     public Boolean inCurrentCommit(String filename) throws FileNotFoundException {
-        Commit CurrentCommit = CurrentCommit();
+        Commit CurrentCommit = FindCommit(head.getSHA1Value());
         return NBtable.inNBArray(filename, CurrentCommit.NBCommit);
+    }
+
+    public Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException {
+        return FindCommit(CurrentCommit.getPaSHA());
     }
 
 

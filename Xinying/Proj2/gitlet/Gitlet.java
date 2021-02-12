@@ -55,12 +55,12 @@ public class Gitlet implements Serializable {
 
             // initial commit0
             Commit Commit0 = new Commit();
-            File C0 = new File(C.getPath(),Utils.sha1(Commit0));
+            File C0 = new File(C.getPath(),Utils.sha1(Utils.serialize(Commit0)));
             C0.createNewFile();
             Utils.writeObject(C0, Commit0);
 
             // initial branch manager
-            this.branchManager = new BranchManager(Utils.sha1(Commit0));
+            this.branchManager = new BranchManager(Utils.sha1(Utils.serialize(Commit0)));
 
         }
     }
@@ -183,7 +183,24 @@ public class Gitlet implements Serializable {
     }
 
     //TO-DO
-    public void log(){
+    public void log() throws FileNotFoundException {
 
+        ///TO-DO merged node of two branches
+
+        Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
+        PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
+        while(!CurrentCommit.getPaSHA().isEmpty()){  // Commit0.paSHA = null
+            Commit parentCommit = branchManager.ParentCommit(CurrentCommit);
+            PrintCommit(parentCommit,CurrentCommit.getPaSHA());
+            CurrentCommit = parentCommit;
+        }
+
+    }
+
+    public void PrintCommit(Commit commit,String Sha){
+        System.out.println("===");
+        System.out.println("commit "+Sha);
+        System.out.println("Date: "+ commit.Metadata[1]);
+        System.out.println(commit.Metadata[0]);
     }
 }

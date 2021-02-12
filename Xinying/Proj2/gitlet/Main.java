@@ -21,13 +21,19 @@ public class Main {
         if(args.length >0){
             switch(args[0]){
                 case "init":
-                    if(args.length > 1){
-                        System.out.println("Incorrect operands.");
-                    }else{gitletRe.init();}
+                    if(args.length == 1){ gitletRe.init(); }
+                    else{ System.out.println("Incorrect operands."); }
+                    break;  /// must break after each case!!!!!!!!
                 case "commit":
-                    if(args.length > 1){
-                        System.out.println("Incorrect operands.");
-                    }else{gitletRe.commit(args[1]);}
+                    if(args.length == 2){ gitletRe.commit(args[1]); }
+                    else if(args.length == 1){ System.out.println("Please enter a commit message."); }
+                    else{ System.out.println("gitlet.Main commit 'commit message'"); }
+                    break;
+                case "add":
+                    if(args.length == 2){ gitletRe.add(args[1]); }
+                    else if(args.length == 1){ System.out.println("Please enter a file name."); }
+                    else{ System.out.println("gitlet.Main commit 'commit message'"); }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
             }
