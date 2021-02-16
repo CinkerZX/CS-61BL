@@ -2,15 +2,11 @@ package gitlet;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-
-import org.apache.commons.lang3.ArrayUtils;
+import java.io.IOException;
+import java.io.Serializable;
 
 
-
-
-public class BranchManager  {
+public class BranchManager implements Serializable {
     public NBtable[] branches;
     public NBtable head;
 
@@ -20,6 +16,11 @@ public class BranchManager  {
         branches = b;
         head = master;
     }
+
+    public BranchManager(){
+
+    }
+
 
     public void update_branch(String newSHA){
         for (NBtable branch : branches){
@@ -36,15 +37,15 @@ public class BranchManager  {
         return newCommit;
     }
 
-    public Commit FindCommit(String SHA1Value) throws FileNotFoundException {
-        try{
-            File file = new File("./.gitlet/Commits",SHA1Value);
-            Commit thisCommit = Utils.readObject(file, Commit.class);
-            return thisCommit;
-        } catch(Exception e){
+    public Commit FindCommit(String SHA1Value){
+        /*try{*/
+        File file = new File("./.gitlet/Commits",SHA1Value);
+        Commit thisCommit = Utils.readObject(file, Commit.class);
+        return thisCommit;
+        /*} catch(Exception e){
             System.out.println("Current Commit File Not Found");
             throw new FileNotFoundException();
-        }
+        }*/
     }
 
     public Boolean inCurrentCommit(String filename) throws FileNotFoundException {
@@ -56,5 +57,12 @@ public class BranchManager  {
         return FindCommit(CurrentCommit.getPaSHA());
     }
 
+
+    public void writeBM(String workingDirectory,BranchManager BM) throws IOException {
+        File file1 = new File(workingDirectory,".gitlet");
+        File file = new File(file1,"BrancheManager");
+        file.createNewFile();
+        Utils.writeObject(file,BM);
+    }
 
 }
