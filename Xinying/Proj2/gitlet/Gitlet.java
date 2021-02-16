@@ -18,9 +18,23 @@ public class Gitlet implements Serializable {
     public Gitlet(String wd){
         //workDirectory
         String workingDirectory = wd;
-        BranchManager branchManager = null;
+
+        ////!!!!!!!!!!!!!!!  how to handle BM IO and
+
+
+        BranchManager branchManager = new BranchManager();
     }
 
+    public static BranchManager readBM(String workingDirectory) throws FileNotFoundException {
+        File fileG = new File(workingDirectory,".gitlet");
+        File fileBM = new File(fileG,"BrancheManager");
+        try{
+            BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
+            return branch;
+        }catch(Exception e){
+            throw new FileNotFoundException();
+        }
+    }
 
     public void init() throws IOException {
         // initialize .gitlet folders
@@ -55,13 +69,13 @@ public class Gitlet implements Serializable {
 
             // initial commit0
             Commit Commit0 = new Commit();
-            File C0 = new File(C.getPath(),Utils.sha1(Commit0));
+            File C0 = new File(C.getPath(),Utils.sha1(Utils.serialize(Commit0)));
             C0.createNewFile();
             Utils.writeObject(C0, Commit0);
 
             // initial branch manager
-            this.branchManager = new BranchManager(Utils.sha1(Commit0));
-
+            this.branchManager = new BranchManager(Utils.sha1(Utils.serialize(Commit0)));
+            branchManager.writeBM(this.workingDirectory,branchManager);
         }
     }
 
@@ -138,52 +152,90 @@ public class Gitlet implements Serializable {
         // update branches and head
         File stagingAdd = new File(this.workingDirectory+"/.gitlet/Staging area/Staged for addition");
         File stagingRem = new File(this.workingDirectory+"/.gitlet/Staging area/Staged for removal");
-        if(stagingAdd.list() == null & stagingRem.list() == null){
-            System.out.println("No changes added to the commit.");
-        }
-        else if(arg.isEmpty()){
-            System.out.println("Please enter a commit message.");
-        }
-        else{
-            Commit newCommit = branchManager.NewCommit(arg);
-            NBtable[] newbloblist = newCommit.NBCommit;
 
-            // What will happen if NBCommit is null
-
-            // staged for addition
-            for (String name : stagingAdd.list()){
-                File file = new File(stagingAdd, name);
-                Blob addition = Utils.readObject(file, Blob.class);
-                NBtable add = new NBtable(addition.getfilename(), name);
-                newbloblist = ArrayUtils.add(newbloblist, add);
-                file.delete();
+        File fileG = new File(workingDirectory,".gitlet");
+        File fileBM = new File(fileG,"BrancheManager");
+        try{
+            BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
+            if(stagingAdd.list() == null & stagingRem.list() == null){
+                System.out.println("No changes added to the commit.");
             }
-            // staged for removal
-            for (String name : stagingRem.list()){
-                File file = new File(stagingRem, name);
-                Blob removal = Utils.readObject(file, Blob.class);
-                NBtable rem = new NBtable(removal.getfilename(), name);
-                newbloblist = ArrayUtils.removeElement(newbloblist, rem);
-                file.delete();
+            else if(arg.isEmpty()){
+                System.out.println("Please enter a commit message.");
             }
-            newCommit.NBCommit = newbloblist;
+            else {
+                Commit newCommit = branch.NewCommit(arg);
+                NBtable[] newbloblist = newCommit.NBCommit;
 
-            File C = new File(this.workingDirectory+"/.gitlet/Commits",Utils.sha1(newCommit));
-            C.createNewFile();
-            Utils.writeObject(C, newCommit);
+                // What will happen if NBCommit is null
 
-            branchManager.update_branch(Utils.sha1(newCommit));
+                // staged for addition
+                for (String name : stagingAdd.list()) {
+                    File file = new File(stagingAdd, name);
+                    Blob addition = Utils.readObject(file, Blob.class);
+                    NBtable add = new NBtable(addition.getfilename(), name);
+                    newbloblist = ArrayUtils.add(newbloblist, add);
+                    file.delete();
+                }
+                // staged for removal
+                for (String name : stagingRem.list()) {
+                    File file = new File(stagingRem, name);
+                    Blob removal = Utils.readObject(file, Blob.class);
+                    NBtable rem = new NBtable(removal.getfilename(), name);
+                    newbloblist = ArrayUtils.removeElement(newbloblist, rem);
+                    file.delete();
+                }
+                newCommit.NBCommit = newbloblist;
 
+                File C = new File(this.workingDirectory + "/.gitlet/Commits", Utils.sha1(Utils.serialize(newCommit)));
+                C.createNewFile();
+                Utils.writeObject(C, newCommit);
+
+                branchManager.update_branch(Utils.sha1(Utils.serialize(newCommit)));
+                branchManager.writeBM(this.workingDirectory, branchManager);
+            }
+        }catch(Exception e1){
+            throw new RuntimeException(e1);
         }
     }
 
+
     //TO-DO
-    public void reset(String Commit_id){
+    public void reset(String Commit_id) throws IOException {
         // check if the id exist in current branch
+
     }
 
-    //TO-DO
-    public void log(){
 
+
+    //TO-DO
+    public void log() throws IOException {
+
+        File fileG = new File(workingDirectory,".gitlet");
+        File fileBM = new File(fileG.getPath(),"BrancheManager");
+        try{
+            BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
+            ///TO-DO merged node of two branches
+
+            Commit CurrentCommit = branch.FindCommit(branch.head.getSHA1Value());
+            PrintCommit(CurrentCommit,branch.head.getSHA1Value());
+            //while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";
+            while(CurrentCommit.getPaSHA() != null){  // Commit0.paSHA = null
+                Commit parentCommit = branch.ParentCommit(CurrentCommit);
+                PrintCommit(parentCommit,CurrentCommit.getPaSHA());
+                CurrentCommit = parentCommit;
+            }
+        }catch(Exception e){
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    public void PrintCommit(Commit commit,String Sha){
+        System.out.println("===");
+        System.out.println("commit "+Sha);
+        System.out.println("Date: "+ commit.Metadata[1]);
+        System.out.println(commit.Metadata[0]);
     }
 }
