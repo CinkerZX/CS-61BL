@@ -23,7 +23,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     //Constructor
     public Gitlet(String Direct){ // when new an object, we use this method
         working_directory = Direct;
-        branchManage = null;
+        //branchManage = null;
     }
 
     public void init() throws IOException {
@@ -56,6 +56,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             Utils.writeObject(commit0, commit_0);
 
             branchManage = new BranchManage(Utils.sha1(Utils.serialize(commit_0)));
+            branchManage.wt(working_directory, branchManage); // write the branch management object
             //Create the folder of ".Blobs"
             File d_4 = new File(d.getPath(), "Blobs");
             d_4.mkdir();
@@ -173,6 +174,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
             // Update branches and update_head
             branchManage.update_branches(new_Commit);
+            branchManage.wt(working_directory,branchManage); // write the branch management object
         }
     }
 
@@ -184,18 +186,25 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
     // log
     public void log() throws IOException {
-        Commit cur_commit = branchManage.current_commit(); // get the current commit
-        System.out.println("===");
-        System.out.println("commit" + " " + branchManage.get_cur_commit_sha1()); // print the sha1
-        System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
-        System.out.println(cur_commit.getMetadata()[0]);// print the message
-
-        while(cur_commit.getPa_sha() != ""){
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        try{
+            BranchManage branch = Utils.readObject(branchMa, BranchManage.class); //BranchManage is a class
+            Commit cur_commit = branch.current_commit(); // get the current commit
             System.out.println("===");
-            System.out.println("commit" + " " + cur_commit.getPa_sha()); // print the sha1
-            cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha());
+            System.out.println("commit" + " " + branch.get_cur_commit_sha1()); // print the sha1
             System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
             System.out.println(cur_commit.getMetadata()[0]);// print the message
+
+            while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";   .isEmpty() <=> "" != null)<=> null
+                System.out.println("===");
+                System.out.println("commit" + " " + cur_commit.getPa_sha()); // print the sha1
+                cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha());
+                System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
+                System.out.println(cur_commit.getMetadata()[0]);// print the message
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
     }
 }

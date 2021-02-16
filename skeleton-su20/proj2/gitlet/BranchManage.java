@@ -1,8 +1,11 @@
 package gitlet;
 
 
+import javax.swing.text.AbstractDocument;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
 
 //* Attributes
 //   - NBtable[ ]
@@ -13,7 +16,7 @@ import java.io.FileNotFoundException;
 //* Function
 //   - update_head
 //   - update_branch
-public class BranchManage {
+public class BranchManage implements Serializable{
     // attributes
     private NBtable[] branches; // the latest_commit of each branches
     private NBtable branch_head;
@@ -75,5 +78,27 @@ public class BranchManage {
     // Return the sha1 of the current commit
     public String get_cur_commit_sha1(){
         return(branch_head.getSha1_file_name());
+    }
+
+    // Write the branchmanage
+    public void wt(String work_direct, BranchManage branch) throws IOException {
+        File d = new File(work_direct,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        branchMa.createNewFile();
+        Utils.writeObject(branchMa, branch); // since branchManagement contains NB table, when write, the NBtable need "implements Serializable"
+    }
+
+    // Read the branchmanage
+    public static BranchManage rd(String work_direct) throws IOException {
+        File d = new File(work_direct,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        try{
+            BranchManage branch = Utils.readObject(branchMa, BranchManage.class); //BranchManage is a class
+            System.out.println("98");
+            return branch;
+        } catch (Exception e){
+            System.out.println("No branch found");
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -37,6 +37,12 @@ public class Main {
                         System.out.println("Please enter a commit message.");
                     }
                     break;
+                case "log":
+                    // print the log
+                    mygitlet.log();
+                    break;
+                    // add
+                // remove
                 default:
                     System.out.println("No command with that name exists.");
                     break;

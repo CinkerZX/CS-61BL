@@ -8,7 +8,9 @@ package gitlet;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-public class NBtable{
+import java.io.Serializable;
+
+public class NBtable implements Serializable {
     //attributes
     private String file_name;
     private String sha1_file_name;

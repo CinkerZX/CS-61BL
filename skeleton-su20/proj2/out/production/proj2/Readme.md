@@ -1,5 +1,6 @@
 # We are going to start from here **Gitlet.java**
-### Gitlet.java add the methods of log, reset
+### Gitlet.java try integration test on those existing methods by python + '.in', and Configuration
+### add the methods of reset, branchmanagement, checkout
 
 ### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 
 
@@ -8,16 +9,28 @@
 ### Object: Gitlet Repository
     //https://d1b10bmlvqabco.cloudfront.net/attach/k5eevxebzpj25b/jqr7jm9igtc7l5/k97ipfmgmb3n/Gitlet_Slides.pdf
     //https://cs61bl.org/su20/projects/gitlet/#the-commands
+    //Testing: https://www.youtube.com/watch?v=ksY5s0nHU5I&feature=youtu.be
     MAIN:
     init //inititalize a repository folder under the directory of the object folder
     add // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for addition; 
     remove // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for removal ;
-    commit // construct the commit, accept the string text (messsage)
-    update the pointers
-    log //
-    reset // return back to previous time point
-    status // check the tracked files(folder) change
-
+    commit // construct the commit, accept the string text (messsage), update the pointers
+    log // print out
+    
+    $$ to do $$ global-log // Like log, except displays information about all commits ever made. *java gitlet.Main global-log*
+    $$ to do $$ find //Prints out the ids of all commits that have the given commit
+    $$ to do $$ status // Check the tracked files(folder) change
+    $$ to do $$ branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
+    $$ to do $$ rm-branch // Remove branch
+    
+    $$ to do $$ checkout // Update the current files in the current direction by *java gitlet.Main checkout -- [file name]*
+                            *java gitlet.Main checkout [commit id] -- [file name]*
+                            *java gitlet.Main checkout [branch name]*
+    $$ to do $$ reset // Checks out all the files tracked by the given commit *java gitlet.Main reset [commit id]*
+    
+    $$ to do $$ merge
+    $$ to do $$ rebase // *java gitlet.Main rebase [branch name]*
+    
 ### Contents
     working directory
         .gitlet

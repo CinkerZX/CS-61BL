@@ -21,8 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/proj2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +59,7 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.log">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
@@ -74,6 +73,30 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="init" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="init" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="log" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="log" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.init" />
+      <item itemvalue="Application.log" />
+      <item itemvalue="Application.Main" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -106,10 +129,19 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="65" y="16" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1609600009965">
-      <screen x="0" y="0" width="1218" height="720" />
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613501341154">
+      <screen x="0" y="0" width="1216" height="720" />
     </state>
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613501341154" />
     <state x="65" y="16" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600009965" />
+    <state x="390" y="66" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1613149993944">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state x="390" y="66" key="#com.intellij.ide.macro.MacrosDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613149993944" />
+    <state x="340" y="150" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1613501304697">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state x="340" y="150" key="#com.intellij.ide.util.TreeClassChooserDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613501304697" />
     <state x="49" y="213" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1612470287435">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
@@ -118,11 +150,27 @@
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state x="413" y="230" key="DetectedRootsChooserDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470867506" />
-    <state x="93" y="122" key="FileChooserDialogImpl" timestamp="1613146181134">
+    <state x="93" y="122" key="FileChooserDialogImpl" timestamp="1613150069766">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state x="93" y="122" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613146181134" />
+    <state x="93" y="122" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613150069766" />
     <state x="390" y="116" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600768487" />
+    <state width="1173" height="2" key="GridCell.Tab.0.bottom" timestamp="1613163064954">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state width="1173" height="2" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613163064954" />
+    <state width="1173" height="2" key="GridCell.Tab.0.center" timestamp="1613163064953">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state width="1173" height="2" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613163064953" />
+    <state width="1173" height="2" key="GridCell.Tab.0.left" timestamp="1613163064953">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state width="1173" height="2" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613163064953" />
+    <state width="1173" height="2" key="GridCell.Tab.0.right" timestamp="1613163064954">
+      <screen x="0" y="0" width="1216" height="720" />
+    </state>
+    <state width="1173" height="2" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613163064954" />
     <state x="79" y="0" key="SettingsEditor" timestamp="1613146187632">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
