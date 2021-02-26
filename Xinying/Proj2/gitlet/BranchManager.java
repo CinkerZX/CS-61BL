@@ -21,11 +21,21 @@ public class BranchManager implements Serializable {
 
     }
 
+    /*  adding new braches
+    NBtable[] newB = new NBtable[b.length +1]
+    for  ....  挨个复制branch
+    newB[lb.length] = newBranch
+
+    */
+
 
     public void update_branch(String newSHA){
+        System.out.println(head.getSHA1Value());
+
         for (NBtable branch : branches){
             if(branch.findSHA(head.getSHA1Value())){
                 branch.setSHA1Value(newSHA);
+                break;
             }
         }
         head.setSHA1Value(newSHA);
@@ -56,7 +66,6 @@ public class BranchManager implements Serializable {
     public Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException {
         return FindCommit(CurrentCommit.getPaSHA());
     }
-
 
     public void writeBM(String workingDirectory,BranchManager BM) throws IOException {
         File file1 = new File(workingDirectory,".gitlet");
