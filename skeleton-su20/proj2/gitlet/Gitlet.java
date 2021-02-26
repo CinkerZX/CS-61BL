@@ -98,19 +98,26 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         } // in this condition, the "added" file hasn't been saved by gitlet, there is no record of Args
         else{
             // check if the file is tracked in the current commit
-            if(branchManage.in_current_commit(Args)){
-                File de_file = new File(working_directory, Args);
-                //generate the blob of the file
-                Blob blob = new Blob(de_file);
-                //add the sha1(blob) into Staged for removal
-                File f_dele = new File(".gitlet/Staging Area/Staged for removal", blob.getBlob_name());
-                f_dele.createNewFile();
-                Utils.writeObject(f_dele, blob); // write the blob object as its content
-                // delete from the working directory
-                de_file.delete();
-            } // in this condition, the history of adding file Args has already been saved in gitlet, now it's safe to delete it from the working directory
-            else{
-                System.out.println("No reason to remove the file.");
+            File d = new File(working_directory,".gitlet");
+            File branchMa = new File(d.getPath(), "branch");
+            try {
+                BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+                if(branch.in_current_commit(Args)){
+                    File de_file = new File(working_directory, Args);
+                    //generate the blob of the file
+                    Blob blob = new Blob(de_file);
+                    //add the sha1(blob) into Staged for removal
+                    File f_dele = new File(".gitlet/Staging Area/Staged for removal", blob.getBlob_name());
+                    f_dele.createNewFile();
+                    Utils.writeObject(f_dele, blob); // write the blob object as its content
+                    // delete from the working directory
+                    de_file.delete();
+                } // in this condition, the history of adding file Args has already been saved in gitlet, now it's safe to delete it from the working directory
+                else{
+                    System.out.println("No reason to remove the file.");
+                }
+            } catch (Exception e){
+                throw new RuntimeException(e);
             }
         }
     }
@@ -138,43 +145,57 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             System.out.println("Please enter a commit message");
         }
         else{
-            // generate a new commit object (newCommit) by coping NBtable from "current commit"
-            Commit new_Commit = branchManage.new_commit(Args);
-            // make a list of tracking files combining the info from staging area
-            NBtable[] blob_list = new_Commit.getNB_commit();
+            // Read the existing branch
+            File d = new File(working_directory,".gitlet");
+            File branchMa = new File(d.getPath(), "branch");
+            try{
+                BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+                // generate a new commit object (newCommit) by coping NBtable from "current commit"
+                Commit new_Commit = branch.new_commit(Args);
+                // make a list of tracking files combining the info from staging area
+                NBtable[] blob_list = new_Commit.getNB_commit();
 
-            // staged for addition : append new blobs of "staged for addition" to newCommit's NBtable
-            for (String sha_blob : file_add.list()){
-                // find the blob object by its hash name
-                File blob = new File(file_add, sha_blob);
-                Blob add_blob = Utils.readObject(blob, Blob.class); // read the blob out
-                //generate the new NBtable of this blob
-                NBtable new_blob = new NBtable(add_blob.getBlob_name(), sha_blob);
-                blob_list = ArrayUtils.add(blob_list,new_blob);
-                // clear staging area (clear the file in addition diction)
-                blob.delete();
+                File file_blob = new File(working_directory,".gitlet/Blobs"); // we meed to go to the Blobs directory to find the blob
+
+                // staged for addition : append new blobs of "staged for addition" to newCommit's NBtable
+                for (String sha_blob : file_add.list()){
+                    // find the blob object by its hash name
+                    File blob = new File(file_blob, sha_blob);
+                    Blob add_blob = Utils.readObject(blob, Blob.class); // read the blob out
+                    //generate the new NBtable of this blob
+                    NBtable new_blob = new NBtable(add_blob.getBlob_name(), sha_blob);
+                    blob_list = ArrayUtils.add(blob_list,new_blob);
+
+                    // clear staging area (clear the file in addition diction)
+                    File staging_add = new File(file_add, sha_blob); // delete the file 'sha_blob' in "Staging Area\Staged for addition"
+                    staging_add.delete();
+                }
+
+                // staged for removal : remove blobs of "staged for removal" from newCommit's NBtable
+                for (String sha_blob : file_remove.list()){
+                    // find the blob object by its hash name
+                    File blob = new File(file_blob, sha_blob);
+                    Blob remove_blob = Utils.readObject(blob, Blob.class); // read the blob out
+                    //generate the new NBtable of this blob
+                    NBtable new_blob = new NBtable(remove_blob.getBlob_name(), sha_blob);
+                    blob_list = ArrayUtils.removeElement(blob_list,new_blob);
+
+                    // clear staging area (clear the file in removal diction)
+                    File staging_remove = new File(file_remove, sha_blob);
+                    staging_remove.delete();
+                }
+
+                // write commit object
+                File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(new_Commit)));
+                commit_add.createNewFile();
+                Utils.writeObject(commit_add, new_Commit); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
+
+                // Update branches and update_head
+                branch.update_branches(Utils.sha1(Utils.serialize(new_Commit)));
+                branch.wt(working_directory,branch); // write the branch management object
+            } catch (Exception e){
+                throw new RuntimeException(e);
             }
-
-            // staged for removal : remove blobs of "staged for removal" from newCommit's NBtable
-            for (String sha_blob : file_remove.list()){
-                // find the blob object by its hash name
-                File blob = new File(file_remove, sha_blob);
-                Blob remove_blob = Utils.readObject(blob, Blob.class); // read the blob out
-                //generate the new NBtable of this blob
-                NBtable new_blob = new NBtable(remove_blob.getBlob_name(), sha_blob);
-                blob_list = ArrayUtils.removeElement(blob_list,new_blob);
-                // clear staging area (clear the file in removal diction)
-                blob.delete();
-            }
-
-            // write commit object
-            File commit_add = new File(".gitlet/Commit", Utils.sha1(new_Commit));
-            commit_add.createNewFile();
-            Utils.writeObject(commit_add, new_Commit); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
-
-            // Update branches and update_head
-            branchManage.update_branches(new_Commit);
-            branchManage.wt(working_directory,branchManage); // write the branch management object
         }
     }
 

@@ -41,8 +41,30 @@ public class Main {
                     // print the log
                     mygitlet.log();
                     break;
+                case "add":
                     // add
+                    if(args.length == 2){
+                        mygitlet.add(args[1]);
+                    }
+                    else if(args.length > 2){
+                        System.out.println("Please enter in such formation: add 'XXXXX'.");
+                    }
+                    else{
+                        System.out.println("Please enter the added file name.");
+                    }
+                    break;
                 // remove
+                case "rm":
+                    if(args.length == 2){
+                        mygitlet.rm(args[1]);
+                    }
+                    else if(args.length > 2){
+                        System.out.println("Please enter in such formation: rm 'XXXXX'.");
+                    }
+                    else{
+                        System.out.println("Please enter the name of the removed file.");
+                    }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
                     break;

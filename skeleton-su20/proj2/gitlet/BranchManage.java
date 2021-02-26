@@ -35,19 +35,29 @@ public class BranchManage implements Serializable{
     }
 
     //Function update_branches
-    public void update_branches(Commit latest_commit){
+/*    public void update_branches(Commit latest_commit){
         for (NBtable i: branches){
             if(i.find_sha1(branch_head.getSha1_file_name())){
-                i.setSha1_file_name(Utils.sha1(latest_commit));
+                i.setSha1_file_name(Utils.sha1(Utils.serialize(latest_commit)));
             }
         }
         update_head(latest_commit);
+    }*/
+
+    public void update_branches(String newSHA){
+        for (NBtable branch : branches){
+            if(branch.find_sha1(branch_head.getSha1_file_name())){
+                branch.setSha1_file_name(newSHA);
+                break;
+            }
+        }
+        branch_head.setSha1_file_name(newSHA);
     }
 
     // Generate the new_commit by copying from the current commit
     public Commit new_commit(String Arg){
         Commit n_commit = current_commit();
-        n_commit.setPa_sha(Utils.sha1(current_commit()));
+        n_commit.setPa_sha(Utils.sha1(Utils.serialize(n_commit))); // need to serialize the object
         n_commit.setMetadata(Arg);
         return n_commit;
     }
@@ -100,5 +110,9 @@ public class BranchManage implements Serializable{
             System.out.println("No branch found");
             throw new RuntimeException(e);
         }
+    }
+
+    public NBtable[] getBranches(){
+        return branches;
     }
 }

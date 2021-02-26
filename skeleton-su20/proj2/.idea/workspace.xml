@@ -25,11 +25,18 @@
       <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/BranchManage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/BranchManage.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Commits/de3c7b583a7c398af358c105135e923930d9ef76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test01-init.in" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/samples/test01-init.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test02-basic-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/samples/test02-basic-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Commits/7df736edb30acdfd10bda3b00ea2161bfff11344" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/.gitlet/branch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test01-init.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test01-init.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,13 +68,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../library-su20/javalib/ucb.jar!/" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Problems" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.58185405" />
+    <property name="project.structure.side.proportion" value="0.38850576" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.log">
+  <component name="RunManager" selected="Application.rm">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
@@ -77,6 +84,26 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="add" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="add xin.txt" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="commit" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="commit &quot;add xin.txt&quot;" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -101,8 +128,21 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="rm" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="rm &quot;xin.txt&quot;" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="Application.rm" />
       <item itemvalue="Application.init" />
+      <item itemvalue="Application.add" />
+      <item itemvalue="Application.commit" />
       <item itemvalue="Application.log" />
       <item itemvalue="Application.Main" />
     </list>
@@ -138,10 +178,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1613501523817">
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1614372991205">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613501523817" />
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
     <state x="65" y="16" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600009965" />
     <state x="390" y="66" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1613149993944">
       <screen x="0" y="0" width="1216" height="720" />
@@ -159,31 +199,31 @@
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state x="413" y="230" key="DetectedRootsChooserDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470867506" />
-    <state x="93" y="122" key="FileChooserDialogImpl" timestamp="1613501395799">
+    <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl" timestamp="1614365305264">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state x="93" y="122" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613501395799" />
+    <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365305264" />
     <state x="390" y="116" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600768487" />
-    <state width="566" height="50" key="GridCell.Tab.0.bottom" timestamp="1613509383599">
+    <state width="1173" height="139" key="GridCell.Tab.0.bottom" timestamp="1614372993068">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state width="566" height="50" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613509383599" />
-    <state width="566" height="50" key="GridCell.Tab.0.center" timestamp="1613509383598">
+    <state width="1173" height="139" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372993068" />
+    <state width="1173" height="139" key="GridCell.Tab.0.center" timestamp="1614372993067">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state width="566" height="50" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613509383598" />
-    <state width="566" height="50" key="GridCell.Tab.0.left" timestamp="1613509383598">
+    <state width="1173" height="139" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372993067" />
+    <state width="1173" height="139" key="GridCell.Tab.0.left" timestamp="1614372993067">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state width="566" height="50" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613509383598" />
-    <state width="566" height="50" key="GridCell.Tab.0.right" timestamp="1613509383598">
+    <state width="1173" height="139" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372993067" />
+    <state width="1173" height="139" key="GridCell.Tab.0.right" timestamp="1614372993068">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state width="566" height="50" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613509383598" />
-    <state x="79" y="0" key="SettingsEditor" timestamp="1613146187632">
+    <state width="1173" height="139" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372993068" />
+    <state x="43" y="0" key="SettingsEditor" timestamp="1614365662541">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
-    <state x="79" y="0" key="SettingsEditor/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613146187632" />
+    <state x="43" y="0" key="SettingsEditor/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365662541" />
     <state x="111" y="5" key="SettingsEditor/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609599941585" />
     <state x="338" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1613146159202">
       <screen x="0" y="0" width="1216" height="720" />
@@ -193,16 +233,5 @@
       <screen x="0" y="0" width="1218" height="720" />
     </state>
     <state x="272" y="41" width="672" height="678" key="search.everywhere.popup/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609599958668" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/gitlet/Gitlet.java</url>
-          <line>93</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

@@ -1,4 +1,6 @@
 # Check that we can check out a previous version.
+> cd ..
+<<<
 > init
 <<<
 + wug.txt wug.txt

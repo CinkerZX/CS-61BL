@@ -2,3 +2,24 @@
 > init
 <<<
 E .gitlet
+
+
+# A simple test of adding, committing, modifying, and checking out.
+> init
+<<<
+
++ xin.txt wug.txt # Create an file named "xin.txt" which has the content as the file "wug.txt" in the src directory
+> add wug.txt # test the add function
+<<< # matches with '>'
+> commit "added Xin.txt" # test add
+<<<
+
+E xin.txt # check if the file "xin.txt" exists
+= xin.txt wug.txt
+
++ xin.txt notwug.txt
+# Must change
+= xin.txt wug.txt
+
+# > checkout -- wug.txt
+# <<<
