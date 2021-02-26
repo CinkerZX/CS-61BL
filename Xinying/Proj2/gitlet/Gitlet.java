@@ -88,8 +88,7 @@ public class Gitlet implements Serializable {
 
         File fileW = new File(workingDirectory, filename);
 
-
-        if(fileW.exists()){ // check if the file exists in working directory
+        if(!fileW.exists()){ // check if the file exists in working directory
             System.out.println("File does not exist.");
         }else{
 
@@ -110,22 +109,32 @@ public class Gitlet implements Serializable {
 
     }
 
-    public void rm(String filename) throws IOException {
+
+    //TO_TEST
+    public void rm(String workingDirectory, String filename) throws IOException {
         // check if it exists in staging for addition
 
         // if the file exist in working directory (how to locate the file ?????????)
             //maybe we can use "absolute path + name" as the "filename" of blobs attributes
 
-        File fileAdd = new File("./.gitlet/Staging Area/Staged for addition", filename);
         File fileW = new File(workingDirectory, filename);//?????????
+        String SHA_name = Utils.sha1(fileW.getName(),Utils.readContentsAsString(fileW));
+
+        File fileAdd = new File("./.gitlet/Staging Area/Staged for addition", SHA_name);
+
         Blob removedFile = new Blob(fileW);  // generate a new blob object
+
+        // blob 存储
+
         File fileRem = new File("./.gitlet/Staging Area/Staged for removal", removedFile.getBlobID());
+        File fileBM = new File(workingDirectory+"/.gitlet","BrancheManager");
+
+        BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
 
 
         if(fileAdd.exists()){
             fileAdd.delete();
-        }
-        if(branchManager.inCurrentCommit(filename)){
+        }else if(branch.inCurrentCommit(filename)){
 
             fileRem.createNewFile(); // add to staged for removal
             Utils.writeObject(fileRem,removedFile);
@@ -134,8 +143,7 @@ public class Gitlet implements Serializable {
                 fileW.delete();  // delete the file from the working directory
                 // already been backed up in blobs, less risk of lossing our works
             }
-        }
-        System.out.println("No reason to remove the file.");
+        }else{ System.out.println("No reason to remove the file.");}
     }
 
 
@@ -150,14 +158,18 @@ public class Gitlet implements Serializable {
             // clear staging area
         // write commit object
         // update branches and head
-        File stagingAdd = new File(this.workingDirectory+"/.gitlet/Staging area/Staged for addition");
-        File stagingRem = new File(this.workingDirectory+"/.gitlet/Staging area/Staged for removal");
-
         File fileG = new File(workingDirectory,".gitlet");
+        File fileS = new File(fileG,"Staging Area");
+        File fileB = new File(fileG,"Blobs");
+        File fileC = new File(fileG,"Commits");
+
+        File stagingAdd = new File(fileS,"Staged for addition");
+        File stagingRem = new File(fileS,"Staged for removal");
+
         File fileBM = new File(fileG,"BrancheManager");
         try{
             BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
-            if(stagingAdd.list() == null & stagingRem.list() == null){
+            if(stagingAdd.list() == null && stagingRem.list() == null){
                 System.out.println("No changes added to the commit.");
             }
             else if(arg.isEmpty()){
@@ -171,28 +183,30 @@ public class Gitlet implements Serializable {
 
                 // staged for addition
                 for (String name : stagingAdd.list()) {
-                    File file = new File(stagingAdd, name);
+                    File file = new File(fileB, name);  // use the filename stored in staging area locate blob in Blobs directory
+                    File file1 = new File(stagingAdd,name);  // but delete the file stored in staging area instead of Blobs directory
                     Blob addition = Utils.readObject(file, Blob.class);
                     NBtable add = new NBtable(addition.getfilename(), name);
                     newbloblist = ArrayUtils.add(newbloblist, add);
-                    file.delete();
+                    file1.delete();
                 }
                 // staged for removal
                 for (String name : stagingRem.list()) {
-                    File file = new File(stagingRem, name);
+                    File file = new File(fileB, name);
+                    File file2 = new File(stagingRem, name);
                     Blob removal = Utils.readObject(file, Blob.class);
                     NBtable rem = new NBtable(removal.getfilename(), name);
                     newbloblist = ArrayUtils.removeElement(newbloblist, rem);
-                    file.delete();
+                    file2.delete();
                 }
                 newCommit.NBCommit = newbloblist;
 
-                File C = new File(this.workingDirectory + "/.gitlet/Commits", Utils.sha1(Utils.serialize(newCommit)));
+                File C = new File(fileC, Utils.sha1(Utils.serialize(newCommit)));
                 C.createNewFile();
                 Utils.writeObject(C, newCommit);
 
-                branchManager.update_branch(Utils.sha1(Utils.serialize(newCommit)));
-                branchManager.writeBM(this.workingDirectory, branchManager);
+                branch.update_branch(Utils.sha1(Utils.serialize(newCommit)));
+                branch.writeBM(this.workingDirectory, branch);
             }
         }catch(Exception e1){
             throw new RuntimeException(e1);
