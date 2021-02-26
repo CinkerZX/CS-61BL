@@ -1,0 +1,15 @@
+# A simple test of adding, committing, modifying, and checking out.
+# > init
+# <<<
+
++ xin.txt wug.txt
+> add wug.txt
+<<<
+> commit "added Xin.txt"
+<<<
+
+E xin.txt
+= xin.txt wug.txt
+
++ xin.txt notwug.txt
+= xin.txt wug.txt
