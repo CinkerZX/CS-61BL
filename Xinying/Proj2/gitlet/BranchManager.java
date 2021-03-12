@@ -30,8 +30,6 @@ public class BranchManager implements Serializable {
 
 
     public void update_branch(String newSHA){
-        System.out.println(head.getSHA1Value());
-
         for (NBtable branch : branches){
             if(branch.findSHA(head.getSHA1Value())){
                 branch.setSHA1Value(newSHA);
