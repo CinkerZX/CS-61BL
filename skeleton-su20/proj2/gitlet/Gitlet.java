@@ -102,7 +102,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             File branchMa = new File(d.getPath(), "branch");
             try {
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
-                if(branch.in_current_commit(Args)){
+                if(branch.in_current_commit(Args, working_directory)){
                     File de_file = new File(working_directory, Args);
                     //generate the blob of the file
                     Blob blob = new Blob(de_file);
@@ -138,7 +138,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         // check if the staging area is empty  &&  args checking  (failure cases
         File file_add = new File(working_directory,".gitlet/Staging Area/Staged for addition");
         File file_remove = new File(working_directory,".gitlet/Staging Area/Staged for removal");
-        if(file_add.list() == null & file_remove.list() == null){
+        if(file_add.list().length == 0 & file_remove.list().length == 0){ // if file_add.list() is empty, [] is not null, here must use the length of the list to judge
             System.out.println("No changes added to the commit");
         }
         else if(Args.isEmpty()){ // E is upper case
@@ -151,7 +151,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             try{
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
                 // generate a new commit object (newCommit) by coping NBtable from "current commit"
-                Commit new_Commit = branch.new_commit(Args);
+                Commit new_Commit = branch.new_commit(Args, working_directory);
                 // make a list of tracking files combining the info from staging area
                 NBtable[] blob_list = new_Commit.getNB_commit();
 
@@ -163,7 +163,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                     File blob = new File(file_blob, sha_blob);
                     Blob add_blob = Utils.readObject(blob, Blob.class); // read the blob out
                     //generate the new NBtable of this blob
-                    NBtable new_blob = new NBtable(add_blob.getBlob_name(), sha_blob);
+                    NBtable new_blob = new NBtable(add_blob.getfileName(), sha_blob);
                     blob_list = ArrayUtils.add(blob_list,new_blob);
 
                     // clear staging area (clear the file in addition diction)
@@ -177,13 +177,17 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                     File blob = new File(file_blob, sha_blob);
                     Blob remove_blob = Utils.readObject(blob, Blob.class); // read the blob out
                     //generate the new NBtable of this blob
-                    NBtable new_blob = new NBtable(remove_blob.getBlob_name(), sha_blob);
+                    NBtable new_blob = new NBtable(remove_blob.getfileName(), sha_blob);
                     blob_list = ArrayUtils.removeElement(blob_list,new_blob);
 
                     // clear staging area (clear the file in removal diction)
                     File staging_remove = new File(file_remove, sha_blob);
                     staging_remove.delete();
                 }
+
+                // Don't forget to write blobs into the commit
+                new_Commit.setNB_commit(blob_list);
+                System.out.println("already add the blob"+ blob_list.length);
 
                 // write commit object
                 File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(new_Commit)));
@@ -211,7 +215,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         File branchMa = new File(d.getPath(), "branch");
         try{
             BranchManage branch = Utils.readObject(branchMa, BranchManage.class); //BranchManage is a class
-            Commit cur_commit = branch.current_commit(); // get the current commit
+            Commit cur_commit = branch.current_commit(working_directory); // get the current commit
             System.out.println("===");
             System.out.println("commit" + " " + branch.get_cur_commit_sha1()); // print the sha1
             System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time

@@ -6,6 +6,8 @@ package gitlet;
 //        * function
 //        - find: input = SHA1; output = true/false
 
+import com.sun.media.sound.RIFFInvalidDataException;
+import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.Serializable;
@@ -43,7 +45,11 @@ public class NBtable implements Serializable {
         sha1_file_name = sha1;
     }
 
-    public String getSha1_file_name(){
-        return(sha1_file_name);
+    public String getSha1_file_name() {
+        return (sha1_file_name);
+    }
+
+    public String getFile_name(){
+        return (file_name);
     }
 }

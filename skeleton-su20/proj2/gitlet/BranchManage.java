@@ -16,7 +16,7 @@ import java.io.Serializable;
 //* Function
 //   - update_head
 //   - update_branch
-public class BranchManage implements Serializable{
+public class BranchManage implements Serializable {
     // attributes
     private NBtable[] branches; // the latest_commit of each branches
     private NBtable branch_head;
@@ -55,16 +55,16 @@ public class BranchManage implements Serializable{
     }
 
     // Generate the new_commit by copying from the current commit
-    public Commit new_commit(String Arg){
-        Commit n_commit = current_commit();
+    public Commit new_commit(String Arg, String work_dir){
+        Commit n_commit = current_commit(work_dir);
         n_commit.setPa_sha(Utils.sha1(Utils.serialize(n_commit))); // need to serialize the object
         n_commit.setMetadata(Arg);
         return n_commit;
     }
 
     // Judge if the file exists in the current commit(Yes/No)
-    public boolean in_current_commit(String file_name){
-        Commit cur_commit = current_commit();
+    public boolean in_current_commit(String file_name, String work_dir){
+        Commit cur_commit = current_commit(work_dir);
         for (NBtable i : cur_commit.getNB_commit()){
             if(i.find(file_name)){
                 return(true);
@@ -74,10 +74,17 @@ public class BranchManage implements Serializable{
     }
 
     // Get the current_commit object
-    public Commit current_commit(){ // name => sha1
-        File file = new File(".gitlet/Commits", branch_head.getSha1_file_name());
+    public Commit current_commit(String working_directory){ // name => sha1
+        File d = new File(working_directory,".gitlet");
+
+        File branchMa = new File(d.getPath(), "branch");
         try{
-            Commit cur_commit = Utils.readObject(file, Commit.class); //Commit is a class
+            BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+            String sha_commit = branch.branch_head.getSha1_file_name();
+
+            File commit_folder = new File(d.getPath(), "Commits");
+            File cur_file = new File(commit_folder.getPath(), sha_commit);
+            Commit cur_commit = Utils.readObject(cur_file, Commit.class);
             return cur_commit;
         } catch (Exception e){
             System.out.println("Current commit file didn't find");

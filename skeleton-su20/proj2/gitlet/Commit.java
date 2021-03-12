@@ -16,7 +16,7 @@ package gitlet;
 //* Commit n
 //    - pa_sha: SHA1(previous commit)
 //    - Metadata
-//    - Nb_commit: NBtable[ ]
+//    - Nb_commit: NBtable[ ] (For recording the blobs, each of the NBtable contains the name of the file, and the sha1 of the entire blob)
 //* Function
 //    - construction
 //        read the file name + blob name information from the staging area
@@ -86,5 +86,11 @@ public class Commit implements Serializable {
             System.out.println("No parent commit found");
             throw new RuntimeException(e);
         }
+    }
+
+    // Fill the blos in
+
+    public void setNB_commit(NBtable[] NB_commit) {
+        this.NB_commit = NB_commit;
     }
 }

@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Test and debug 'remove'
+### Write functions $$ to do $$ global-log, find, status, branch, rm-branch
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -17,8 +17,6 @@
     log // print out
     add // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for addition; 
     commit // construct the commit, accept the string text (messsage), update the pointers
-
-
     remove // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for removal ;
             
     $$ to do $$ global-log // Like log, except displays information about all commits ever made. *java gitlet.Main global-log*

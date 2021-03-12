@@ -25,7 +25,7 @@ public class Blob implements Serializable {
         return(name);
     }
 
-    public String getFile_name(){
+    public String getfileName(){
         return(fileName);
     }
 
