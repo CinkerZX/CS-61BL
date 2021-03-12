@@ -1,0 +1,16 @@
+# + add a new file called wug.txt
++ wug.txt wug.txt
+#  "add" a new file to staging area
+> add wug.txt
+<<<
+# 
+> commit "added wug"
+<<<
++ wug.txt notwug.txt
+> add notwug.txt
+<<<
+> rm notwug.txt
+<<<
+> commit "removed notwug"
+No changes added to the commit.
+<<<

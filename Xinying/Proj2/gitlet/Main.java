@@ -35,7 +35,7 @@ public class Main {
                     else{ System.out.println("gitlet.Main add [filename]"); }
                     break;
                 case "rm":
-                    if(args.length == 2){ gitletRe.rm(args[1]); }
+                    if(args.length == 2){ gitletRe.rm(workingDirectory, args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a file name."); }
                     else{ System.out.println("gitlet.Main rm [filename]"); }
                     break;
