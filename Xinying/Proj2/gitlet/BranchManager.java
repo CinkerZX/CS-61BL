@@ -58,7 +58,7 @@ public class BranchManager implements Serializable {
 
     public Boolean inCurrentCommit(String filename) throws FileNotFoundException {
         Commit CurrentCommit = FindCommit(head.getSHA1Value());
-        return NBtable.inNBArray(filename, CurrentCommit.NBCommit);
+        return NBtable.FileNameinNBArray(filename, CurrentCommit.NBCommit);
     }
 
     public Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException {

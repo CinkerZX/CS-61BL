@@ -29,9 +29,18 @@ public class NBtable implements Serializable {
         }
     }
 
-    public static Boolean inNBArray(String filename, NBtable[] NBArray){  // find blob commit
+    public static Boolean FileNameinNBArray(String filename, NBtable[] NBArray){  // find blob commit
         for(NBtable NB : NBArray){
             if(NB.findName(filename)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean SHAinNBArray(String Sha1, NBtable[] NBArray){  // find blob commit
+        for(NBtable NB : NBArray){
+            if(NB.findSHA(Sha1)){
                 return true;
             }
         }
@@ -50,4 +59,7 @@ public class NBtable implements Serializable {
         this.SHA1Value = newSHA;
     }
 
+    public void setFullName(String fullName) {
+        FullName = fullName;
+    }
 }
