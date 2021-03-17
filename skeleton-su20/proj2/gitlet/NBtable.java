@@ -18,6 +18,12 @@ public class NBtable implements Serializable {
     private String sha1_file_name;
 
     //Constructor
+    public NBtable(){
+        file_name = "";
+        sha1_file_name = "";
+    }
+
+    //Constructor
     public NBtable(String name, String sha1){
         file_name = name;
         sha1_file_name = sha1;

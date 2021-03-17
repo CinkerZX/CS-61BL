@@ -17,14 +17,15 @@ import java.io.Serializable;
 //   - update_head
 //   - update_branch
 public class BranchManage implements Serializable {
+    private static final long serialVersionUID = 3511688074759412198L;
     // attributes
     private NBtable[] branches; // the latest_commit of each branches
     private NBtable branch_head;
-    private int a=10; // the initial length of branches
 
     // Constructor
     public BranchManage (String sha1){
-        branches = new NBtable[10];
+        // branches = new NBtable[10];
+        branches = new NBtable[]{new NBtable()};
         branches[0] = new NBtable("master", sha1);
         branch_head = branches[0];
     }
@@ -121,5 +122,9 @@ public class BranchManage implements Serializable {
 
     public NBtable[] getBranches(){
         return branches;
+    }
+
+    public NBtable getBranch_head(){
+        return branch_head;
     }
 }

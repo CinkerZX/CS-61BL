@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Write functions $$ to do $$ global-log, find, status, branch, rm-branch
+### Write functions $$ to do $$ status (compare different folders), branch, rm-branch
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -18,9 +18,9 @@
     add // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for addition; 
     commit // construct the commit, accept the string text (messsage), update the pointers
     remove // create the corresponding blobs; add an empty file with the name of 'sha1(blob)' into /staged for removal ;
+    global-log // print out all the commits
+    find // find(Args)
             
-    $$ to do $$ global-log // Like log, except displays information about all commits ever made. *java gitlet.Main global-log*
-    $$ to do $$ find //Prints out the ids of all commits that have the given commit
     $$ to do $$ status // Check the tracked files(folder) change
     $$ to do $$ branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
     $$ to do $$ rm-branch // Remove branch

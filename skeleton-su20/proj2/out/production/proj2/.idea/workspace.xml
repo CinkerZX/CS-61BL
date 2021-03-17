@@ -21,22 +21,9 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/BranchManage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/BranchManage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/NBtable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/NBtable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/Blobs/ded10e18688f02e6bbb8d9b87e5ce2c29c56efcd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/Commits/e635f8044998a15514f5a68bab927354708665cf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/ded10e18688f02e6bbb8d9b87e5ce2c29c56efcd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Commits/e635f8044998a15514f5a68bab927354708665cf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +61,7 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.rm">
+  <component name="RunManager" selected="Application.globalLog">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
@@ -91,7 +78,7 @@
     <configuration name="add" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="add xin_2.txt" />
+      <option name="PROGRAM_PARAMETERS" value="add xin_3.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -101,9 +88,18 @@
     <configuration name="commit" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="commit &quot;add xin_2.txt&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="commit &quot;nothing&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="globalLog" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="globalLog" />
+      <option name="VM_PARAMETERS" value="-ea" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -131,7 +127,7 @@
     <configuration name="rm" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="rm xin_2.txt" />
+      <option name="PROGRAM_PARAMETERS" value="rm xin_3.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -139,11 +135,12 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.rm" />
-      <item itemvalue="Application.init" />
       <item itemvalue="Application.add" />
+      <item itemvalue="Application.globalLog" />
       <item itemvalue="Application.commit" />
+      <item itemvalue="Application.init" />
       <item itemvalue="Application.log" />
+      <item itemvalue="Application.rm" />
       <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
@@ -182,11 +179,11 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1615572060991">
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1616000206146">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615572060991" />
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616000206146" />
     <state x="65" y="16" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600009965" />
     <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614977018788">
       <screen x="0" y="0" width="1217" height="720" />
@@ -213,26 +210,26 @@
     </state>
     <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365305264" />
     <state x="390" y="116" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600768487" />
-    <state width="1173" height="250" key="GridCell.Tab.0.bottom" timestamp="1615573443148">
+    <state width="566" height="58" key="GridCell.Tab.0.bottom" timestamp="1615578999782">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1173" height="81" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375527" />
-    <state width="1173" height="250" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615573443148" />
-    <state width="1173" height="250" key="GridCell.Tab.0.center" timestamp="1615573443148">
+    <state width="566" height="58" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615578999782" />
+    <state width="566" height="58" key="GridCell.Tab.0.center" timestamp="1615578999782">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1173" height="81" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
-    <state width="1173" height="250" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615573443148" />
-    <state width="1173" height="250" key="GridCell.Tab.0.left" timestamp="1615573443148">
+    <state width="566" height="58" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615578999782" />
+    <state width="566" height="58" key="GridCell.Tab.0.left" timestamp="1615578999782">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1173" height="81" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
-    <state width="1173" height="250" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615573443148" />
-    <state width="1173" height="250" key="GridCell.Tab.0.right" timestamp="1615573443148">
+    <state width="566" height="58" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615578999782" />
+    <state width="566" height="58" key="GridCell.Tab.0.right" timestamp="1615578999782">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1173" height="81" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
-    <state width="1173" height="250" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615573443148" />
+    <state width="566" height="58" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615578999782" />
     <state x="303" y="0" width="914" height="720" key="SettingsEditor" timestamp="1614977497587">
       <screen x="0" y="0" width="1217" height="720" />
     </state>

@@ -41,6 +41,17 @@ public class Main {
                     // print the log
                     mygitlet.log();
                     break;
+                case "global-log":
+                    mygitlet.globalLog();
+                    break;
+                case "find":
+                    if(args.length == 2){
+                        mygitlet.find(args[1]);
+                    }
+                    break;
+                case "status":
+                    mygitlet.status();
+                    break;
                 case "add":
                     // add
                     if(args.length == 2){

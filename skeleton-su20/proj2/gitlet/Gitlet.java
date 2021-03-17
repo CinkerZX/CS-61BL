@@ -13,6 +13,7 @@ import java.io.File; // for creating file/folder
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.Serializable; // for output(writing) files
+import java.util.Arrays;
 
 public class Gitlet implements Serializable{ // class is abstract // tell java this class is Serializable
 
@@ -71,17 +72,18 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             //generate a blob
             Blob blob = new Blob(f_workingDirec);
             File blob_add = new File(".gitlet/Blobs", blob.getBlob_name());
-            // judge if this blob already exists by it's sha1
-            if (!check(blob.getBlob_name(), ".gitlet/Blobs")) { //not exists
-                // if such add operation has already exists in the "staged for addition"
-                if (!check(Args, ".gitlet/Staging Area/Staged for addition")) { // not yet
-                    // add the sha1(blob) into Staged for addition
-                    File f_add = new File(".gitlet/Staging Area/Staged for addition", blob.getBlob_name());
-                    f_add.createNewFile();
-                    // add the blob into the content
-                    blob_add.createNewFile(); // Create the file
-                    Utils.writeObject(blob_add, blob); // write the blob object as its content
-                }
+            // check if this blob already exists by it's sha1
+            if (!check(Args, ".gitlet/Staging Area/Staged for addition")){ //not exists
+                // add the sha1(blob) into Staged for addition
+                File f_add = new File(".gitlet/Staging Area/Staged for addition", blob.getBlob_name());
+                f_add.createNewFile();
+                Utils.writeContents(f_add, blob.getfileName());
+            }
+            // check if such add operation has already exists in the "staged for addition"
+            if (!check(blob.getBlob_name(), ".gitlet/Blobs")) { // not yet
+                // add the blob into the content
+                blob_add.createNewFile(); // Create the file
+                Utils.writeObject(blob_add, blob); // write the blob object as its content
             }
         }
         else{
@@ -91,11 +93,21 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
     // remove a file
     public void rm(String Args) throws IOException {
-        //Check if the file name exists in Staged for addition
-        if (check(Args, ".gitlet/Staging Area/Staged for addition")) {
-            File f_rm = new File(".gitlet/Staging Area/Staged for addition", Args);
-            f_rm.delete();// delete the file from Staged for addition
-        } // in this condition, the "added" file hasn't been saved by gitlet, there is no record of Args
+        File f_workingDirec = new File(working_directory, Args);
+        //generate a blob
+        Blob blob = new Blob(f_workingDirec);
+        //Check if the file exists in gitlet
+        if(check(Args, working_directory)){
+            //Check if the file name exists in Staged for addition
+            if (check(blob.getBlob_name(), ".gitlet/Staging Area/Staged for addition")) {
+                File f_rm = new File(".gitlet/Staging Area/Staged for addition", blob.getBlob_name());
+                f_rm.delete();// delete the file from Staged for addition
+                //add the sha1(blob) into Staged for removal
+                File f_dele = new File(".gitlet/Staging Area/Staged for removal", blob.getBlob_name());
+                f_dele.createNewFile();
+                Utils.writeContents(f_dele, blob.getfileName()); // write the file name as its content
+            }
+        }// in this condition, the "added" file hasn't been saved by gitlet, there is no record of Args
         else{
             // check if the file is tracked in the current commit
             File d = new File(working_directory,".gitlet");
@@ -103,15 +115,12 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             try {
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
                 if(branch.in_current_commit(Args, working_directory)){
-                    File de_file = new File(working_directory, Args);
-                    //generate the blob of the file
-                    Blob blob = new Blob(de_file);
                     //add the sha1(blob) into Staged for removal
                     File f_dele = new File(".gitlet/Staging Area/Staged for removal", blob.getBlob_name());
                     f_dele.createNewFile();
-                    Utils.writeObject(f_dele, blob); // write the blob object as its content
+                    Utils.writeContents(f_dele, blob.getfileName()); // write the file name as its content
                     // delete from the working directory
-                    de_file.delete();
+                    f_workingDirec.delete();
                 } // in this condition, the history of adding file Args has already been saved in gitlet, now it's safe to delete it from the working directory
                 else{
                     System.out.println("No reason to remove the file.");
@@ -232,8 +241,149 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             throw new RuntimeException(e);
         }
     }
-}
 
+    public void globalLog() throws IOException {
+        String path = working_directory+"/.gitlet/Commits";
+        File commit_fold = new File(path);
+        try{
+            File[] commits = commit_fold.listFiles();
+            for (File commit_file : commits){
+                Commit commit_read = Utils.readObject(commit_file, Commit.class);
+                System.out.println("===");
+                System.out.println("commit" + " " + commit_read.getPa_sha()); // print the sha1
+                System.out.println("Date:" + " " + commit_read.getMetadata()[1]);// print the time
+                System.out.println(commit_read.getMetadata()[0]);// print the message
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void find(String Args){
+        String path = working_directory+"/.gitlet/Commits";
+        File commit_fold = new File(path);
+        int i = 0;
+        try{
+            File[] commits = commit_fold.listFiles();
+            for (File commit_file : commits){
+                Commit commit_read = Utils.readObject(commit_file, Commit.class);
+                if (commit_read.getMetadata()[0].equals(Args)){ // == means if these two are the same object; .equals if the two object has the same value
+                    System.out.println(Utils.sha1(Utils.serialize(commit_read))); // print the sha1
+                    i = i+1;
+                }
+            }
+            if(i == 0){
+                System.out.println("Found no commit with that message.");
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void status(){
+        //=== Branches ===
+        //      *master
+        //      other-branch
+
+        //Print out all branches
+        System.out.println("=== Branches ===");
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        try{
+            BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+            NBtable[] existing_Branches = branch.getBranches();
+            String[] branch_Names = new String[existing_Branches.length];
+            int i = 0;
+            for (NBtable t : existing_Branches){
+                branch_Names[i] = t.getFile_name(); // Print out the name of the branch
+                i = i+1;
+            }
+            //Order the string by lexicographic order
+            Arrays.sort(branch_Names);
+            for (int j = 0; j < branch_Names.length; j++) {
+                if(branch_Names[j].equals(branch.getBranch_head().getFile_name())){
+                    branch_Names[j] = '*'+branch_Names[j];
+                }
+                System.out.println(branch_Names[j]);
+            }
+        } catch (Exception e){
+            System.out.println("*******************");
+            throw new RuntimeException(e);
+        }
+
+        //Print out staged files
+        //Staged for addition
+        System.out.println("=== Staged Files ===");
+        String path_1 = working_directory+"/.gitlet/Staging Area/Staged for addition";
+        File addition = new File(path_1);
+        try{
+            File[] file_addition = addition.listFiles();
+            String[] additional_File_Names = new String[file_addition.length];
+            NBtable[] nbtable_stage_add = new NBtable[file_addition.length];
+            int i = 0;
+            for (File f_addition : file_addition){
+                additional_File_Names[i] = Utils.readContentsAsString(f_addition); // Read content needs to use Utils.readContentsAsstring, if use object.toStraing, the file object including its direction will be print out
+                nbtable_stage_add[i] = new NBtable(additional_File_Names[i], f_addition.getName());
+                i = i+1;
+            }
+            //Order the string by lexicographic order
+            Arrays.sort(additional_File_Names);
+            for (int j = 0; j < additional_File_Names.length; j++) {
+                System.out.println(additional_File_Names[j]);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+        //Staged for removal
+        System.out.println("=== Removed Files ===");
+        String path_2 = working_directory+"/.gitlet/Staging Area/Staged for removal";
+        File removal = new File(path_2);
+        try{
+            File[] file_removal = removal.listFiles();
+            String[] file_removal_File_Names = new String[file_removal.length];
+            NBtable[] nbtable_stage_removal = new NBtable[file_removal.length];
+            int i = 0;
+            for (File f_addition : file_removal){
+                file_removal_File_Names[i] = Utils.readContentsAsString(f_addition); // Read content needs to use Utils.readContentsAsstring, if use object.toStraing, the file object including its direction will be print out
+                nbtable_stage_removal[i] = new NBtable(file_removal_File_Names[i], f_addition.getName());
+                i = i+1;
+            }
+            //Order the string by lexicographic order
+            Arrays.sort(file_removal_File_Names);
+            for (int j = 0; j < file_removal_File_Names.length; j++) {
+                System.out.println(file_removal_File_Names[j]);
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+        //get the NBtable[] of files from 4 working directions
+        //In each NBtable[], save the name and the has(blob) of the file
+
+        //Files in the working direction
+        String path = working_directory+"/.gitlet";
+        File file_WorkingDir = new File(path);
+        File[] files_Working = file_WorkingDir.listFiles();
+        NBtable[] nbtable_working = new NBtable[files_Working.length];
+        int i = 0;
+        for (File file_Working : files_Working) {
+            String file_name = file_Working.getName();
+            String sha_blob = Utils.sha1(file_Working.getName() + Utils.readContents(file_Working));
+            nbtable_working[i] = new NBtable(file_name,sha_blob);
+        }
+
+        //Files in the current commit
+        BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+        Commit cur_commit = branch.current_commit(working_directory);
+        NBtable[] nbtable_cur_commit = cur_commit.getNB_commit();
+
+        //Files from staging area--addition
+        //nbtable_stage_add
+
+        //Files from staging area--removal
+        //nbtable_stage_removal
+    }
+}
 class MyFilenameFilter implements FilenameFilter {
 
     String initials;
