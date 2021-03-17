@@ -110,7 +110,7 @@ public class Gitlet implements Serializable {
     }
 
 
-    //TO_TEST
+
     public void rm(String workingDirectory, String filename) throws IOException {
         // check if it exists in staging for addition
 
@@ -118,7 +118,7 @@ public class Gitlet implements Serializable {
             //maybe we can use "absolute path + name" as the "filename" of blobs attributes
 
         File fileW = new File(workingDirectory, filename);//?????????
-        String SHA_name = Utils.sha1(fileW.getName(),Utils.readContentsAsString(fileW));
+        String SHA_name = Utils.sha1(fileW.getName()+Utils.readContentsAsString(fileW));
 
         File fileAdd = new File("./.gitlet/Staging Area/Staged for addition", SHA_name);
 
@@ -169,7 +169,7 @@ public class Gitlet implements Serializable {
         File fileBM = new File(fileG,"BrancheManager");
         try{
             BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
-            if(stagingAdd.list() == null && stagingRem.list() == null){
+            if(stagingAdd.list().length == 0 && stagingRem.list().length == 0){    // stagingAdd.list() == null 无效  因为list() returns list object, it couldn't be null it's []
                 System.out.println("No changes added to the commit.");
             }
             else if(arg.isEmpty()){
@@ -199,6 +199,7 @@ public class Gitlet implements Serializable {
                     newbloblist = ArrayUtils.removeElement(newbloblist, rem);
                     file2.delete();
                 }
+
                 newCommit.NBCommit = newbloblist;
 
                 File C = new File(fileC, Utils.sha1(Utils.serialize(newCommit)));
@@ -222,7 +223,6 @@ public class Gitlet implements Serializable {
 
 
 
-    //TO-DO
     public void log() throws IOException {
 
         File fileG = new File(workingDirectory,".gitlet");
@@ -252,4 +252,25 @@ public class Gitlet implements Serializable {
         System.out.println("Date: "+ commit.Metadata[1]);
         System.out.println(commit.Metadata[0]);
     }
+
+    //TO-DO
+    public void globle_log(){
+    }
+
+    //TO-DO
+    public void find(){
+    }
+
+    //TO-DO
+    public void status(){
+    }
+
+    //TO-DO
+    public void branch(){
+    }
+
+    //TO-DO
+    public void rm_branch(){
+    }
+
 }
