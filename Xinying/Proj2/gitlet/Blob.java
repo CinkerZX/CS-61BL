@@ -27,4 +27,6 @@ public class Blob implements Serializable {
     public String getcontent(){
         return content;
     }
+
+
 }
