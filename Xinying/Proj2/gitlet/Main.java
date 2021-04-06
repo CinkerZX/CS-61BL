@@ -30,7 +30,7 @@ public class Main {
                     else{ System.out.println("gitlet.Main commit 'commit message'"); }
                     break;
                 case "add":
-                    if(args.length == 2){ gitletRe.add(args[1]); }
+                    if(args.length == 2){ gitletRe.add(workingDirectory,args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a file name."); }
                     else{ System.out.println("gitlet.Main add [filename]"); }
                     break;
@@ -42,6 +42,18 @@ public class Main {
                 case "log":
                     if(args.length == 1){ gitletRe.log(); }
                     else{ System.out.println("gitlet.Main log"); }
+                    break;
+                case "global-log":
+                    if(args.length == 1){ gitletRe.global_log(workingDirectory); }
+                    else{ System.out.println("gitlet.Main global-log"); }
+                    break;
+                case "find":
+                    if(args.length == 2){ gitletRe.find(args[1]); }
+                    else{ System.out.println("gitlet.Main find [commit message]"); }
+                    break;
+                case "status":
+                    if(args.length == 1){ gitletRe.status(workingDirectory); }
+                    else{ System.out.println("gitlet.Main status"); }
                     break;
                 default:
                     System.out.println("No command with that name exists.");
