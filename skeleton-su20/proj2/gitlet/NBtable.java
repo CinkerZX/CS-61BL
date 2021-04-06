@@ -11,6 +11,8 @@ import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class NBtable implements Serializable {
     //attributes
@@ -57,5 +59,131 @@ public class NBtable implements Serializable {
 
     public String getFile_name(){
         return (file_name);
+    }
+
+    // Return all the names in the form of array from a NBtable array
+    public static String[] getFile_name_array(NBtable[] table_array){
+        int n = table_array.length;
+        String[] name_array = new String[n];
+        int i = 0;
+        for(NBtable a : table_array){
+            name_array[i++] = a.getFile_name();
+        }
+        return name_array;
+    }
+
+    // Return all the hashes of bolds in the form of array from a NBtable array
+    public static String[] getHash_name_array(NBtable[] table_array){
+        int n = table_array.length;
+        String[] name_array = new String[n];
+        int i = 0;
+        for(NBtable a : table_array){
+            name_array[i++] = a.getSha1_file_name();
+        }
+        return name_array;
+    }
+
+    // Transfer the NBtable array into hasSet array, and use the getCompliment function
+    // tableArray1 \ tableArray2
+    public static String[] get_names_Compliment(NBtable[] tableArray1, NBtable[] tableArray2){
+        String[] name_array_1 = getFile_name_array(tableArray1);
+        String[] name_array_2 = getFile_name_array(tableArray2);
+        return get_names_Compliment(name_array_1, name_array_2);
+    }
+
+    public static String[] get_names_Compliment(String[] stringArray1, String[] stringArray2){ // Method overload
+        Set<String> set1 = new HashSet<String>();
+        Set<String> set2 = new HashSet<String>();
+        for(String s : stringArray1){
+            set1.add(s);
+        }
+        for(String s : stringArray2){
+            set2.add(s);
+        }
+        return getCompliment(set1, set2);
+    }
+
+    public static String[] getCompliment(Set<String> file_names_current_dir, Set<String> file_names_commit){
+        file_names_current_dir.removeAll(file_names_commit);
+        String[] names_compliment = new String[file_names_current_dir.size()];
+        int i = 0;
+        for (String s : file_names_current_dir){
+            names_compliment[i++] = s;
+        }
+        return names_compliment;
+    }
+
+    // Transfer the string array into hasSet array, and then get the union of them
+    public static String[] get_String_Array_Union(String[] str1, String[] str2){
+        Set<String> set1 = new HashSet<String>();
+        Set<String> set2 = new HashSet<String>();
+        for(String s : str1){
+            set1.add(s);
+        }
+        for(String s : str2){
+            set2.add(s);
+        }
+        set1.addAll(set2);
+        String[] names_union = new String[set1.size()];
+        int i = 0;
+        for (String s : set1){
+            names_union[i++] = s;
+        }
+        return names_union;
+    }
+
+    // Intersection of names
+    // Get the array of file_names(bold_hash)
+    public static String[] get_string_Array(NBtable[] tableArray1, NBtable[] tableArray2, String arg){
+        String[] name_array_1;
+        String[] name_array_2;
+        if(arg.equals("name")){
+            name_array_1 = getFile_name_array(tableArray1);
+            name_array_2 = getFile_name_array(tableArray2);
+        }
+        else{
+            name_array_1 = getHash_name_array(tableArray1);
+            name_array_2 = getHash_name_array(tableArray2);
+        }
+        return get_Names_Intersection(name_array_1, name_array_2, tableArray1, arg);
+    }
+
+    // Return the intersected name array
+    public static String[] get_Names_Intersection(String[] strArray1, String[] strArray2, NBtable[] table, String arg){
+        Set<String> set1 = new HashSet<String>();
+        Set<String> set2 = new HashSet<String>();
+        for(String s : strArray1){
+            set1.add(s);
+        }
+        for(String s : strArray2){
+            set2.add(s);
+        }
+        // if by name, then can use getIntersection function directly
+        if(arg.equals("name")){
+            return getIntersection(set1, set2);
+        }
+        // else, need to find the file name in the NBtable (any table is ok, as it is intersection) by the bold_hash
+        else {
+            String[] bold_name_array = getIntersection(set1, set2);
+            String[] names_intersection = new String[bold_name_array.length];
+            int i = 0;
+            for (NBtable t : table) {
+                for (String s : bold_name_array) {
+                    if (t.find_sha1(s)) {
+                        names_intersection[i++] = t.getFile_name();
+                    }
+                }
+            }
+            return names_intersection;
+        }
+    }
+    public static String[] getIntersection(Set<String> file_names_current_dir, Set<String> file_names_commit){
+        file_names_current_dir.retainAll(file_names_commit);
+        String[] names_intersection = new String[file_names_current_dir.size()];
+        int i = 0;
+        for (String s : file_names_current_dir){
+            names_intersection[i++] = s;
+        }
+        return names_intersection;
     }
 }

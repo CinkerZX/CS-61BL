@@ -316,10 +316,10 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         System.out.println("=== Staged Files ===");
         String path_1 = working_directory+"/.gitlet/Staging Area/Staged for addition";
         File addition = new File(path_1);
+        File[] file_addition = addition.listFiles();
+        String[] additional_File_Names = new String[file_addition.length];
+        NBtable[] nbtable_stage_add = new NBtable[file_addition.length];
         try{
-            File[] file_addition = addition.listFiles();
-            String[] additional_File_Names = new String[file_addition.length];
-            NBtable[] nbtable_stage_add = new NBtable[file_addition.length];
             int i = 0;
             for (File f_addition : file_addition){
                 additional_File_Names[i] = Utils.readContentsAsString(f_addition); // Read content needs to use Utils.readContentsAsstring, if use object.toStraing, the file object including its direction will be print out
@@ -338,10 +338,10 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         System.out.println("=== Removed Files ===");
         String path_2 = working_directory+"/.gitlet/Staging Area/Staged for removal";
         File removal = new File(path_2);
+        File[] file_removal = removal.listFiles();
+        String[] file_removal_File_Names = new String[file_removal.length];
+        NBtable[] nbtable_stage_removal = new NBtable[file_removal.length];
         try{
-            File[] file_removal = removal.listFiles();
-            String[] file_removal_File_Names = new String[file_removal.length];
-            NBtable[] nbtable_stage_removal = new NBtable[file_removal.length];
             int i = 0;
             for (File f_addition : file_removal){
                 file_removal_File_Names[i] = Utils.readContentsAsString(f_addition); // Read content needs to use Utils.readContentsAsstring, if use object.toStraing, the file object including its direction will be print out
@@ -377,11 +377,42 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         Commit cur_commit = branch.current_commit(working_directory);
         NBtable[] nbtable_cur_commit = cur_commit.getNB_commit();
 
-        //Files from staging area--addition
-        //nbtable_stage_add
+        // Print out modified
+        // names_cur_direction intersection with cur_commit (names_array_1);
+        String[] names_array_1 = NBtable.get_string_Array(nbtable_working, nbtable_cur_commit, "name");
+        // sha_blob_cur_direction intersection with sha_blob_cur_commit (names_array_2);
+        String[] names_array_2 = NBtable.get_string_Array(nbtable_working, nbtable_cur_commit, "bold_hash");
 
-        //Files from staging area--removal
-        //nbtable_stage_removal
+        // names_cur_direction intersection with staged_addition (names_array_3);
+        String[] names_array_3 = NBtable.get_string_Array(nbtable_working, nbtable_stage_add, "name");
+        // sha_blob_cur_direction intersection with staged_addition (names_array_4);
+        String[] names_array_4 = NBtable.get_string_Array(nbtable_working, nbtable_stage_add, "bold_hash");
+
+        // name_array_1 - name_array_2
+        String[] names_array_5 = NBtable.get_names_Compliment(NBtable.get_String_Array_Union(names_array_1,names_array_3), NBtable.get_String_Array_Union(names_array_2,names_array_4));
+        for (String s : names_array_5) {
+            System.out.println(s + " (modified)");
+        }
+
+        // Print out delete
+        // a = cur_commit - working_direc
+        // b = addition - working_direc
+        // printout a+b
+        String[] a = NBtable.get_names_Compliment(nbtable_cur_commit,nbtable_working); //　NBtable. indicate the method is under which class
+        String[] b = NBtable.get_names_Compliment(nbtable_stage_add,nbtable_working);
+        for (String j : NBtable.get_String_Array_Union(a,b)) {
+            System.out.println(j + " (deleted)");
+        }
+
+        // Print out untracked Files
+        // aa = working_direc - commit
+        String[] aa = NBtable.get_names_Compliment(nbtable_working,nbtable_cur_commit); //　NBtable. indicate the method is under which class
+        // bb = aa - addition
+        String[] bb = NBtable.get_names_Compliment(aa, additional_File_Names);
+        System.out.println("=== Untracked Files ===");
+        for (String j : bb) {
+            System.out.println(j);
+        }
     }
 }
 class MyFilenameFilter implements FilenameFilter {

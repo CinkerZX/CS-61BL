@@ -10,7 +10,7 @@ import java.io.Serializable;
 
 public class Blob implements Serializable {
     // attributes
-    private String name; //sha1(blob)
+    private String blobID; //sha1(blob)
     private String fileName; // the original name of the file
     private String content;
 
@@ -18,11 +18,11 @@ public class Blob implements Serializable {
     public Blob(File file){
         content = Utils.readContentsAsString(file);
         fileName = file.getName();
-        name = Utils.sha1(file.getName() + content); // the name of this blob
+        blobID = Utils.sha1(file.getName() + content); // the name of this blob
     }
 
     public String getBlob_name(){
-        return(name);
+        return(blobID);
     }
 
     public String getfileName(){
