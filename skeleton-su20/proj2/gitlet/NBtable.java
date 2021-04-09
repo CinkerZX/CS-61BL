@@ -180,7 +180,6 @@ public class NBtable implements Serializable {
         }
     }
 
-
     public static String[] get_simple_String_Intersection(String[] strArray1, String[] strArray2){
         Set<String> set1 = new HashSet<String>();
         Set<String> set2 = new HashSet<String>();

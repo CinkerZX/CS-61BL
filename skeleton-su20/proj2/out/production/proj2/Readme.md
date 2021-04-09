@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Test status (compare different folders)
+### Write branch and rm-branch
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -21,6 +21,8 @@
     global-log // print out all the commits
     find // find(Args)
     status // Check the tracked files(folder) change
+        Modified: WD intersect (CC+ADD) / BY NAME - WD intersect (CC+ADD) / BY HASH
+        DELETED: CC+ADD-WD-REM / BY NAME
             
     $$ to do $$ branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
     $$ to do $$ rm-branch // Remove branch

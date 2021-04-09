@@ -325,11 +325,8 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 nbtable_stage_add[i] = new NBtable(additional_File_Names[i], f_addition.getName());
                 i = i+1;
             }
-            //Order the string by lexicographic order
-            Arrays.sort(additional_File_Names);
-            for (int j = 0; j < additional_File_Names.length; j++) {
-                System.out.println(additional_File_Names[j]);
-            }
+            // Print out in order
+            printInOrder(additional_File_Names, "");
         } catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -347,16 +344,13 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 nbtable_stage_removal[i] = new NBtable(file_removal_File_Names[i], f_addition.getName());
                 i = i+1;
             }
-            //Order the string by lexicographic order
-            Arrays.sort(file_removal_File_Names);
-            for (int j = 0; j < file_removal_File_Names.length; j++) {
-                System.out.println(file_removal_File_Names[j]);
-            }
+            // Print out in order
+            printInOrder(file_removal_File_Names, "");
         } catch (Exception e){
             throw new RuntimeException(e);
         }
 
-        //Files in the working direction
+        //Files in the working direction (WD)
         String path = working_directory;
         File file_WorkingDir = new File(path);
         File[] files_Working = file_WorkingDir.listFiles();
@@ -371,53 +365,29 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             }
         }
 
-        //Files in the current commit
+        //Files in the current commit (CC)
         BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
         Commit cur_commit = branch.current_commit(working_directory);
         NBtable[] nbtable_cur_commit = cur_commit.getNB_commit();
 
-        // Print out modified
-        // names_cur_direction intersection with cur_commit (names_array_1);
-        String[] names_array_1 = NBtable.get_string_Array(nbtable_working, nbtable_cur_commit, "name");
-        // sha_blob_cur_direction intersection with sha_blob_cur_commit (names_array_2);
-        String[] names_array_2 = NBtable.get_string_Array(nbtable_working, nbtable_cur_commit, "bold_hash");
-//        System.out.println("names_array_2");
-//        for (String a : names_array_2) {
-//            System.out.println(a);
-//        }
+        // Print out modified:  WD intersect with (CC+ADD) by name - WD intersect with (CC+ADD) by hash
+        String[] CC_ADD = NBtable.get_String_Array_Union(NBtable.getFile_name_array(nbtable_cur_commit), additional_File_Names);
+        String[] WD_inter_CC_ADD = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(nbtable_working),CC_ADD);
 
-        // Tracked in the current commit, changed in the working directory
-        String[] cond_1 = NBtable.get_names_Compliment(names_array_1, names_array_2);
-
-        // but not staged(staged: additional_File_Names + file_removal_File_Names)
-        cond_1 = NBtable.get_names_Compliment(cond_1, NBtable.get_String_Array_Union(additional_File_Names,file_removal_File_Names));
-
-        // names_cur_direction intersection with staged_addition (names_array_3);
-        String[] names_array_3 = NBtable.get_string_Array(nbtable_working, nbtable_stage_add, "name");
-        // sha_blob_cur_direction intersection with staged_addition (names_array_4);
-        String[] names_array_4 = NBtable.get_string_Array(nbtable_working, nbtable_stage_add, "bold_hash");
-        // Staged for addition, but with different contents than in the working directory
-        String[] cond_2 = NBtable.get_names_Compliment(names_array_3, names_array_4);
-
-        // Staged for addition, but deleted in the working directory;
-        String[] cond_3 = NBtable.get_names_Compliment(additional_File_Names, NBtable.getFile_name_array(nbtable_working));
-
-        // Not staged for removal, but tracked in the current commit and deleted from the working directory.
-        String[] cond_4 = NBtable.get_names_Compliment(NBtable.getFile_name_array(nbtable_cur_commit), NBtable.getFile_name_array(nbtable_working));
-        cond_4 = NBtable.get_names_Compliment(cond_4,file_removal_File_Names);
-
-        String[] modified_files = NBtable.get_String_Array_Union(cond_1,cond_2);
+        String[] WD_inter_CC_HASH = NBtable.get_string_Array(nbtable_working,nbtable_cur_commit,"hash");
+        String[] WD_inter_ADD_HASH = NBtable.get_string_Array(nbtable_working,nbtable_stage_add,"hash");
+        String[] WD_inter_CC_ADD_HASH = NBtable.get_String_Array_Union(WD_inter_CC_HASH,WD_inter_ADD_HASH);
+        String[] modified_files = NBtable.get_names_Compliment(WD_inter_CC_ADD,WD_inter_CC_ADD_HASH);
 
         System.out.println("=== Modifications Not Staged For Commit ===");
-        for (String s : modified_files) {
-            System.out.println(s + " (modified)");
-        }
+        // Print out in order
+        printInOrder(modified_files, " (modified)");
 
-        // Print out delete
-        String[] deleted_files = NBtable.get_String_Array_Union(cond_3,cond_4);
-        for (String j : deleted_files) {
-            System.out.println(j + " (deleted)");
-        }
+        // Print out delete: CC + ADD - WD - Rem by name
+        String[] deleted_files = NBtable.get_names_Compliment(CC_ADD, NBtable.getFile_name_array(nbtable_working));
+        deleted_files = NBtable.get_names_Compliment(deleted_files, file_removal_File_Names);
+        // Print out in order
+        printInOrder(deleted_files, " (deleted)");
 
         // Print out untracked Files
         // blobs_working_direc - all_blobs
@@ -437,6 +407,13 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         System.out.println("=== Untracked Files ===");
         for (String j : Untracked) {
             System.out.println(j);
+        }
+    }
+
+    public void printInOrder(String[] array, String args){
+        Arrays.sort(array);
+        for (String s : array) {
+            System.out.println(s + args);
         }
     }
 }
