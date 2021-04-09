@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;  //interface : IO functions to operate object and files
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 public class Gitlet implements Serializable {
@@ -274,7 +273,7 @@ public class Gitlet implements Serializable {
     }
 
     //TO-DO
-    public void status(String workingDirectory){
+    public void status(String workingDirectory) throws FileNotFoundException {
         File WD = new File(workingDirectory);
         File fileG = new File(workingDirectory,".gitlet");
         File fileBM = new File(fileG,"BrancheManager");
@@ -314,72 +313,111 @@ public class Gitlet implements Serializable {
         }
         System.out.println();
 
-        System.out.println("=== Staged Files ===");
+        System.out.println("=== Staged Files ==="); //nbAdd
         if(true){
             if(Addlength != 0){
                 String[] additions = new String[Addlength];
                 File[] additionFile = stagingAdd.listFiles();
                 for(int i = 0; i < Addlength;i++){
                     additions[i] = Utils.readContentsAsString(additionFile[i]);
-                    nbAdd[i].setSHA1Value(additionFile[i].getName());
-                    nbAdd[i].setFullName(additions[i]);
+                    NBtable newAdd = new NBtable(additions[i],additionFile[i].getName());
+                    nbAdd[i] = newAdd;
                 }
                 ////lexicographic order
                 Arrays.sort(additions);
                 //print
-                for(String add : additions){
-                        System.out.println(add);
-                }
+                printString(additions);
             }
         }
         System.out.println();
 
-        System.out.println("=== Removed Files ===");
+        System.out.println("=== Removed Files ==="); // nbRem
         if(true){
             if(Remlength != 0){
                 String[] removals = new String[Remlength];
                 File[] removalFile = stagingRem.listFiles();
                 for(int i = 0; i < Remlength;i++){
                     removals[i] = Utils.readContentsAsString(removalFile[i]);
-                    nbRem[i].setSHA1Value(removalFile[i].getName());
-                    nbRem[i].setFullName(removals[i]);
+                    NBtable newRem = new NBtable(removals[i],removalFile[i].getName());
+                    nbRem[i] = newRem;
                 }
                 ////lexicographic order
                 Arrays.sort(removals);
                 //print
-                for(String rem : removals){
-                    System.out.println(rem);
-                }
+                printString(removals);
             }
         }
         System.out.println();
 
-        int i = 0;
+
+        /////////filtering subdirectory! optional
+        int i = 0;// nbWD
         for(File file : WD.listFiles()){
             if(!file.equals(fileG)){
-                nbWD[i].setFullName(file.getName());
-                nbWD[i].setSHA1Value(Utils.sha1(file.getName(),Utils.readContentsAsString(file)));
+                NBtable newWD = new NBtable(file.getName(),Utils.sha1(file.getName(),Utils.readContentsAsString(file)));
+                nbWD[i] = newWD;
                 i++;
             }
         }
-        if(i == WD.list().length-2){
+        if(i == WD.list().length-1){
             System.out.println("=== Modifications Not Staged For Commit ===");
             if(true){
                 //Tracked in the current commit, changed in the working directory, but not staged;
                 //Staged for addition, but with different contents than in the working directory;
                 //Staged for addition, but deleted in the working directory;
                 //Not staged for removal, but tracked in the current commit and deleted from the working directory.
-///////TO-DO
+
+                // deleted
+                String[] com_CC_WD = NBtable.complement(nbCC,nbWD,"FullName");
+                String[] com_Add_WD = NBtable.complement(nbAdd, nbWD,"FullName");
+                String[] deleted = NBtable.union(com_CC_WD,com_Add_WD);
+                for(String item : deleted){
+                    System.out.println(item+" (deleted)");
+                }
+
+                //modified
+                Set<String> sameNameCC = new HashSet<>();
+                Set<String> sameNameAdd = new HashSet<>();
+                for(String name : NBtable.intersection(nbCC,nbWD,"FullName")){
+                    if(!NBtable.FindSHAinNBArray(name,nbCC).equals(NBtable.FindSHAinNBArray(name,nbWD))){
+                        sameNameCC.add(name);
+                    }
+                }
+                for(String name : NBtable.intersection(nbAdd,nbWD,"FullName")){
+                    if(!NBtable.FindSHAinNBArray(name,nbAdd).equals(NBtable.FindSHAinNBArray(name,nbWD))){
+                        sameNameAdd.add(name);
+                    }
+                }
+                sameNameCC.addAll(sameNameAdd);
+                for(String item : NBtable.SetToString(sameNameCC)){
+                    System.out.println(item+" (modified)");
+                }
             }
             System.out.println();
 
-            System.out.println("=== Untracked Files ===");
-            System.out.println();
         }else{
             System.out.println("Warning! Don't operate on working directory while status");
         }
+        System.out.println("=== Untracked Files ===");
+        if(true){
+            // not in all commits
+            Set<String> sameNameWD = new HashSet<>();
+            for(String filename : NBtable.NBtoString(nbWD,"FullName")){
+                if(!BranchManager.InPastedCommit(filename,branchManager)){
+                    sameNameWD.add(filename);
+                }
+            }
+            String[] untrackfinal = NBtable.complement(NBtable.SetToString(sameNameWD),NBtable.NBtoString(nbAdd,"FullName"));// not in Staged for adition
+            printString(untrackfinal);
+        }
+        System.out.println();
     }
 
+    public void printString(String[] strings){
+        for(String item : strings){
+            System.out.println(item);
+        }
+    }
 
 
     //TO-DO
