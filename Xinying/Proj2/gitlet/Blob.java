@@ -16,17 +16,10 @@ public class Blob implements Serializable {
         BlobID = Utils.sha1(file.getName() + content);
     }
 
-    public String getBlobID(){
-        return BlobID;
-    }
+    public String getBlobID(){ return BlobID; }
 
-    public String getfilename(){
-        return filename;
-    }
+    public String getfilename(){ return filename; }
 
-    public String getcontent(){
-        return content;
-    }
-
+    public String getcontent(){ return content; }
 
 }

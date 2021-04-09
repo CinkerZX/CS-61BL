@@ -36,6 +36,7 @@ public class Commit implements Serializable {
     private String paSHA;
     public String[] Metadata;  //include message and timestamp
     public NBtable[] NBCommit;
+
     //Commit 0 constructor
     public Commit(){
         paSHA = null;
@@ -54,13 +55,9 @@ public class Commit implements Serializable {
         return timestamp.format(new Date());
     }
 
-    public void setpaSHA(String paSHA){
-        this.paSHA = paSHA;
-    }
+    public void setpaSHA(String paSHA){ this.paSHA = paSHA; }
 
-    public String getPaSHA(){
-        return paSHA;
-    }
+    public String getPaSHA(){ return paSHA; }
 
 
 }
