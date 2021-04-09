@@ -9,6 +9,7 @@ public class NBtable implements Serializable {
 
     private String FullName;
     private String SHA1Value;
+    private static final long serialVersionUID = -2700177984038074721L;
 
     public NBtable(String Fullname, String SHA1value){
         FullName = Fullname;
