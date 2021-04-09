@@ -22,9 +22,38 @@
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Blob.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Blob.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Blob.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/NBtable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/NBtable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/Blobs/aa3ddf385824e809b0115ea96a6eebf5b46c06e4" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/Blobs/aa3ddf385824e809b0115ea96a6eebf5b46c06e4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/Blobs/e1eb516c85113d971d5f3cd8d0c013fc45ad1f24" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/Blobs/e1eb516c85113d971d5f3cd8d0c013fc45ad1f24" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/A.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test01-init.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test02-basic-checkout.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test03-basic-log.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test04-prev-checkout.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/src/notwug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/src/wug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/xin.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/xin_2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/xin_2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/aa3ddf385824e809b0115ea96a6eebf5b46c06e4" beforeDir="false" afterPath="$PROJECT_DIR$/testing/.gitlet/Blobs/aa3ddf385824e809b0115ea96a6eebf5b46c06e4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/e1eb516c85113d971d5f3cd8d0c013fc45ad1f24" beforeDir="false" afterPath="$PROJECT_DIR$/testing/.gitlet/Blobs/e1eb516c85113d971d5f3cd8d0c013fc45ad1f24" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/A.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test01-init.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/src/notwug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/src/wug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/xin.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/xin_2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/xin_2.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +108,7 @@
     <configuration name="add" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="add A.txt" />
+      <option name="PROGRAM_PARAMETERS" value="add yin_4.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -89,7 +118,7 @@
     <configuration name="commit" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="commit &quot;all the files&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="commit &quot;Add a, xin, xin_2 files&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -198,9 +227,10 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1616013141373">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618002381354">
+      <screen x="0" y="0" width="1212" height="720" />
     </state>
+    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002381354" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616013141373" />
     <state x="65" y="16" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600009965" />
@@ -234,24 +264,28 @@
     <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365305264" />
     <state x="341" y="166" key="FileChooserDialogImpl/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1617222339386" />
     <state x="390" y="116" key="FileChooserDialogImpl/-1920.0.1218.720/0.0.1218.720@0.0.1218.720" timestamp="1609600768487" />
-    <state width="566" height="161" key="GridCell.Tab.0.bottom" timestamp="1616017413489">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state width="1169" height="125" key="GridCell.Tab.0.bottom" timestamp="1618002845283">
+      <screen x="0" y="0" width="1212" height="720" />
     </state>
+    <state width="1169" height="125" key="GridCell.Tab.0.bottom/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002845283" />
     <state width="1173" height="81" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375527" />
     <state width="566" height="161" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
-    <state width="566" height="161" key="GridCell.Tab.0.center" timestamp="1616017413489">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state width="1169" height="125" key="GridCell.Tab.0.center" timestamp="1618002845283">
+      <screen x="0" y="0" width="1212" height="720" />
     </state>
+    <state width="1169" height="125" key="GridCell.Tab.0.center/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002845283" />
     <state width="1173" height="81" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
-    <state width="566" height="161" key="GridCell.Tab.0.left" timestamp="1616017413489">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state width="1169" height="125" key="GridCell.Tab.0.left" timestamp="1618002845283">
+      <screen x="0" y="0" width="1212" height="720" />
     </state>
+    <state width="1169" height="125" key="GridCell.Tab.0.left/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002845283" />
     <state width="1173" height="81" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
-    <state width="566" height="161" key="GridCell.Tab.0.right" timestamp="1616017413489">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state width="1169" height="125" key="GridCell.Tab.0.right" timestamp="1618002845283">
+      <screen x="0" y="0" width="1212" height="720" />
     </state>
+    <state width="1169" height="125" key="GridCell.Tab.0.right/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002845283" />
     <state width="1173" height="81" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state x="303" y="0" width="914" height="720" key="SettingsEditor" timestamp="1614977497587">

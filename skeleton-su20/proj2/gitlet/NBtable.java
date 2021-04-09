@@ -18,6 +18,7 @@ public class NBtable implements Serializable {
     //attributes
     private String file_name;
     private String sha1_file_name;
+    private static final long serialVersionUID = 1433824995074707548L;
 
     //Constructor
     public NBtable(){
@@ -91,6 +92,7 @@ public class NBtable implements Serializable {
         return get_names_Compliment(name_array_1, name_array_2);
     }
 
+    //stringArray1 - stringArray2
     public static String[] get_names_Compliment(String[] stringArray1, String[] stringArray2){ // Method overload
         Set<String> set1 = new HashSet<String>();
         Set<String> set2 = new HashSet<String>();
@@ -164,7 +166,7 @@ public class NBtable implements Serializable {
         }
         // else, need to find the file name in the NBtable (any table is ok, as it is intersection) by the bold_hash
         else {
-            String[] bold_name_array = getIntersection(set1, set2);
+            String[] bold_name_array = get_simple_String_Intersection(strArray1, strArray2);
             String[] names_intersection = new String[bold_name_array.length];
             int i = 0;
             for (NBtable t : table) {
@@ -177,6 +179,21 @@ public class NBtable implements Serializable {
             return names_intersection;
         }
     }
+
+
+    public static String[] get_simple_String_Intersection(String[] strArray1, String[] strArray2){
+        Set<String> set1 = new HashSet<String>();
+        Set<String> set2 = new HashSet<String>();
+        for(String s : strArray1){
+            set1.add(s);
+        }
+        for(String s : strArray2){
+            set2.add(s);
+        }
+        // if by name, then can use getIntersection function directly
+        return getIntersection(set1, set2);
+    }
+
     public static String[] getIntersection(Set<String> file_names_current_dir, Set<String> file_names_commit){
         file_names_current_dir.retainAll(file_names_commit);
         String[] names_intersection = new String[file_names_current_dir.size()];

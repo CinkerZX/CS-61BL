@@ -97,7 +97,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         //generate a blob
         Blob blob = new Blob(f_workingDirec);
         //Check if the file exists in gitlet
-        if(check(Args, working_directory)){
+        if(!check(Args, working_directory)){
             //Check if the file name exists in Staged for addition
             if (check(blob.getBlob_name(), ".gitlet/Staging Area/Staged for addition")) {
                 File f_rm = new File(".gitlet/Staging Area/Staged for addition", blob.getBlob_name());
@@ -108,7 +108,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 Utils.writeContents(f_dele, blob.getfileName()); // write the file name as its content
             }
         }// in this condition, the "added" file hasn't been saved by gitlet, there is no record of Args
-        else{
+        else{ // the file is in the current working directory
             // check if the file is tracked in the current commit
             File d = new File(working_directory,".gitlet");
             File branchMa = new File(d.getPath(), "branch");
@@ -215,7 +215,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // update the head of the branch: reset [commit id]
     public void reset (String commit_id){ // need to check if the commit_id exists in this branch
         //check all the sha1(commits) in this branch
-
     }
 
     // log
@@ -357,19 +356,19 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             throw new RuntimeException(e);
         }
 
-        //get the NBtable[] of files from 4 working directions
-        //In each NBtable[], save the name and the has(blob) of the file
-
         //Files in the working direction
-        String path = working_directory+"/.gitlet";
+        String path = working_directory;
         File file_WorkingDir = new File(path);
         File[] files_Working = file_WorkingDir.listFiles();
-        NBtable[] nbtable_working = new NBtable[files_Working.length];
+        NBtable[] nbtable_working = new NBtable[files_Working.length-1];
         int i = 0;
         for (File file_Working : files_Working) {
             String file_name = file_Working.getName();
-            String sha_blob = Utils.sha1(file_Working.getName() + Utils.readContents(file_Working));
-            nbtable_working[i] = new NBtable(file_name,sha_blob);
+            if(!file_name.equals(".gitlet")) {
+                String sha_blob = Utils.sha1(file_Working.getName() + Utils.readContentsAsString(file_Working)); // Read as string!!!!
+                nbtable_working[i] = new NBtable(file_name, sha_blob);
+                i = i+1;
+            }
         }
 
         //Files in the current commit
@@ -382,35 +381,61 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         String[] names_array_1 = NBtable.get_string_Array(nbtable_working, nbtable_cur_commit, "name");
         // sha_blob_cur_direction intersection with sha_blob_cur_commit (names_array_2);
         String[] names_array_2 = NBtable.get_string_Array(nbtable_working, nbtable_cur_commit, "bold_hash");
+//        System.out.println("names_array_2");
+//        for (String a : names_array_2) {
+//            System.out.println(a);
+//        }
+
+        // Tracked in the current commit, changed in the working directory
+        String[] cond_1 = NBtable.get_names_Compliment(names_array_1, names_array_2);
+
+        // but not staged(staged: additional_File_Names + file_removal_File_Names)
+        cond_1 = NBtable.get_names_Compliment(cond_1, NBtable.get_String_Array_Union(additional_File_Names,file_removal_File_Names));
 
         // names_cur_direction intersection with staged_addition (names_array_3);
         String[] names_array_3 = NBtable.get_string_Array(nbtable_working, nbtable_stage_add, "name");
         // sha_blob_cur_direction intersection with staged_addition (names_array_4);
         String[] names_array_4 = NBtable.get_string_Array(nbtable_working, nbtable_stage_add, "bold_hash");
+        // Staged for addition, but with different contents than in the working directory
+        String[] cond_2 = NBtable.get_names_Compliment(names_array_3, names_array_4);
 
-        // name_array_1 - name_array_2
-        String[] names_array_5 = NBtable.get_names_Compliment(NBtable.get_String_Array_Union(names_array_1,names_array_3), NBtable.get_String_Array_Union(names_array_2,names_array_4));
-        for (String s : names_array_5) {
+        // Staged for addition, but deleted in the working directory;
+        String[] cond_3 = NBtable.get_names_Compliment(additional_File_Names, NBtable.getFile_name_array(nbtable_working));
+
+        // Not staged for removal, but tracked in the current commit and deleted from the working directory.
+        String[] cond_4 = NBtable.get_names_Compliment(NBtable.getFile_name_array(nbtable_cur_commit), NBtable.getFile_name_array(nbtable_working));
+        cond_4 = NBtable.get_names_Compliment(cond_4,file_removal_File_Names);
+
+        String[] modified_files = NBtable.get_String_Array_Union(cond_1,cond_2);
+
+        System.out.println("=== Modifications Not Staged For Commit ===");
+        for (String s : modified_files) {
             System.out.println(s + " (modified)");
         }
 
         // Print out delete
-        // a = cur_commit - working_direc
-        // b = addition - working_direc
-        // printout a+b
-        String[] a = NBtable.get_names_Compliment(nbtable_cur_commit,nbtable_working); //　NBtable. indicate the method is under which class
-        String[] b = NBtable.get_names_Compliment(nbtable_stage_add,nbtable_working);
-        for (String j : NBtable.get_String_Array_Union(a,b)) {
+        String[] deleted_files = NBtable.get_String_Array_Union(cond_3,cond_4);
+        for (String j : deleted_files) {
             System.out.println(j + " (deleted)");
         }
 
         // Print out untracked Files
-        // aa = working_direc - commit
-        String[] aa = NBtable.get_names_Compliment(nbtable_working,nbtable_cur_commit); //　NBtable. indicate the method is under which class
-        // bb = aa - addition
-        String[] bb = NBtable.get_names_Compliment(aa, additional_File_Names);
+        // blobs_working_direc - all_blobs
+        // Read all blobs
+        String path_blob = working_directory + "/.gitlet/Blobs"; // the slash before .gitley cannot miss
+        File file_blob = new File(path_blob);
+        File[] all_blobs = file_blob.listFiles();
+        NBtable[] nbtable_blobs = new NBtable[all_blobs.length];
+        i = 0;
+        for (File blob : all_blobs) {
+            Blob b = Utils.readObject(blob, Blob.class);
+            nbtable_blobs[i] = new NBtable(b.getfileName(),b.getBlob_name());
+            i = i+1;
+        }
+
+        String[] Untracked = NBtable.get_names_Compliment(nbtable_working,nbtable_blobs); //　NBtable. indicate the method is under which class
         System.out.println("=== Untracked Files ===");
-        for (String j : bb) {
+        for (String j : Untracked) {
             System.out.println(j);
         }
     }

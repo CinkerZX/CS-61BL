@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Test status (compare different folders)
+### Write branch and rm-branch
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
