@@ -9,6 +9,8 @@ import java.io.Serializable;
 public class BranchManager implements Serializable {
     public NBtable[] branches;
     public NBtable head;
+    private static final long serialVersionUID = -586838958655118021L;
+
 
     public BranchManager(String sha1Commit0){
         NBtable master = new NBtable("master", sha1Commit0);
@@ -45,7 +47,7 @@ public class BranchManager implements Serializable {
         return newCommit;
     }
 
-    public Commit FindCommit(String SHA1Value){
+    public static Commit FindCommit(String SHA1Value){
         /*try{*/
         File file = new File("./.gitlet/Commits",SHA1Value);
         Commit thisCommit = Utils.readObject(file, Commit.class);
@@ -61,15 +63,34 @@ public class BranchManager implements Serializable {
         return NBtable.FileNameinNBArray(filename, CurrentCommit.NBCommit);
     }
 
-    public Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException {
+    public static Boolean inCommit(String filename, String commitID) throws FileNotFoundException{
+        Commit thisCommit = FindCommit(commitID);
+        return NBtable.FileNameinNBArray(filename, thisCommit.NBCommit);
+    }
+
+    public static Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException {
         return FindCommit(CurrentCommit.getPaSHA());
     }
 
-    public void writeBM(String workingDirectory,BranchManager BM) throws IOException {
+    public static void writeBM(String workingDirectory,BranchManager BM) throws IOException {
         File file1 = new File(workingDirectory,".gitlet");
         File file = new File(file1,"BrancheManager");
         file.createNewFile();
         Utils.writeObject(file,BM);
+    }
+
+    public static Boolean InPastedCommit(String filename, BranchManager BM) throws FileNotFoundException {
+        return InPastedCommitHelper(filename, BM.head.getSHA1Value());
+    }
+    public static Boolean InPastedCommitHelper(String filename, String commitID) throws FileNotFoundException {
+        if(FindCommit(commitID).getPaSHA()==null){
+            return false;
+        }else if(inCommit(filename,commitID)){
+            return true;
+        }else{
+            return InPastedCommitHelper(filename, FindCommit(commitID).getPaSHA());
+        }
+
     }
 
 }
