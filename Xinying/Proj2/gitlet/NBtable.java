@@ -122,5 +122,5 @@ public class NBtable implements Serializable {
     public String getSHA1Value() { return SHA1Value; }
 
     public void setSHA1Value(String newSHA) { this.SHA1Value = newSHA; }
-    public void setFullName(String fullName) { FullName = fullName; }
+    public void setFullName(String fullName) { this.FullName = fullName; }
 }

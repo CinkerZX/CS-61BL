@@ -1,9 +1,7 @@
 package gitlet;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
+import java.util.Arrays;
 
 
 public class BranchManager implements Serializable {
@@ -55,7 +53,13 @@ public class BranchManager implements Serializable {
     public static void writeBM(String workingDirectory,BranchManager BM) throws IOException {
         File file1 = new File(workingDirectory,".gitlet");
         File file = new File(file1,"BrancheManager");
-        file.createNewFile();
+        if(file.exists()){
+            PrintWriter writer = new PrintWriter(file);
+            writer.print("");
+            writer.close();
+        }else{
+            file.createNewFile();
+        }
         Utils.writeObject(file,BM);
     }
 
@@ -71,4 +75,24 @@ public class BranchManager implements Serializable {
         }
     }
 
+    public static NBtable[] add(NBtable branch,NBtable[] branches){
+        NBtable[] newbranches = new NBtable[branches.length+1];
+        System.arraycopy(branches,0,newbranches,0,branches.length);
+        newbranches[branches.length] = branch;
+        return newbranches;
+    }
+
+    public static NBtable[] remove(String branch,NBtable[] branches){
+        NBtable[] newbranches = new NBtable[branches.length-1];
+        int m = 0;
+        for(int i=0; i < branches.length;i++){
+            if(branch.equals(branches[i].getFullName())){
+                m = i;
+                break;
+            }
+        }
+        System.arraycopy(branches,0,newbranches,0,m);
+        System.arraycopy(branches,m,newbranches,m-1,branches.length-m-1);
+        return newbranches;
+    }
 }

@@ -277,6 +277,7 @@ public class Gitlet implements Serializable {
         File fileG = new File(workingDirectory,".gitlet");
         File fileBM = new File(fileG,"BrancheManager");
         BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
+        File fileB = new File(fileG,"Blobs");
         File fileS = new File(fileG,"Staging Area");
         File stagingAdd = new File(fileS,"Staged for addition");
         File stagingRem = new File(fileS,"Staged for removal");
@@ -359,7 +360,11 @@ public class Gitlet implements Serializable {
                 // deleted
                 String[] com_CC_WD = NBtable.complement(nbCC,nbWD,"FullName");
                 String[] com_Add_WD = NBtable.complement(nbAdd, nbWD,"FullName");
-                String[] deleted = NBtable.union(com_CC_WD,com_Add_WD);
+
+
+                ///////!!!!untested
+                String[] deleted = NBtable.complement(NBtable.union(com_CC_WD,com_Add_WD),NBtable.NBtoString(nbRem,"FullName"));
+
                 for(int j = 0; j <deleted.length;j++){
                     deleted[j] = deleted[j] + " (deleted)";
                 }
@@ -399,6 +404,7 @@ public class Gitlet implements Serializable {
                     sameNameWD.add(filename);
                 }
             }
+
             String[] untrackfinal = NBtable.complement(NBtable.SetToString(sameNameWD),NBtable.NBtoString(nbAdd,"FullName"));// not in Staged for adition
             printString(untrackfinal);
         }
@@ -412,13 +418,37 @@ public class Gitlet implements Serializable {
         }
     }
 
-
-    //TO-DO
-    public void branch(){
+    public void branch(String workingDirectory, String branchName) throws IOException {
+        File fileBM = new File(workingDirectory+"/.gitlet/","BrancheManager");
+        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
+        if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
+            System.out.println("A branch with that name already exists.");
+        }else{
+            NBtable newbranch = new NBtable(branchName,branchManager.head.getSHA1Value());
+            branchManager.branches = BranchManager.add(newbranch,branchManager.branches);
+            branchManager.writeBM(workingDirectory,branchManager);
+        }
     }
 
-    //TO-DO
-    public void rm_branch(){
+    public void rm_branch(String workingDirectory, String branchName) throws IOException {
+        File fileBM = new File(workingDirectory+"/.gitlet/","BrancheManager");
+        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
+        if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){
+            System.out.println("A branch with that name does not exist.");
+        }else if(branchManager.head.getFullName().equals(branchName)){
+            System.out.println("Cannot remove the current branch.");
+        }else{
+            branchManager.branches = BranchManager.remove(branchName,branchManager.branches);
+            branchManager.writeBM(workingDirectory,branchManager);
+        }
+
+    }
+
+    public void printBranches(BranchManager bm){
+        System.out.println("branches:");
+        for(NBtable b : bm.branches){
+            System.out.println(b.getFullName());
+        }
     }
 
 }
