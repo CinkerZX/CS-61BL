@@ -54,6 +54,10 @@ public class NBtable implements Serializable {
         sha1_file_name = sha1;
     }
 
+    public void setfile_name(String str){
+        file_name = str;
+    }
+
     public String getSha1_file_name() {
         return (sha1_file_name);
     }

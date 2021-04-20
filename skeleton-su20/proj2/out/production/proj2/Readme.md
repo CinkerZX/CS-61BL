@@ -23,6 +23,10 @@
     status // Check the tracked files(folder) change
         Modified: WD intersect (CC+ADD) / BY NAME - WD intersect (CC+ADD) / BY HASH
         DELETED: CC+ADD-WD-REM / BY NAME
+        WD: working directory
+        CC: current commit
+        Add: staged for addition
+        RME: staged for removal
             
     $$ to do $$ branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
     $$ to do $$ rm-branch // Remove branch

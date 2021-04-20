@@ -26,24 +26,15 @@ public class BranchManage implements Serializable {
     public BranchManage (String sha1){
         // branches = new NBtable[10];
         branches = new NBtable[]{new NBtable()};
-        branches[0] = new NBtable("master", sha1);
-        branch_head = branches[0];
+        NBtable head_obj = new NBtable("master", sha1);
+        branches[0] = head_obj;
+        branch_head = head_obj;
     }
 
     // Function update_head
     public void update_head(Commit latest_commit){
         branch_head.setSha1_file_name(Utils.sha1(latest_commit));
     }
-
-    //Function update_branches
-/*    public void update_branches(Commit latest_commit){
-        for (NBtable i: branches){
-            if(i.find_sha1(branch_head.getSha1_file_name())){
-                i.setSha1_file_name(Utils.sha1(Utils.serialize(latest_commit)));
-            }
-        }
-        update_head(latest_commit);
-    }*/
 
     public void update_branches(String newSHA){
         for (NBtable branch : branches){
@@ -53,6 +44,43 @@ public class BranchManage implements Serializable {
             }
         }
         branch_head.setSha1_file_name(newSHA);
+    }
+
+    public void add_branches(String working_directory, NBtable newBranch){
+        File d = new File(working_directory,".gitlet"); // Must read from the content again
+        File branchMa = new File(d.getPath(), "branch");
+        BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+        // get the name of all the branches
+        NBtable[] existing_Branches = branch.getBranches();
+        int n = existing_Branches.length + 1;
+        NBtable[] branches_new = new NBtable[n];
+        int i = 0;
+        for(NBtable s : existing_Branches){
+            branches_new[i++] = s;
+        }
+        branches_new[n-1] = newBranch;
+        setBranches(branches_new);
+    }
+
+    public void rm_branches(String working_directory, String branch_name){
+        File d = new File(working_directory,".gitlet"); // Must read from the content again
+        File branchMa = new File(d.getPath(), "branch");
+        BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+        // get the name of all the branches
+        NBtable[] existing_Branches = branch.getBranches();
+        int n = existing_Branches.length - 1;
+        NBtable[] branches_new = new NBtable[n];
+        int i = 0;
+        for(NBtable s : existing_Branches){
+            if (!s.getFile_name().equals(branch_name)){
+                branches_new[i++] = s;
+            }
+        }
+        setBranches(branches_new);
+    }
+
+    public void setBranches(NBtable[] new_branches){
+        branches = new_branches;
     }
 
     // Generate the new_commit by copying from the current commit
@@ -98,11 +126,19 @@ public class BranchManage implements Serializable {
         return(branch_head.getSha1_file_name());
     }
 
+    // Return the name of the current branch
+    public String get_cur_branch(){
+        return(branch_head.getFile_name());
+    }
+
     // Write the branchmanage
     public void wt(String work_direct, BranchManage branch) throws IOException {
         File d = new File(work_direct,".gitlet");
         File branchMa = new File(d.getPath(), "branch");
-        branchMa.createNewFile();
+        if(branchMa.exists()){
+            branchMa.delete(); // if file already exists, delete it
+        }
+        branchMa.createNewFile(); // create the file
         Utils.writeObject(branchMa, branch); // since branchManagement contains NB table, when write, the NBtable need "implements Serializable"
     }
 

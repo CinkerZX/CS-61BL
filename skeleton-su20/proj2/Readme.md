@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Write branch and rm-branch
+### Write checkout, reset
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -27,9 +27,8 @@
         CC: current commit
         Add: staged for addition
         RME: staged for removal
-            
-    $$ to do $$ branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
-    $$ to do $$ rm-branch // Remove branch
+    branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
+    rm-branch // Remove branch
     
     $$ to do $$ checkout // Update the current files in the current direction by *java gitlet.Main checkout -- [file name]*
                             *java gitlet.Main checkout [commit id] -- [file name]*

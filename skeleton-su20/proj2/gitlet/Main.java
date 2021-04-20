@@ -76,6 +76,23 @@ public class Main {
                         System.out.println("Please enter the name of the removed file.");
                     }
                     break;
+                // branch
+                case "branch":
+                    if(args.length == 2){
+                        mygitlet.branch(args[1]);
+                    }else{
+                        System.out.println("Please enter in such formation: branch 'XXXXX'.");
+                    }
+                    break;
+                // rm-branch
+                case "rm-branch":
+                    if(args.length == 2){
+                        mygitlet.rm_branch(args[1]);
+                    }else{
+                        System.out.println("Please enter in such formation: branch 'XXXXX'.");
+                    }
+                    break;
+
                 default:
                     System.out.println("No command with that name exists.");
                     break;

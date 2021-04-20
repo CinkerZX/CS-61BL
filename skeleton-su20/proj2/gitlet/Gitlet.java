@@ -7,6 +7,7 @@ package gitlet;
 // update the pointers
 // log
 
+import com.sun.org.apache.xpath.internal.Arg;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File; // for creating file/folder
@@ -414,6 +415,81 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         Arrays.sort(array);
         for (String s : array) {
             System.out.println(s + args);
+        }
+    }
+
+    // new a pointer
+    public void branch(String Args) throws IOException {
+        // Check if the name of the branch has already exists: get the list of all the branch names
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        try{
+            BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+            // get the name of all the branches
+            NBtable[] existing_Branches = branch.getBranches();
+            String[] branch_Names = new String[existing_Branches.length];
+            int i = 0;
+            for (NBtable t : existing_Branches){
+                if (Args.equals(t.getFile_name())){
+                    System.out.println("A branch with that name already exists.");
+                    i = 1; // if the name already exists, break
+                    break;
+                }
+            }
+            if (i == 0){ // the name doesn't exist, just generate a new pointer with this name
+                NBtable new_branch_head = new NBtable(Args, branch.getBranch_head().getSha1_file_name());
+                branch.add_branches(working_directory, new_branch_head);
+                branch.wt(working_directory, branch); // write the branch management object
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    // delete a pointer
+    public void rm_branch(String Args) throws IOException {
+        // Check if the name of the branch has already exists: get the list of all the branch names
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        try{
+            BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+            // get the name of all the branches
+            NBtable[] existing_Branches = branch.getBranches();
+            String[] branch_Names = new String[existing_Branches.length];
+            int i = 0;
+            for (NBtable t : existing_Branches){
+                if (Args.equals(t.getFile_name())){
+                    i = 1;
+                    if(Args.equals(branch.get_cur_branch())){ // remove the branch you’re currently on, aborts
+                        System.out.println("Cannot remove the current branch");
+                        break;
+                    }
+                    else{ // need to remove the branch
+                        branch.rm_branches(working_directory, Args);
+                        branch.wt(working_directory, branch); // write the branch management object
+                    }
+                }
+            }
+            if (i == 0){
+                System.out.println("A branch with that name does not exist.");
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void print_branches(){
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        try{
+            BranchManage branch_2 = Utils.readObject(branchMa, BranchManage.class);
+            // get the name of all the branches
+            NBtable[] existing_Branches_2 = branch_2.getBranches();
+            for (NBtable q : existing_Branches_2){
+                System.out.println(q.getFile_name());
+            }
+        } catch (Exception e){
+            throw new RuntimeException(e);
         }
     }
 }
