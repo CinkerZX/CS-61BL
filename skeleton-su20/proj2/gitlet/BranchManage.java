@@ -32,8 +32,9 @@ public class BranchManage implements Serializable {
     }
 
     // Function update_head
-    public void update_head(Commit latest_commit){
-        branch_head.setSha1_file_name(Utils.sha1(latest_commit));
+    public void update_head(String name, String sha){
+        branch_head.setfile_name(name);
+        branch_head.setSha1_file_name(sha);
     }
 
     public void update_branches(String newSHA){

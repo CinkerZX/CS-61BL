@@ -7,13 +7,11 @@ package gitlet;
 // update the pointers
 // log
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import com.sun.org.apache.xpath.internal.Arg;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.File; // for creating file/folder
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.Serializable; // for output(writing) files
+import java.io.*;
 import java.util.Arrays;
 
 public class Gitlet implements Serializable{ // class is abstract // tell java this class is Serializable
@@ -490,6 +488,168 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             }
         } catch (Exception e){
             throw new RuntimeException(e);
+        }
+    }
+
+    // get current branch
+    public BranchManage getCurrentBranch(){
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "branch");
+        BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+        return(branch);
+    }
+
+    // get the branch by branch name{
+    public BranchManage getBranch(String Args){
+        File d = new File(working_directory,".gitlet");
+        File branchMa = new File(d.getPath(), "Args");
+        BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+        return(branch);
+    }
+
+    // get the commit by commit_sha
+    public Commit getCommit(String sha)throws IOException {
+        File d = new File(working_directory,".gitlet/Commits");
+        File commit = new File(d.getPath(), "sha");
+        Commit commit1 = new Commit();
+        commit1.setPa_sha("No commit with that id");
+        try {
+            Commit myCommit = Utils.readObject(commit, Commit.class);
+            return(myCommit);
+        } catch (Exception e) {
+            return (commit1);
+        }
+    }
+
+    // get the blob by bolb_sha
+    public Blob getBlob(String sha){
+        File d = new File(working_directory,".gitlet/Blobs");
+        File blob = new File(d.getPath(), "sha");
+        Blob myBlob = Utils.readObject(blob, Blob.class);
+        return(myBlob);
+    }
+
+    // write a file into working directory by NBtable (blob)
+    public void writeFile(NBtable file_table) throws IOException {
+        //Get the sha(blob) of this file, find the blob by sha name
+        Blob blob = getBlob(file_table.getSha1_file_name());
+        // put it in the working directory
+        File file_overWriting = new File(".gitlet", blob.getfileName());
+        if (file_overWriting.exists()) {
+            file_overWriting.delete(); // if file already exists, delete it
+        }
+        file_overWriting.createNewFile();
+        Utils.writeContents(file_overWriting, blob.getContent()); // write the file name as its content
+    }
+
+    // delete a file from the working directory by file name
+    public void deleteFile(String f_name) throws IOException {
+        File file_delete = new File(".gitlet", f_name);
+        if (file_delete.exists()) {
+            file_delete.delete(); // if file already exists, delete it
+        }
+    }
+
+    // get the NBtable from a NBtable[] by file name
+    public NBtable myTable(NBtable[] NB_table_list, String file_name){
+        for (NBtable table : NB_table_list){
+            if (table.getFile_name().equals(file_name)){
+                return(table);
+            }
+        }
+        NBtable not_found = new NBtable();
+        System.out.println("Failed to find the NBtable");
+        return(not_found);
+    }
+
+    // checkout branchname
+    public void checkoutBranch(String Args) throws IOException {
+        // get the head with the branch name Args
+        BranchManage object_branch = getBranch(Args);
+        BranchManage cur_branch = getCurrentBranch();
+        Commit object_commit = getCommit(object_branch.get_cur_commit_sha1());
+        Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
+        // get the NBtable list of files of branches by branch name
+        NBtable[] object_nb_files = object_commit.getNB_commit();
+        NBtable[] cur_nb_files = cur_commit.getNB_commit();
+
+        // name of the files in object_nb_files but untraccted by current branch cur_nb_files
+        String[] prepare_add_files = NBtable.get_names_Compliment(object_nb_files, cur_nb_files);
+
+        //The blob of files in the working direction (nbtable_working)
+        String path = working_directory;
+        File file_WorkingDir = new File(path);
+        File[] files_Working = file_WorkingDir.listFiles();
+        NBtable[] nbtable_working = new NBtable[files_Working.length-1];
+        int i = 0;
+        String[] file_name_WD = new String[files_Working.length-1];
+        for (File file_Working : files_Working) {
+            String file_name = file_Working.getName();
+            file_name_WD[i] = file_name;
+            if(!file_name.equals(".gitlet")) {
+                String sha_blob = Utils.sha1(file_Working.getName() + Utils.readContentsAsString(file_Working)); // Read as string!!!!
+                nbtable_working[i] = new NBtable(file_name, sha_blob);
+                i = i+1;
+            }
+        }
+
+        // Intersection of file names in working direction & prepare_add_files
+        String[] check_blob_file_name = NBtable.get_simple_String_Intersection(file_name_WD,prepare_add_files);
+        // write the files in object_nb_files into the direction
+        for(NBtable file_add : object_nb_files) {
+            // if the file is untracked in the current branch and would be overwritten by the checkout
+            // if the name of this file is in "check_blob_file_name"
+            if (Arrays.asList(check_blob_file_name).contains(file_add.getFile_name())){
+                NBtable blob_WD = myTable(nbtable_working,file_add.getFile_name());
+                if (file_add.getSha1_file_name().equals(blob_WD.getSha1_file_name())){
+                    System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
+                }
+            }
+            else{
+                writeFile(file_add);
+            }
+        }
+
+        // Update the branch head
+        cur_branch.update_head(object_branch.getBranch_head().getFile_name(), object_branch.getBranch_head().getSha1_file_name());
+        cur_branch.wt(working_directory, cur_branch);
+
+        // get the name of files in cur_nb_files \ object_nb_files
+        String[] delete_file_names = NBtable.get_names_Compliment(cur_nb_files, object_nb_files);
+        // delete these files by name
+        for(String file_delete : delete_file_names) {
+            deleteFile(file_delete);
+        }
+
+    }
+
+    // checkout file name
+    public void checkoutFile(String file_name) throws IOException {
+        BranchManage cur_branch = getCurrentBranch();
+        String cur_commit_sha = cur_branch.get_cur_commit_sha1();
+        checkoutCommitFilename(cur_commit_sha, file_name);
+    }
+
+    // checkout commit_id file_name
+    public void checkoutCommitFilename(String commit_id, String file_name)throws IOException {
+        Commit cur_commit = getCommit(commit_id);
+        if (cur_commit.getPa_sha().equals("No commit with that id")){
+            System.out.println("No commit with that id exists.");
+        }
+        else{
+            // Read the files in this commit
+            NBtable[] nb_files = cur_commit.getNB_commit();
+            // check if the file_name exists in the commit of the head of current branch
+            int exist = 0;
+            for (NBtable file : nb_files) {
+                if (file.getFile_name().equals(file_name)) {
+                    exist = 1;
+                    writeFile(file);
+                }
+            }
+            if (exist == 0) {
+                System.out.println("File does not exist in that commit.");
+            }
         }
     }
 }

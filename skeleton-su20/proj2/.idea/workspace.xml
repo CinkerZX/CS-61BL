@@ -22,23 +22,11 @@
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Blob.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Blob.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/NBtable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/NBtable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/aa3ddf385824e809b0115ea96a6eebf5b46c06e4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/c129e51fb3b8e97579df05e2f5973624cb79e9a1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/ded10e18688f02e6bbb8d9b87e5ce2c29c56efcd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Blobs/e1eb516c85113d971d5f3cd8d0c013fc45ad1f24" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Commits/9bdaca698cd344192d31cb3683af0fef90976b78" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Staging Area/Staged for addition/aa3ddf385824e809b0115ea96a6eebf5b46c06e4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Staging Area/Staged for removal/e1eb516c85113d971d5f3cd8d0c013fc45ad1f24" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/.gitlet/branch" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,6 +218,10 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="490" y="222" key="#Notifications" timestamp="1619266540328">
+      <screen x="0" y="0" width="1212" height="720" />
+    </state>
+    <state x="490" y="222" key="#Notifications/0.0.1212.720@0.0.1212.720" timestamp="1619266540328" />
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog" timestamp="1614976733844">
       <screen x="0" y="0" width="1217" height="720" />
     </state>

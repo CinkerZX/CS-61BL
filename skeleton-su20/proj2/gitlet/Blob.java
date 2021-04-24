@@ -29,4 +29,8 @@ public class Blob implements Serializable {
         return(fileName);
     }
 
+    public String getContent(){
+        return(content);
+    }
+
 }

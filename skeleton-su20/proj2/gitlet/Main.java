@@ -92,7 +92,21 @@ public class Main {
                         System.out.println("Please enter in such formation: branch 'XXXXX'.");
                     }
                     break;
-
+                //check out
+                case "checkout":
+                    if(args.length == 2){ //checkout branch name
+                        mygitlet.checkoutBranch(args[1]);
+                    }
+                    else if(args.length == 3){ //checkout -- filename
+                        mygitlet.checkoutFile(args[2]);
+                    }
+                    else if(args.length == 4){ //checkout commit_id -- file_name
+                        mygitlet.checkoutCommitFilename(args[1],args[3]);
+                    }
+                    else{
+                        System.out.println("Please enter in on of the following formation: checkout -- [file name]; checkout -- [commit id] -- [file name]; checkout [branch name]");
+                    }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
                     break;

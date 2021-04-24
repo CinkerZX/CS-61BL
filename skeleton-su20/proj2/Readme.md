@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Write checkout, reset
+### Test checkout
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -33,6 +33,7 @@
     $$ to do $$ checkout // Update the current files in the current direction by *java gitlet.Main checkout -- [file name]*
                             *java gitlet.Main checkout [commit id] -- [file name]*
                             *java gitlet.Main checkout [branch name]*
+    
     $$ to do $$ reset // Checks out all the files tracked by the given commit *java gitlet.Main reset [commit id]*
     
     $$ to do $$ merge

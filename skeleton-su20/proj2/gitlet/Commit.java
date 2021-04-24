@@ -65,6 +65,7 @@ public class Commit implements Serializable {
         metadata = new String[] {Arg, timestamp()};
     }
 
+    // get the NBtable list of files
     public NBtable[] getNB_commit(){
         return(NB_commit);
     }
@@ -90,7 +91,6 @@ public class Commit implements Serializable {
     }
 
     // Fill the blos in
-
     public void setNB_commit(NBtable[] NB_commit) {
         this.NB_commit = NB_commit;
     }
