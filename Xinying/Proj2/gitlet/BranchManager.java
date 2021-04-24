@@ -95,4 +95,9 @@ public class BranchManager implements Serializable {
         System.arraycopy(branches,m,newbranches,m-1,branches.length-m-1);
         return newbranches;
     }
+
+    public Commit FindCommitByID(String commitID,File fileC){
+        File file = new File(fileC,commitID);
+        return Utils.readObject(file,Commit.class);
+    }
 }

@@ -1,9 +1,6 @@
 package gitlet;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;  //interface : IO functions to operate object and files
+import java.io.*;
 import java.util.*;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -448,6 +445,117 @@ public class Gitlet implements Serializable {
         System.out.println("branches:");
         for(NBtable b : bm.branches){
             System.out.println(b.getFullName());
+        }
+    }
+    public void checkout(String workingDirectory, String[] args) throws IOException {
+        File WD = new File(workingDirectory);
+        File fileG = new File(workingDirectory,".gitlet");
+        File fileBM = new File(fileG,"BrancheManager");
+        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
+        File fileB = new File(fileG,"Blobs");
+        File fileC = new File(fileG,"Commits");
+        File fileS = new File(fileG,"Staging Area");
+        File stagingAdd = new File(fileS,"Staged for addition");
+        File stagingRem = new File(fileS,"Staged for removal");
+
+        //args :
+        // checkout -- [filename]  3
+        // checkout [commit id] -- [file name]  4
+        // checkout [branch name]  2
+        switch(args.length){
+            case 3:
+                NBtable[] blobsInCC = branchManager.FindCommitByID(branchManager.head.getSHA1Value(),fileC).NBCommit;
+                if(!NBtable.FileNameinNBArray(args[2],blobsInCC)){ System.out.println("File does not exist in that commit.");}
+                else{
+                    File file = new File(WD,args[2]);
+                    File blob = new File(fileB,NBtable.FindSHAinNBArray(args[2],blobsInCC));
+                    writeFile(file,Utils.readObject(blob,Blob.class).getcontent());
+                }
+                break;
+            case 4:
+                File CommitFile = new File(fileC,args[1]);
+                if(!CommitFile.exists()){System.out.println("No commit with that id exists.");}
+                else{
+                    NBtable[] blobsInC = branchManager.FindCommitByID(args[1],fileC).NBCommit;
+                    if(!NBtable.FileNameinNBArray(args[3],blobsInC)){ System.out.println("File does not exist in that commit.");}
+                    else{
+                        File file = new File(WD,args[3]);
+                        File blob = new File(fileB,NBtable.FindSHAinNBArray(args[3],blobsInC));
+                        writeFile(file,Utils.readObject(blob,Blob.class).getcontent());
+                    }
+                }
+                break;
+            case 2:
+                if(!NBtable.FileNameinNBArray(args[1],branchManager.branches)){System.out.println("No such branch exists.");}
+                else if(args[1].equals(branchManager.head.getFullName())){System.out.println("No need to checkout the current branch.");}
+                else {
+                    String CIDinCheckoutBranch = NBtable.FindSHAinNBArray(args[1], branchManager.branches);
+                    // CheckoutCommit
+                    NBtable[] blobsInCOC = branchManager.FindCommitByID(CIDinCheckoutBranch, fileC).NBCommit;
+                    // DefaultCommit == CurrentCommit (blobsInCC)
+                    NBtable[] blobsInDC = branchManager.FindCommitByID(branchManager.head.getSHA1Value(), fileC).NBCommit;
+                    //NBtable[] blobsInWD = new NBtable[WD.list().length-1];
+                    for (File file : WD.listFiles()) {
+                        if (!file.equals(fileG)) {
+                            String tempFileName = file.getName();
+                            //in checkout branch or not
+                            //  in:
+                            //      not in Current branch : failure case 3
+                            //      has different content with the file in WD : overwrite
+                            //      has the same content with the file in WD : pass
+                            //  not in:
+                            //      in Current branch : delete
+                            Boolean NameinCOC = NBtable.FileNameinNBArray(tempFileName,blobsInCOC);
+                            Boolean NameinCC = NBtable.FileNameinNBArray(file.getName(),blobsInDC);
+                            if (NameinCOC) {
+                                //failure case 3 : in checkout branch && untracked in current branch
+                                if(!NameinCC) {
+                                    System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
+                                    break;
+                                }
+                                //needs to be processed : the file in WD && in checkout branch
+                                String SHAinWD = Utils.sha1(tempFileName, Utils.readContentsAsString(file));
+                                // same name && different content
+                                if(!SHAinWD.equals(NBtable.FindSHAinNBArray(tempFileName,blobsInCOC))){
+                                    File blob = new File(fileB,SHAinWD);
+                                    writeFile(file,Utils.readObject(blob,Blob.class).getcontent());
+                                    /*String[] temArg = {CIDinCheckoutBranch, "--",tempFileName};
+                                    checkout(workingDirectory,temArg);*/
+                                }
+                            }else if(NameinCC){
+                                    file.delete(); //tracked in current branch
+                                }
+                            // clear staging area
+                            clearFolder(stagingAdd);
+                            clearFolder(stagingRem);
+                            // change current branch
+                            branchManager.head.setFullName(args[1]);
+                            branchManager.head.setSHA1Value(CIDinCheckoutBranch);
+                            BranchManager.writeBM(workingDirectory,branchManager);
+                            }
+                        }
+                    }
+                break;
+        }
+    }
+
+
+    public void writeFile(File oriented_file, String fileContent ) throws IOException {
+        if(oriented_file.exists()){
+            PrintWriter writer = new PrintWriter(oriented_file);
+            writer.print("");
+            writer.close();
+        }else{
+            oriented_file.createNewFile();
+        }
+        Utils.writeContents(oriented_file,fileContent);
+    }
+
+    public void clearFolder(File folder){
+        if(folder.list().length >= 1){
+            for(File file: folder.listFiles()){
+                file.delete();
+            }
         }
     }
 
