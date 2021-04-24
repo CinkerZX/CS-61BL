@@ -17,36 +17,22 @@ public class NBtable implements Serializable {
     }
 
     public Boolean findSHA(String SHA1){
-        if(SHA1Value.equals(SHA1)){
-            return true;
-        }else{
-            return false;
-        }
+        if(SHA1Value.equals(SHA1)){ return true;
+        }else{ return false; }
     }
 
     public Boolean findName(String filename){
-        if(FullName.equals(filename)){
-            return true;
-        }else{
-            return false;
-        }
+        if(FullName.equals(filename)){ return true;
+        }else{ return false; }
     }
 
     public static Boolean FileNameinNBArray(String filename, NBtable[] NBArray){  // find blob commit
-        for(NBtable NB : NBArray){
-            if(NB.findName(filename)){
-                return true;
-            }
-        }
+        for(NBtable NB : NBArray){ if(NB.findName(filename)){ return true; } }
         return false;
     }
 
     public static Boolean SHAinNBArray(String Sha1, NBtable[] NBArray){  // find blob commit
-        for(NBtable NB : NBArray){
-            if(NB.findSHA(Sha1)){
-                return true;
-            }
-        }
+        for(NBtable NB : NBArray){ if(NB.findSHA(Sha1)){ return true; } }
         return false;
     }
 
@@ -70,7 +56,6 @@ public class NBtable implements Serializable {
         return NBArray[0].getSHA1Value();
     }
 
-
     //Flag should be 'FullName' or 'SHA1Value'
     public static String[] NBtoString(NBtable[] NBtables,String flag){
         String[] strings = new String[NBtables.length];
@@ -91,27 +76,15 @@ public class NBtable implements Serializable {
 
     // 补集 complement
     // in nb1 && not in nb2
-    public static String[] complement(NBtable[] nb1, NBtable[] nb2,String flag){
-        String[] str1 = NBtoString(nb1,flag);
-        String[] str2 = NBtoString(nb2,flag);
-        return StringtoSet(str1,str2,"complement");
-    }
-    public static String[] complement(String[] str1, String[] str2){
-        return StringtoSet(str1,str2,"complement");
-    }
+    public static String[] complement(NBtable[] nb1, NBtable[] nb2,String flag){ return StringtoSet(NBtoString(nb1,flag),NBtoString(nb2,flag),"complement"); }
+    public static String[] complement(String[] str1, String[] str2){ return StringtoSet(str1,str2,"complement"); }
 
     public static String[] union(String[] str1, String[] str2){
         return StringtoSet(str1,str2,"union");
     }
 
-    public static  String[] intersection(NBtable[] nb1, NBtable[] nb2,String flag){
-        String[] str1 = NBtoString(nb1,flag);
-        String[] str2 = NBtoString(nb2,flag);
-        return StringtoSet(str1,str2,"intersection");
-    }
-    public static  String[] intersection(String[] str1, String[] str2){
-        return StringtoSet(str1,str2,"intersection");
-    }
+    public static  String[] intersection(NBtable[] nb1, NBtable[] nb2,String flag){ return StringtoSet(NBtoString(nb1,flag),NBtoString(nb2,flag),"intersection"); }
+    public static  String[] intersection(String[] str1, String[] str2){ return StringtoSet(str1,str2,"intersection"); }
 
     public static String[] StringtoSet(String[] str1, String[] str2, String flag){
         Set<String> set1 = new HashSet<String>();
@@ -149,5 +122,5 @@ public class NBtable implements Serializable {
     public String getSHA1Value() { return SHA1Value; }
 
     public void setSHA1Value(String newSHA) { this.SHA1Value = newSHA; }
-    public void setFullName(String fullName) { FullName = fullName; }
+    public void setFullName(String fullName) { this.FullName = fullName; }
 }
