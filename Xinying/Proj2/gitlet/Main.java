@@ -65,6 +65,12 @@ public class Main {
                     else if(args.length == 1){ System.out.println("Please enter a branch name."); }
                     else{ System.out.println("gitlet.Main rm-branch [branch name]"); }
                     break;
+                case "checkout":
+                    if(args.length <= 3 || args.length >=1){ gitletRe.checkout(workingDirectory,args); }
+                    else{ System.out.println("java gitlet.Main checkout -- [file name]\n" +
+                            "java gitlet.Main checkout [commit id] -- [file name]\n" +
+                            "java gitlet.Main checkout [branch name]"); }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
             }
