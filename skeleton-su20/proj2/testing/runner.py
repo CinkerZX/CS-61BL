@@ -174,10 +174,12 @@ def doCompile(target):
     out = ""
     try:
         full_cmnd = "{} {}".format(JAVAC_COMMAND, target)
+        print(full_cmnd)
         out = check_output(full_cmnd, shell=True, universal_newlines=True,
                            stdin=DEVNULL, stderr=STDOUT)
         return "OK", out
     except CalledProcessError as excp:
+        print(excp.args[0],excp.output)
         return ("javac exited with code {}".format(excp.args[0]),
                 excp.output)
 
@@ -473,7 +475,7 @@ if __name__ == "__main__":
 
     compile_target = join('"' + gitlet_dir + '"', "*.java")
     msg, output = doCompile(compile_target)
-    if output.find("error") >= 0:
+    if msg != "OK":
         print(output)
         print("Your program failed to compile. Ran 0 tests.")
         sys.exit(1)

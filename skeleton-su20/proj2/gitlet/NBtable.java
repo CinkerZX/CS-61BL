@@ -6,9 +6,9 @@ package gitlet;
 //        * function
 //        - find: input = SHA1; output = true/false
 
-import com.sun.media.sound.RIFFInvalidDataException;
-import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
-import org.apache.commons.lang3.ArrayUtils;
+//import com.sun.media.sound.RIFFInvalidDataException;
+//import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
+//import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.Serializable;
 import java.util.HashSet;

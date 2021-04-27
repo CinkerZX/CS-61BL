@@ -7,8 +7,6 @@ package gitlet;
 // update the pointers
 // log
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-import com.sun.org.apache.xpath.internal.Arg;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
@@ -402,7 +400,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             i = i+1;
         }
 
-        String[] Untracked = NBtable.get_names_Compliment(nbtable_working,nbtable_blobs); //　NBtable. indicate the method is under which class
+        String[] Untracked = NBtable.get_names_Compliment(nbtable_working,nbtable_blobs); //NBtable indicate the method is under which class
         System.out.println("=== Untracked Files ===");
         for (String j : Untracked) {
             System.out.println(j);

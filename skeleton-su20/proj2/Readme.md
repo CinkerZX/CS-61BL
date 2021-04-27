@@ -1,5 +1,5 @@
 # We are going to start from here **Gitlet.java**
-### Test checkout
+### Test checkout, and write reset
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -12,6 +12,15 @@
     //https://d1b10bmlvqabco.cloudfront.net/attach/k5eevxebzpj25b/jqr7jm9igtc7l5/k97ipfmgmb3n/Gitlet_Slides.pdf
     //https://cs61bl.org/su20/projects/gitlet/#the-commands
     //Testing: https://www.youtube.com/watch?v=ksY5s0nHU5I&feature=youtu.be
+    Testing:
+    Shit hole:
+        runner.py: if msg != "OK": // msg.find("error"), will failed in Chinese systems, and will not print out the real error
+                           print(output)
+                           print("Your program failed to compile. Ran 0 tests.")
+                           sys.exit(1)
+                           
+    doCompile need to find "library-su20/javalib", thus, package "commons-lang3-3.11.jar" need to be put there
+    
     MAIN:
     init //inititalize a repository folder under the directory of the object folder
     log // print out

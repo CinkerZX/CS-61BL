@@ -1,0 +1,14 @@
+# A simple test of adding, committing, modifying, and checking out.
+> init
+<<<
+# + filename contents
++ xin.txt ****************
+> add xin.txt
+<<<
+> commit "added xin.txt"
+<<<
++ xin.txt changed
+# Must change
+> checkout -- xin.txt
+<<<
+= xin.txt changed

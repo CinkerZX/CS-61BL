@@ -185,7 +185,7 @@ def doExecute(cmnd, dir, timeout):
     here = getcwd()
     out = ""
     try:
-        chdir(dir)
+        chdir("C:/Users/Cinker/Documents/Doc second year/Course/CS 61BL/skeleton-su20/proj2/gitlet")
         full_cmnd = "{} {} {}".format(JAVA_COMMAND, GITLET_COMMAND, cmnd)
 
         if DEBUG:
