@@ -250,6 +250,7 @@ public class Gitlet implements Serializable {
         System.out.println("commit "+Sha);
         System.out.println("Date: "+ commit.Metadata[1]);
         System.out.println(commit.Metadata[0]);
+        System.out.println();
     }
 
     public void find(String message){
@@ -421,8 +422,10 @@ public class Gitlet implements Serializable {
         if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name already exists.");
         }else{
-            NBtable newbranch = new NBtable(branchName,branchManager.head.getSHA1Value());
-            branchManager.branches = BranchManager.add(newbranch,branchManager.branches);
+            //String branchID = (String) branchManager.head.getSHA1Value().clone();
+            NBtable newbranch = new NBtable(branchName,branchID);
+            NBtable[] newbranches = BranchManager.add(newbranch,branchManager.branches);
+            branchManager.branches = newbranches;
             branchManager.writeBM(workingDirectory,branchManager);
         }
     }
@@ -441,12 +444,6 @@ public class Gitlet implements Serializable {
 
     }
 
-    public void printBranches(BranchManager bm){
-        System.out.println("branches:");
-        for(NBtable b : bm.branches){
-            System.out.println(b.getFullName());
-        }
-    }
     public void checkout(String workingDirectory, String[] args) throws IOException {
         File WD = new File(workingDirectory);
         File fileG = new File(workingDirectory,".gitlet");
@@ -476,7 +473,8 @@ public class Gitlet implements Serializable {
                 File CommitFile = new File(fileC,args[1]);
                 if(!CommitFile.exists()){System.out.println("No commit with that id exists.");}
                 else{
-                    NBtable[] blobsInC = branchManager.FindCommitByID(args[1],fileC).NBCommit;
+                    Commit commit = branchManager.FindCommitByID(args[1],fileC);
+                    NBtable[] blobsInC = commit.NBCommit;
                     if(!NBtable.FileNameinNBArray(args[3],blobsInC)){ System.out.println("File does not exist in that commit.");}
                     else{
                         File file = new File(WD,args[3]);
@@ -529,8 +527,7 @@ public class Gitlet implements Serializable {
                             clearFolder(stagingAdd);
                             clearFolder(stagingRem);
                             // change current branch
-                            branchManager.head.setFullName(args[1]);
-                            branchManager.head.setSHA1Value(CIDinCheckoutBranch);
+                            branchManager.head = NBtable.UseNameFindNBtable(args[1],branchManager.branches);
                             BranchManager.writeBM(workingDirectory,branchManager);
                             }
                         }
@@ -538,7 +535,6 @@ public class Gitlet implements Serializable {
                 break;
         }
     }
-
 
     public void writeFile(File oriented_file, String fileContent ) throws IOException {
         if(oriented_file.exists()){
@@ -559,4 +555,18 @@ public class Gitlet implements Serializable {
         }
     }
 
+    public void numOfBranch(String workingDirectory){
+        File WD = new File(workingDirectory);
+        File fileG = new File(workingDirectory,".gitlet");
+        File fileBM = new File(fileG,"BrancheManager");
+        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
+        for(NBtable branch :branchManager.branches){
+            System.out.println(branch.getFullName());
+            System.out.println(branch.getSHA1Value());
+        }
+        System.out.println("Current branch:");
+        System.out.println(branchManager.head.getFullName());
+
+        System.out.println(branchManager.head.getSHA1Value());
+    }
 }

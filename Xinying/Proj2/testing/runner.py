@@ -187,7 +187,6 @@ def doExecute(cmnd, dir, timeout):
     try:
         chdir(dir)
         full_cmnd = "{} {} {}".format(JAVA_COMMAND, GITLET_COMMAND, cmnd)
-
         if DEBUG:
             print(">>> gitlet {}".format(cmnd))
             next_cmd = input()
@@ -471,9 +470,9 @@ if __name__ == "__main__":
         JAVA_COMMAND = 'exec ' + JAVA_COMMAND
         JAVAC_COMMAND = 'exec ' + JAVAC_COMMAND
 
-    compile_target = join('"' + gitlet_dir + '"', "*.java")
+    compile_target = join('"' + gitlet_dir+'"', "*.java")
     msg, output = doCompile(compile_target)
-    if output.find("error") >= 0:
+    if msg != "OK":
         print(output)
         print("Your program failed to compile. Ran 0 tests.")
         sys.exit(1)

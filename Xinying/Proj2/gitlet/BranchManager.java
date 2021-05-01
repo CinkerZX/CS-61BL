@@ -18,13 +18,6 @@ public class BranchManager implements Serializable {
 
     public BranchManager(){ }
 
-    /*  adding new braches
-    NBtable[] newB = new NBtable[b.length +1]
-    for  ....  挨个复制branch
-    newB[lb.length] = newBranch
-
-    */
-
     public void update_branch(String newSHA){
         for (NBtable branch : branches){
             if(branch.findSHA(head.getSHA1Value())){
@@ -36,7 +29,7 @@ public class BranchManager implements Serializable {
     }
 
     // copy current commit and set it as the parent commit
-    public Commit NewCommit(String message) throws FileNotFoundException { return new Commit(head.getSHA1Value(),message,FindCommit(head.getSHA1Value()).NBCommit); }
+    public Commit NewCommit(String message) throws FileNotFoundException { return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
 
     public static Commit FindCommit(String SHA1Value) throws FileNotFoundException{
         File file = new File("./.gitlet/Commits",SHA1Value);
