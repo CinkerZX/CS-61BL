@@ -22,13 +22,16 @@
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Commits/decd33761855105832b4990cc4b7797c9b642808" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/branch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/notwug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/notwug1.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/testing/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing/runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/xin_2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/yin_4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/Commits/decd33761855105832b4990cc4b7797c9b642808" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/branch" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -321,5 +324,21 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="272" y="41" width="672" height="678" key="search.everywhere.popup/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614977372458" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/gitlet/Gitlet.java</url>
+          <line>580</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/gitlet/Gitlet.java</url>
+          <line>581</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

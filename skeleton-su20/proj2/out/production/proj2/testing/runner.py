@@ -178,6 +178,7 @@ def doCompile(target):
                            stdin=DEVNULL, stderr=STDOUT)
         return "OK", out
     except CalledProcessError as excp:
+        print(excp.args[0],excp.output)
         return ("javac exited with code {}".format(excp.args[0]),
                 excp.output)
 
@@ -185,7 +186,7 @@ def doExecute(cmnd, dir, timeout):
     here = getcwd()
     out = ""
     try:
-        chdir("C:/Users/Cinker/Documents/Doc second year/Course/CS 61BL/skeleton-su20/proj2/gitlet")
+        chdir(dir)
         full_cmnd = "{} {} {}".format(JAVA_COMMAND, GITLET_COMMAND, cmnd)
 
         if DEBUG:
@@ -473,7 +474,7 @@ if __name__ == "__main__":
 
     compile_target = join('"' + gitlet_dir + '"', "*.java")
     msg, output = doCompile(compile_target)
-    if output.find("error") >= 0:
+    if msg != "OK":
         print(output)
         print("Your program failed to compile. Ran 0 tests.")
         sys.exit(1)

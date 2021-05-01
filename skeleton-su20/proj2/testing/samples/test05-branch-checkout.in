@@ -1,0 +1,28 @@
+# Check that we can check out a previous version.
+D branch0 "master"
+D branch1 "xinxin"
+> init
+<<<
++ wug.txt wug.txt
+> add wug.txt
+<<<
+> commit "Add wug.txt(wug)"
+<<<
+> branch ${branch1}
+<<<
+> checkout ${branch1}
+<<<
++ wug.txt notwug.txt
+> add wug.txt
++ notwug.txt wug.txt
+> add notwug.txt
+<<<
+> commit "add wug.text(notwug) notwug.txt(wug)"
+<<<
+> checkout ${branch0}
+<<<
+= wug.txt wug.txt
+> checkout ${branch1}
+<<<
+= wug.txt notwug.txt
+= notwug.txt wug.txt

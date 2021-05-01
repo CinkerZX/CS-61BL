@@ -193,7 +193,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
                 // Don't forget to write blobs into the commit
                 new_Commit.setNB_commit(blob_list);
-                System.out.println("already add the blob"+ blob_list.length);
+                //System.out.println("already add the blob"+ blob_list.length);
 
                 // write commit object
                 File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(new_Commit)));
@@ -225,6 +225,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             System.out.println("commit" + " " + branch.get_cur_commit_sha1()); // print the sha1
             System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
             System.out.println(cur_commit.getMetadata()[0]);// print the message
+            System.out.println();
 
             while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";   .isEmpty() <=> "" != null)<=> null
                 System.out.println("===");
@@ -232,6 +233,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha());
                 System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
                 System.out.println(cur_commit.getMetadata()[0]);// print the message
+                System.out.println();
             }
         } catch (Exception e){
             throw new RuntimeException(e);
@@ -434,6 +436,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             }
             if (i == 0){ // the name doesn't exist, just generate a new pointer with this name
                 NBtable new_branch_head = new NBtable(Args, branch.getBranch_head().getSha1_file_name());
+                //System.out.println("************"+Args);
                 branch.add_branches(working_directory, new_branch_head);
                 branch.wt(working_directory, branch); // write the branch management object
             }
@@ -497,18 +500,26 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         return(branch);
     }
 
-    // get the branch by branch name{
-    public BranchManage getBranch(String Args){
+    // get the branch by branch name
+    public NBtable getBranch(String Args){
         File d = new File(working_directory,".gitlet");
-        File branchMa = new File(d.getPath(), "Args");
+        File branchMa = new File(d.getPath(), "branch");
         BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
-        return(branch);
+        NBtable[] branches = branch.getBranches();
+        for(NBtable aim_branch: branches) {
+            if (aim_branch.getFile_name().equals(Args)) {
+                return(aim_branch);
+            }
+        }
+        NBtable branch0 = new NBtable();
+        System.out.println("No such branch exists.");
+        return(branch0);
     }
 
     // get the commit by commit_sha
     public Commit getCommit(String sha)throws IOException {
-        File d = new File(working_directory,".gitlet/Commits");
-        File commit = new File(d.getPath(), "sha");
+        File commit = new File("./.gitlet/Commits",sha);
+        //File commit = new File(d.getPath(),sha);
         Commit commit1 = new Commit();
         commit1.setPa_sha("No commit with that id");
         try {
@@ -521,8 +532,8 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
     // get the blob by bolb_sha
     public Blob getBlob(String sha){
-        File d = new File(working_directory,".gitlet/Blobs");
-        File blob = new File(d.getPath(), "sha");
+        File blob = new File("./.gitlet/Blobs", sha);
+        //File blob = new File(d.getPath(), "sha");
         Blob myBlob = Utils.readObject(blob, Blob.class);
         return(myBlob);
     }
@@ -532,7 +543,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         //Get the sha(blob) of this file, find the blob by sha name
         Blob blob = getBlob(file_table.getSha1_file_name());
         // put it in the working directory
-        File file_overWriting = new File(".gitlet", blob.getfileName());
+        File file_overWriting = new File("./", blob.getfileName());
         if (file_overWriting.exists()) {
             file_overWriting.delete(); // if file already exists, delete it
         }
@@ -563,9 +574,13 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // checkout branchname
     public void checkoutBranch(String Args) throws IOException {
         // get the head with the branch name Args
-        BranchManage object_branch = getBranch(Args);
+        NBtable object_branch = getBranch(Args);
+        System.out.println("*****obj*******"+object_branch.getFile_name());
         BranchManage cur_branch = getCurrentBranch();
-        Commit object_commit = getCommit(object_branch.get_cur_commit_sha1());
+        System.out.println("*******cur******"+cur_branch.getBranch_head().getFile_name());
+        // whatif new branch doesn't have any commit
+        Commit object_commit = getCommit();
+
         Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
         // get the NBtable list of files of branches by branch name
         NBtable[] object_nb_files = object_commit.getNB_commit();

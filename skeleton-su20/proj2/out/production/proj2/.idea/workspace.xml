@@ -21,11 +21,16 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/Commits/decd33761855105832b4990cc4b7797c9b642808" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/.gitlet/branch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/notwug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/notwug1.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/testing/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing/runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/xin_2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/yin_4.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/Commits/decd33761855105832b4990cc4b7797c9b642808" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/branch" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,13 +63,13 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../CODE/DL4LD/Javascript" />
-    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.38850576" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Application.init">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
@@ -84,7 +89,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="add yin_4.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -94,7 +99,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="branch &quot;new_branch&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -104,7 +109,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="commit &quot;init&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -114,7 +119,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="find &quot;add xin_3.txt&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -124,7 +129,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="global-log" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -134,7 +139,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="init" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -144,7 +149,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="log" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -154,7 +159,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="rm A.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -164,7 +169,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="rm-branch &quot;master&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -174,7 +179,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="status" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/src" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -227,13 +232,13 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1619529023441">
+    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1619532698449">
       <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002381354" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616013141373" />
-    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619529023441" />
+    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="3" y="37" width="1089" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1212.720@0.0.1212.720" timestamp="1618932937560" />
     <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614977018788">
       <screen x="0" y="0" width="1217" height="720" />
@@ -264,39 +269,48 @@
     </state>
     <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365305264" />
     <state x="341" y="166" key="FileChooserDialogImpl/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1617222339386" />
-    <state width="1169" height="145" key="GridCell.Tab.0.bottom" timestamp="1618933342569">
-      <screen x="0" y="0" width="1212" height="720" />
+    <state width="1168" height="145" key="GridCell.Tab.0.bottom" timestamp="1619534996315">
+      <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.bottom/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375527" />
     <state width="566" height="161" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
+    <state width="1168" height="145" key="GridCell.Tab.0.bottom/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.bottom/0.0.1212.720@0.0.1212.720" timestamp="1618933342569" />
-    <state width="1169" height="145" key="GridCell.Tab.0.center" timestamp="1618933342568">
-      <screen x="0" y="0" width="1212" height="720" />
+    <state width="1168" height="145" key="GridCell.Tab.0.center" timestamp="1619534996315">
+      <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.center/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
+    <state width="1168" height="145" key="GridCell.Tab.0.center/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.center/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state width="1169" height="145" key="GridCell.Tab.0.left" timestamp="1618933342568">
-      <screen x="0" y="0" width="1212" height="720" />
+    <state width="1168" height="145" key="GridCell.Tab.0.left" timestamp="1619534996315">
+      <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.left/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
+    <state width="1168" height="145" key="GridCell.Tab.0.left/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.left/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state width="1169" height="145" key="GridCell.Tab.0.right" timestamp="1618933342568">
-      <screen x="0" y="0" width="1212" height="720" />
+    <state width="1168" height="145" key="GridCell.Tab.0.right" timestamp="1619534996315">
+      <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.right/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
+    <state width="1168" height="145" key="GridCell.Tab.0.right/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.right/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state x="303" y="0" width="914" height="720" key="SettingsEditor" timestamp="1614977497587">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state x="265" y="62" key="RollbackChangesDialog" timestamp="1619534242923">
+      <screen x="0" y="0" width="1211" height="720" />
+    </state>
+    <state x="265" y="62" key="RollbackChangesDialog/0.0.1211.720@0.0.1211.720" timestamp="1619534242923" />
+    <state x="87" y="2" width="914" height="707" key="SettingsEditor" timestamp="1619532834287">
+      <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state x="43" y="0" key="SettingsEditor/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365662541" />
     <state x="303" y="0" width="914" height="720" key="SettingsEditor/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614977497587" />
+    <state x="87" y="2" width="914" height="707" key="SettingsEditor/0.0.1211.720@0.0.1211.720" timestamp="1619532834287" />
     <state x="338" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1613146159202">
       <screen x="0" y="0" width="1216" height="720" />
     </state>

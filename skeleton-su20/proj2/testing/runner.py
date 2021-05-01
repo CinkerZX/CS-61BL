@@ -174,7 +174,6 @@ def doCompile(target):
     out = ""
     try:
         full_cmnd = "{} {}".format(JAVAC_COMMAND, target)
-        print(full_cmnd)
         out = check_output(full_cmnd, shell=True, universal_newlines=True,
                            stdin=DEVNULL, stderr=STDOUT)
         return "OK", out
