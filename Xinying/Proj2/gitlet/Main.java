@@ -71,6 +71,9 @@ public class Main {
                             "java gitlet.Main checkout [commit id] -- [file name]\n" +
                             "java gitlet.Main checkout [branch name]"); }
                     break;
+                case "numOfBranch":
+                    gitletRe.numOfBranch(workingDirectory);
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
             }

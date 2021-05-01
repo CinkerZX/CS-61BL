@@ -40,7 +40,7 @@ public class Commit implements Serializable {
     //Commit 0 constructor
     public Commit(){
         paSHA = null;
-        Metadata = new String[] {"initial commit","Thur Jan 1 00:00:00 UTC 1970"};
+        Metadata = new String[] {"initial commit","Thur Jan 1 00:00:00 1970 -0800"};
         NBCommit = null;
     }
     //Commit n constructor
@@ -51,7 +51,7 @@ public class Commit implements Serializable {
     }
 
     private String timestamp(){
-        DateFormat timestamp = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.UK);
+        DateFormat timestamp = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.UK);
         return timestamp.format(new Date());
     }
 
