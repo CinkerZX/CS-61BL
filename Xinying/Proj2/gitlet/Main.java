@@ -16,7 +16,10 @@ public class Main {
         workingDirectory = System.getProperty("user.dir");
 
         Gitlet gitletRe = new Gitlet(workingDirectory);
-
+        File fileBM = new File(workingDirectory+"/.gitlet/BrancheManager");
+        if(fileBM.exists()){
+            gitletRe.branchManager = Utils.readObject(fileBM,BranchManager.class);
+        }
         // if args[0] == XXX do XXX  init
         if(args.length >0){
             switch(args[0]){
