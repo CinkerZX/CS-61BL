@@ -422,9 +422,8 @@ public class Gitlet implements Serializable {
         if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name already exists.");
         }else{
-            //String branchID = (String) branchManager.head.getSHA1Value().clone();
-            NBtable newbranch = new NBtable(branchName,branchID);
-            NBtable[] newbranches = BranchManager.add(newbranch,branchManager.branches);
+
+            NBtable[] newbranches = BranchManager.add(branchName,branchManager.branches);
             branchManager.branches = newbranches;
             branchManager.writeBM(workingDirectory,branchManager);
         }
@@ -488,49 +487,53 @@ public class Gitlet implements Serializable {
                 else if(args[1].equals(branchManager.head.getFullName())){System.out.println("No need to checkout the current branch.");}
                 else {
                     String CIDinCheckoutBranch = NBtable.FindSHAinNBArray(args[1], branchManager.branches);
-                    // CheckoutCommit
-                    NBtable[] blobsInCOC = branchManager.FindCommitByID(CIDinCheckoutBranch, fileC).NBCommit;
-                    // DefaultCommit == CurrentCommit (blobsInCC)
-                    NBtable[] blobsInDC = branchManager.FindCommitByID(branchManager.head.getSHA1Value(), fileC).NBCommit;
-                    //NBtable[] blobsInWD = new NBtable[WD.list().length-1];
-                    for (File file : WD.listFiles()) {
-                        if (!file.equals(fileG)) {
-                            String tempFileName = file.getName();
-                            //in checkout branch or not
-                            //  in:
-                            //      not in Current branch : failure case 3
-                            //      has different content with the file in WD : overwrite
-                            //      has the same content with the file in WD : pass
-                            //  not in:
-                            //      in Current branch : delete
-                            Boolean NameinCOC = NBtable.FileNameinNBArray(tempFileName,blobsInCOC);
-                            Boolean NameinCC = NBtable.FileNameinNBArray(file.getName(),blobsInDC);
-                            if (NameinCOC) {
-                                //failure case 3 : in checkout branch && untracked in current branch
-                                if(!NameinCC) {
-                                    System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
-                                    break;
-                                }
-                                //needs to be processed : the file in WD && in checkout branch
-                                String SHAinWD = Utils.sha1(tempFileName, Utils.readContentsAsString(file));
-                                // same name && different content
-                                if(!SHAinWD.equals(NBtable.FindSHAinNBArray(tempFileName,blobsInCOC))){
-                                    File blob = new File(fileB,SHAinWD);
-                                    writeFile(file,Utils.readObject(blob,Blob.class).getcontent());
-                                    /*String[] temArg = {CIDinCheckoutBranch, "--",tempFileName};
-                                    checkout(workingDirectory,temArg);*/
-                                }
-                            }else if(NameinCC){
+                    if(CIDinCheckoutBranch.isEmpty()){
+                        for (File file : WD.listFiles()) {
+                            file.delete();
+                        }
+                    }else {
+                        // CheckoutCommit
+                        NBtable[] blobsInCOC = branchManager.FindCommitByID(CIDinCheckoutBranch, fileC).NBCommit;
+                        // DefaultCommit == CurrentCommit (blobsInCC)
+                        NBtable[] blobsInDC = branchManager.FindCommitByID(branchManager.head.getSHA1Value(), fileC).NBCommit;
+                        for (File file : WD.listFiles()) {
+                            if (!file.equals(fileG)) {
+                                String tempFileName = file.getName();
+                                //in checkout branch or not
+                                //  in:
+                                //      not in Current branch : failure case 3
+                                //      has different content with the file in WD : overwrite
+                                //      has the same content with the file in WD : pass
+                                //  not in:
+                                //      in Current branch : delete
+                                Boolean NameinCOC = NBtable.FileNameinNBArray(tempFileName, blobsInCOC);
+                                Boolean NameinCC = NBtable.FileNameinNBArray(tempFileName, blobsInDC);
+                                if (NameinCOC) {
+                                    //failure case 3 : in checkout branch && untracked in current branch
+                                    if (!NameinCC) {
+                                        System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
+                                        break;
+                                    }
+                                    //needs to be processed : the file in WD && in checkout branch
+                                    String SHAinWD = Utils.sha1(tempFileName, Utils.readContentsAsString(file));
+                                    String SHAinCOC = NBtable.FindSHAinNBArray(tempFileName, blobsInCOC);
+                                    // same name && different content
+                                    if (!SHAinWD.equals(SHAinCOC)) {
+                                        File blob = new File(fileB, SHAinCOC);
+                                        writeFile(file, Utils.readObject(blob, Blob.class).getcontent());
+                                    }
+                                } else if (NameinCC) {
                                     file.delete(); //tracked in current branch
                                 }
-                            // clear staging area
-                            clearFolder(stagingAdd);
-                            clearFolder(stagingRem);
-                            // change current branch
-                            branchManager.head = NBtable.UseNameFindNBtable(args[1],branchManager.branches);
-                            BranchManager.writeBM(workingDirectory,branchManager);
                             }
                         }
+                    }
+                    // clear staging area
+                    clearFolder(stagingAdd);
+                    clearFolder(stagingRem);
+                    // change current branch
+                    branchManager.head = NBtable.UseNameFindNBtable(args[1],branchManager.branches);
+                    BranchManager.writeBM(workingDirectory,branchManager);
                     }
                 break;
         }
@@ -559,14 +562,18 @@ public class Gitlet implements Serializable {
         File WD = new File(workingDirectory);
         File fileG = new File(workingDirectory,".gitlet");
         File fileBM = new File(fileG,"BrancheManager");
+        File fileC = new File(fileG,"Commits");
         BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
         for(NBtable branch :branchManager.branches){
             System.out.println(branch.getFullName());
-            System.out.println(branch.getSHA1Value());
+            File fileTemp = new File(fileC,branch.getSHA1Value());
+            Commit commit = Utils.readObject(fileTemp,Commit.class);
+            System.out.println("Blobs:");
+            for(NBtable blob:commit.NBCommit){
+                System.out.println(blob.getFullName());
+                System.out.println(blob.getSHA1Value());
+            }
+            System.out.println("*************************");
         }
-        System.out.println("Current branch:");
-        System.out.println(branchManager.head.getFullName());
-
-        System.out.println(branchManager.head.getSHA1Value());
     }
 }

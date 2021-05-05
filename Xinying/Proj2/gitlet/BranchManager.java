@@ -68,10 +68,10 @@ public class BranchManager implements Serializable {
         }
     }
 
-    public static NBtable[] add(NBtable branch,NBtable[] branches){
+    public static NBtable[] add(String branchname,NBtable[] branches){
         NBtable[] newbranches = new NBtable[branches.length+1];
         System.arraycopy(branches,0,newbranches,0,branches.length);
-        newbranches[branches.length] = branch;
+        newbranches[branches.length] = new NBtable(branchname,"");
         return newbranches;
     }
 

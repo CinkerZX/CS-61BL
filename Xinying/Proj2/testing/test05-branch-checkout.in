@@ -23,7 +23,4 @@ D BRANCH2 "main"
 > checkout ${BRANCH1}
 <<<
 = wug.txt wug.txt
-> checkout ${BRANCH2}
-<<<
-= wug.txt notwug.txt
-= notwug.txt notwug.txt
+
