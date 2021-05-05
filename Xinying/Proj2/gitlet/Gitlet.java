@@ -7,69 +7,43 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class Gitlet implements Serializable {
 
-    // attributes
-
     public String workingDirectory;
     public BranchManager branchManager; // be available to all functions in gitlet class
 
     public Gitlet(String wd){
-        //workDirectory
         String workingDirectory = wd;
-
-        ////!!!!!!!!!!!!!!!  how to handle BM IO and
-
-
         BranchManager branchManager = new BranchManager();
     }
 
-    public static BranchManager readBM(String workingDirectory) throws FileNotFoundException {
-        File fileG = new File(workingDirectory,".gitlet");
-        File fileBM = new File(fileG,"BrancheManager");
-        try{
-            BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
-            return branch;
-        }catch(Exception e){
-            throw new FileNotFoundException();
-        }
-    }
-
     public void init() throws IOException {
-        // initialize .gitlet folders
-
+        /* create Gitlet Repository
+                - .gitlet (folder)
+                   -- Staging Area (folder)
+                       --- Staged for addition (folder)
+                       --- Staged for removal (folder)
+                   -- Commits (folder)
+                   -- Blobs (folder)
+                   -- BrancheManager (file)  */
         File d = new File(this.workingDirectory,".gitlet");
-
         if(d.exists()){
             System.out.println("A Gitlet version-control system already exists in the current directory.");
         }else{
-            /* create Gitlet Repository
-                - .gitlet
-                    -- Staging Area
-                        --- Staged for addition
-                        --- Staged for removal
-                    -- Commits
-                    -- Blobs
-
-             */
             d.mkdir();
             File SA= new File(d.getPath(),"Staging Area");
             SA.mkdir();
             File SAA = new File(SA.getPath(),"Staged for addition");
             SAA.mkdir();
-            //SAA.createNewFile();
             File SAR = new File(SA.getPath(),"Staged for removal");
             SAR.mkdir();
-            //SAR.createNewFile();
             File C = new File(d.getPath(),"Commits");
             C.mkdir();
             File B = new File(d.getPath(),"Blobs");
             B.mkdir();
-
             // initial commit0
             Commit Commit0 = new Commit();
             File C0 = new File(C.getPath(),Utils.sha1(Utils.serialize(Commit0)));
             C0.createNewFile();
             Utils.writeObject(C0, Commit0);
-
             // initial branch manager
             this.branchManager = new BranchManager(Utils.sha1(Utils.serialize(Commit0)));
             branchManager.writeBM(this.workingDirectory,branchManager);
@@ -81,7 +55,6 @@ public class Gitlet implements Serializable {
         // check if the file has already been committed(in blobs folder),
             // if so, there is no need to staging
         // check if it exists in staging for addition (replicate action)
-
         File fileW = new File(workingDirectory, filename);
 
         if(!fileW.exists()){ // check if the file exists in working directory
@@ -94,7 +67,6 @@ public class Gitlet implements Serializable {
                 fileJudge.createNewFile();
                 Utils.writeObject(fileJudge, addedFile);
             }
-
             File fileAdd = new File("./.gitlet/Staging Area/Staged for addition", addedFile.getBlobID());
             if(!fileAdd.exists()){
                 fileAdd.createNewFile(); // an empty file with the BlobID as the name
@@ -104,34 +76,19 @@ public class Gitlet implements Serializable {
     }
 
     public void rm(String workingDirectory, String filename) throws IOException {
-        // check if it exists in staging for addition
-
-        // if the file exist in working directory (how to locate the file ?????????)
-            //maybe we can use "absolute path + name" as the "filename" of blobs attributes
-
-        File fileW = new File(workingDirectory, filename);//?????????
+        File fileW = new File(workingDirectory, filename);
         String SHA_name = Utils.sha1(fileW.getName()+Utils.readContentsAsString(fileW));
-
         File fileAdd = new File("./.gitlet/Staging Area/Staged for addition", SHA_name);
 
         Blob removedFile = new Blob(fileW);  // generate a new blob object
-
-        // blob 存储
-
+        // sava blob
         File fileRem = new File("./.gitlet/Staging Area/Staged for removal", removedFile.getBlobID());
-        File fileBM = new File(workingDirectory+"/.gitlet","BrancheManager");
-
-        BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
-
 
         if(fileAdd.exists()){
             fileAdd.delete();
-        }else if(branch.inCurrentCommit(filename)){
-
+        }else if(branchManager.inCurrentCommit(filename)){
             fileRem.createNewFile(); // add to staged for removal
-            //Utils.writeObject(fileRem,removedFile);
             Utils.writeContents(fileRem,filename);
-
             if(fileW.exists()){
                 fileW.delete();  // delete the file from the working directory
                 // already been backed up in blobs, less risk of lossing our works
@@ -140,8 +97,6 @@ public class Gitlet implements Serializable {
     }
 
     public void commit(String arg) throws IOException {
-        // useage : java gitlet.Main commit [message]
-
         // check if the staging area is empty  &&  args checking  (failure cases
         // generate a new commit object (newCommit) by coping NBtable from "current commit"
         // make a list of tracking files combining the info from staging area
@@ -154,87 +109,59 @@ public class Gitlet implements Serializable {
         File fileS = new File(fileG,"Staging Area");
         File fileB = new File(fileG,"Blobs");
         File fileC = new File(fileG,"Commits");
-
         File stagingAdd = new File(fileS,"Staged for addition");
         File stagingRem = new File(fileS,"Staged for removal");
 
-        File fileBM = new File(fileG,"BrancheManager");
-        try{
-            BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
-            if(stagingAdd.list().length == 0 && stagingRem.list().length == 0){    // stagingAdd.list() == null 无效  因为list() returns list object, it couldn't be null it's []
-                System.out.println("No changes added to the commit.");
+        if(stagingAdd.list().length == 0 && stagingRem.list().length == 0){    // stagingAdd.list() == null 无效  因为list() returns list object, it couldn't be null it's []
+            System.out.println("No changes added to the commit.");
+        }
+        else if(arg.isEmpty()){
+            System.out.println("Please enter a commit message.");
+        }
+        else {
+            Commit newCommit = branchManager.NewCommit(arg);
+            NBtable[] newbloblist = newCommit.NBCommit;
+
+            // staged for addition
+            for (String name : stagingAdd.list()) {
+                File file = new File(fileB, name);  // use the filename stored in staging area locate blob in Blobs directory
+                File file1 = new File(stagingAdd,name);  // but delete the file stored in staging area instead of Blobs directory
+                Blob addition = Utils.readObject(file, Blob.class);
+                NBtable add = new NBtable(addition.getfilename(), name);
+                newbloblist = ArrayUtils.add(newbloblist, add);
+                file1.delete();
             }
-            else if(arg.isEmpty()){
-                System.out.println("Please enter a commit message.");
+            // staged for removal
+            for (String name : stagingRem.list()) {
+                File file = new File(fileB, name);
+                File file2 = new File(stagingRem, name);
+                Blob removal = Utils.readObject(file, Blob.class);
+                NBtable rem = new NBtable(removal.getfilename(), name);
+                newbloblist = ArrayUtils.removeElement(newbloblist, rem);
+                file2.delete();
             }
-            else {
-                Commit newCommit = branch.NewCommit(arg);
-                NBtable[] newbloblist = newCommit.NBCommit;
+            newCommit.NBCommit = newbloblist;
+            File C = new File(fileC, Utils.sha1(Utils.serialize(newCommit)));
+            C.createNewFile();
+            Utils.writeObject(C, newCommit);
 
-                // What will happen if NBCommit is null
-
-                // staged for addition
-                for (String name : stagingAdd.list()) {
-                    File file = new File(fileB, name);  // use the filename stored in staging area locate blob in Blobs directory
-                    File file1 = new File(stagingAdd,name);  // but delete the file stored in staging area instead of Blobs directory
-                    Blob addition = Utils.readObject(file, Blob.class);
-                    NBtable add = new NBtable(addition.getfilename(), name);
-                    newbloblist = ArrayUtils.add(newbloblist, add);
-                    file1.delete();
-                }
-                // staged for removal
-                for (String name : stagingRem.list()) {
-                    File file = new File(fileB, name);
-                    File file2 = new File(stagingRem, name);
-                    Blob removal = Utils.readObject(file, Blob.class);
-                    NBtable rem = new NBtable(removal.getfilename(), name);
-                    newbloblist = ArrayUtils.removeElement(newbloblist, rem);
-                    file2.delete();
-                }
-
-                newCommit.NBCommit = newbloblist;
-
-                File C = new File(fileC, Utils.sha1(Utils.serialize(newCommit)));
-                C.createNewFile();
-                Utils.writeObject(C, newCommit);
-
-                branch.update_branch(Utils.sha1(Utils.serialize(newCommit)));
-                branch.writeBM(this.workingDirectory, branch);
-            }
-        }catch(Exception e1){
-            throw new RuntimeException(e1);
+            branchManager.update_branch(Utils.sha1(Utils.serialize(newCommit)));
+            branchManager.writeBM(this.workingDirectory, branchManager);
         }
     }
-
-
-    //TO-DO
-    public void reset(String Commit_id) throws IOException {
-        // check if the id exist in current branch
-
-    }
-
 
     public void log() throws IOException {
 
-        File fileG = new File(workingDirectory,".gitlet");
-        File fileBM = new File(fileG.getPath(),"BrancheManager");
-        try{
-            BranchManager branch = Utils.readObject(fileBM, BranchManager.class);
-            ///TO-DO merged node of two branches
+        ///TO-DO merged node of two branches
 
-            Commit CurrentCommit = branch.FindCommit(branch.head.getSHA1Value());
-            PrintCommit(CurrentCommit,branch.head.getSHA1Value());
-            //while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";
-            while(CurrentCommit.getPaSHA() != null){  // Commit0.paSHA = null
-                Commit parentCommit = branch.ParentCommit(CurrentCommit);
-                PrintCommit(parentCommit,CurrentCommit.getPaSHA());
-                CurrentCommit = parentCommit;
-            }
-        }catch(Exception e){
-            throw new RuntimeException(e);
+        Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
+        PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
+        //while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";
+        while(CurrentCommit.getPaSHA() != null){  // Commit0.paSHA = null
+            Commit parentCommit = branchManager.ParentCommit(CurrentCommit);
+            PrintCommit(parentCommit,CurrentCommit.getPaSHA());
+            CurrentCommit = parentCommit;
         }
-
-
     }
 
     public void global_log(String workingDirectory){
@@ -245,23 +172,15 @@ public class Gitlet implements Serializable {
         }
     }
 
-    public void PrintCommit(Commit commit,String Sha){
-        System.out.println("===");
-        System.out.println("commit "+Sha);
-        System.out.println("Date: "+ commit.Metadata[1]);
-        System.out.println(commit.Metadata[0]);
-        System.out.println();
-    }
-
     public void find(String message){
         File fileG = new File(workingDirectory,".gitlet");
         File fileC = new File(fileG.getPath(),"Commits");
         Boolean someCommits = false;
-        for (String name : fileC.list()) {
-            File file1 = new File(fileC,name);  // but delete the file stored in staging area instead of Blobs directory
-            Commit commit = Utils.readObject(file1,Commit.class);
+        for (File file : fileC.listFiles()) {
+            // but delete the file stored in staging area instead of Blobs directory
+            Commit commit = Utils.readObject(file,Commit.class);
             if(commit.Metadata[0].equals(message)){
-                System.out.println(Utils.sha1(Utils.serialize(commit)));
+                System.out.println(file.getName());
                 someCommits = true;
             }
         }
@@ -273,9 +192,6 @@ public class Gitlet implements Serializable {
     public void status(String workingDirectory) throws FileNotFoundException {
         File WD = new File(workingDirectory);
         File fileG = new File(workingDirectory,".gitlet");
-        File fileBM = new File(fileG,"BrancheManager");
-        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
-        File fileB = new File(fileG,"Blobs");
         File fileS = new File(fileG,"Staging Area");
         File stagingAdd = new File(fileS,"Staged for addition");
         File stagingRem = new File(fileS,"Staged for removal");
@@ -305,7 +221,6 @@ public class Gitlet implements Serializable {
             }
         }
         System.out.println();
-
         System.out.println("=== Staged Files ==="); //nbAdd
         if(true){
             if(Addlength != 0){
@@ -316,12 +231,10 @@ public class Gitlet implements Serializable {
                     NBtable newAdd = new NBtable(additions[i],additionFile[i].getName());
                     nbAdd[i] = newAdd;
                 }
-                Arrays.sort(additions);////lexicographic order
                 printString(additions);
             }
         }
         System.out.println();
-
         System.out.println("=== Removed Files ==="); // nbRem
         if(true){
             if(Remlength != 0){
@@ -332,12 +245,10 @@ public class Gitlet implements Serializable {
                     NBtable newRem = new NBtable(removals[i],removalFile[i].getName());
                     nbRem[i] = newRem;
                 }
-                Arrays.sort(removals);////lexicographic order
                 printString(removals);
             }
         }
         System.out.println();
-
         /////////filtering subdirectory! optional
         int i = 0;// nbWD
         for(File file : WD.listFiles()){
@@ -358,7 +269,6 @@ public class Gitlet implements Serializable {
                 // deleted
                 String[] com_CC_WD = NBtable.complement(nbCC,nbWD,"FullName");
                 String[] com_Add_WD = NBtable.complement(nbAdd, nbWD,"FullName");
-
 
                 ///////!!!!untested
                 String[] deleted = NBtable.complement(NBtable.union(com_CC_WD,com_Add_WD),NBtable.NBtoString(nbRem,"FullName"));
@@ -388,7 +298,6 @@ public class Gitlet implements Serializable {
                 int length = deleted.length;
                 deleted = Arrays.copyOf(deleted, length+ SCC.length);
                 System.arraycopy(SCC, 0, deleted, length, SCC.length);
-                Arrays.sort(deleted);
                 printString(deleted);
             }
             System.out.println();
@@ -402,27 +311,16 @@ public class Gitlet implements Serializable {
                     sameNameWD.add(filename);
                 }
             }
-
             String[] untrackfinal = NBtable.complement(NBtable.SetToString(sameNameWD),NBtable.NBtoString(nbAdd,"FullName"));// not in Staged for adition
             printString(untrackfinal);
         }
         System.out.println();
     }
 
-    public void printString(String[] strings){
-        Arrays.sort(strings);
-        for(String item : strings){
-            System.out.println(item);
-        }
-    }
-
     public void branch(String workingDirectory, String branchName) throws IOException {
-        File fileBM = new File(workingDirectory+"/.gitlet/","BrancheManager");
-        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
         if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name already exists.");
         }else{
-
             NBtable[] newbranches = BranchManager.add(branchName,branchManager.branches);
             branchManager.branches = newbranches;
             branchManager.writeBM(workingDirectory,branchManager);
@@ -430,8 +328,6 @@ public class Gitlet implements Serializable {
     }
 
     public void rm_branch(String workingDirectory, String branchName) throws IOException {
-        File fileBM = new File(workingDirectory+"/.gitlet/","BrancheManager");
-        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
         if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name does not exist.");
         }else if(branchManager.head.getFullName().equals(branchName)){
@@ -446,8 +342,6 @@ public class Gitlet implements Serializable {
     public void checkout(String workingDirectory, String[] args) throws IOException {
         File WD = new File(workingDirectory);
         File fileG = new File(workingDirectory,".gitlet");
-        File fileBM = new File(fileG,"BrancheManager");
-        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
         File fileB = new File(fileG,"Blobs");
         File fileC = new File(fileG,"Commits");
         File fileS = new File(fileG,"Staging Area");
@@ -539,31 +433,38 @@ public class Gitlet implements Serializable {
         }
     }
 
+    //TO-DO
+    public void reset(String Commit_id) throws IOException {
+        // check if the id exist in current branch
+
+    }
+
+    //help-functions
     public void writeFile(File oriented_file, String fileContent ) throws IOException {
         if(oriented_file.exists()){
             PrintWriter writer = new PrintWriter(oriented_file);
             writer.print("");
             writer.close();
-        }else{
-            oriented_file.createNewFile();
-        }
+        }else{ oriented_file.createNewFile(); }
         Utils.writeContents(oriented_file,fileContent);
     }
-
-    public void clearFolder(File folder){
-        if(folder.list().length >= 1){
-            for(File file: folder.listFiles()){
-                file.delete();
-            }
-        }
+    public void clearFolder(File folder){ if(folder.list().length >= 1){ for(File file: folder.listFiles()){ file.delete(); } } }
+    public void PrintCommit(Commit commit,String Sha){
+        System.out.println("===");
+        System.out.println("commit "+Sha);
+        System.out.println("Date: "+ commit.Metadata[1]);
+        System.out.println(commit.Metadata[0]);
+        System.out.println();
+    }
+    public void printString(String[] strings){
+        Arrays.sort(strings);//lexicographic order
+        for(String item : strings){ System.out.println(item); }
     }
 
-    public void numOfBranch(String workingDirectory){
-        File WD = new File(workingDirectory);
+    //test-functions
+    public void numOfBranch(String workingDirectory) throws FileNotFoundException {
         File fileG = new File(workingDirectory,".gitlet");
-        File fileBM = new File(fileG,"BrancheManager");
         File fileC = new File(fileG,"Commits");
-        BranchManager branchManager = Utils.readObject(fileBM, BranchManager.class);
         for(NBtable branch :branchManager.branches){
             System.out.println(branch.getFullName());
             File fileTemp = new File(fileC,branch.getSHA1Value());
