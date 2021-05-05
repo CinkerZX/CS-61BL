@@ -14,6 +14,7 @@ D branch1 "xinxin"
 <<<
 + wug.txt notwug.txt
 > add wug.txt
+<<<
 + notwug.txt wug.txt
 > add notwug.txt
 <<<

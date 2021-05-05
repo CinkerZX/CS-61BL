@@ -35,6 +35,12 @@ public class BranchManage implements Serializable {
     public void update_head(String name, String sha){
         branch_head.setfile_name(name);
         branch_head.setSha1_file_name(sha);
+        for (NBtable branch : branches){ // shit hole: branches also need to be updated
+            if(branch.getFile_name().equals(name)){
+                branch.setSha1_file_name(sha);
+                break;
+            }
+        }
     }
 
     public void update_branches(String newSHA){
@@ -103,19 +109,27 @@ public class BranchManage implements Serializable {
         return(false);
     }
 
+    // get the commit by commit_sha
+    public Commit getCommit(String sha)throws IOException {
+        File commit = new File("./.gitlet/Commits",sha);
+        //File commit = new File(d.getPath(),sha);
+        Commit commit1 = new Commit();
+        commit1.setPa_sha("No commit with that id");
+        try {
+            Commit myCommit = Utils.readObject(commit, Commit.class);
+            return(myCommit);
+        } catch (Exception e) {
+            return (commit1);
+        }
+    }
+
     // Get the current_commit object
     public Commit current_commit(String working_directory){ // name => sha1
         File d = new File(working_directory,".gitlet");
-
         File branchMa = new File(d.getPath(), "branch");
         try{
             BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
-            String sha_commit = branch.branch_head.getSha1_file_name();
-
-            File commit_folder = new File(d.getPath(), "Commits");
-            File cur_file = new File(commit_folder.getPath(), sha_commit);
-            Commit cur_commit = Utils.readObject(cur_file, Commit.class);
-            return cur_commit;
+            return (getCommit(branch.get_cur_commit_sha1()));
         } catch (Exception e){
             System.out.println("Current commit file didn't find");
             throw new RuntimeException(e);

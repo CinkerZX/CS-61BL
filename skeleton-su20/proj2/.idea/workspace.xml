@@ -22,16 +22,35 @@
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/notwug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/notwug1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing/runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/Commits/decd33761855105832b4990cc4b7797c9b642808" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/branch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/add.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/init.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test01-init.in" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_0/.gitlet/Commits/ff36dc6832296d1b14e27697039ef5c58c58fbfe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_0/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_0/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_0/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_0/wug.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_1/.gitlet/Commits/8caef152cd3599559c94a38ecf75ab3ec63bef6c" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_1/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_1/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_1/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_1/wug.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_2/.gitlet/Commits/7824c7dee6c91028f8154649d77690cf25be7230" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_2/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_2/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_2/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_2/wug.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/Blobs/a5c19d7d6517d2690130516734301c4a1b4f2abf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/Commits/901e4dcec8ef65e1301b9cad8c68478d7d3c77ce" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/Staging Area/Staged for addition/a5c19d7d6517d2690130516734301c4a1b4f2abf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_3/wug.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_4/.gitlet/Commits/5fb9aa85669724034f23a61a930f6dca44073150" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_4/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_4/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_4/wug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_5/.gitlet/Commits/a6b35f4c547d731377d1e445f040e3f809b6ecc9" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_5/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_5/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_5/wug.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_6/.gitlet/Commits/9fa377d6a04d3b65fcc593d91166639acffb6844" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_6/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_6/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_6/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_6/wug.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,7 +89,7 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.init">
+  <component name="RunManager" selected="Application.checkout">
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
@@ -88,9 +107,9 @@
     <configuration name="add" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="add yin_4.txt" />
+      <option name="PROGRAM_PARAMETERS" value="add wug.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -98,9 +117,19 @@
     <configuration name="branch" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="branch &quot;new_branch&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="branch &quot;xin xin&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="checkout" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="checkout &quot;master&quot;" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -108,9 +137,9 @@
     <configuration name="commit" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="commit &quot;init&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="commit &quot;add wug.txt&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -120,7 +149,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="find &quot;add xin_3.txt&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -130,7 +159,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="global-log" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -140,7 +169,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="init" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -150,7 +179,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="log" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -160,7 +189,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="rm A.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -170,7 +199,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="rm-branch &quot;master&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -180,7 +209,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="status" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -189,6 +218,7 @@
       <item itemvalue="Application.rm_branch" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.branch" />
+      <item itemvalue="Application.checkout" />
       <item itemvalue="Application.add" />
       <item itemvalue="Application.commit" />
       <item itemvalue="Application.find" />
@@ -233,14 +263,15 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1619532698449">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state x="-39" y="27" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620208031747">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002381354" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616013141373" />
     <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="3" y="37" width="1089" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1212.720@0.0.1212.720" timestamp="1618932937560" />
+    <state x="-39" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620208031747" />
     <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614977018788">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
@@ -270,38 +301,42 @@
     </state>
     <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365305264" />
     <state x="341" y="166" key="FileChooserDialogImpl/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1617222339386" />
-    <state width="1168" height="145" key="GridCell.Tab.0.bottom" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.bottom" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.bottom/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375527" />
     <state width="566" height="161" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.bottom/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.bottom/0.0.1212.720@0.0.1212.720" timestamp="1618933342569" />
-    <state width="1168" height="145" key="GridCell.Tab.0.center" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.bottom/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
+    <state width="1174" height="153" key="GridCell.Tab.0.center" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.center/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.center/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.center/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state width="1168" height="145" key="GridCell.Tab.0.left" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.center/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
+    <state width="1174" height="153" key="GridCell.Tab.0.left" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.left/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.left/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.left/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state width="1168" height="145" key="GridCell.Tab.0.right" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.left/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
+    <state width="1174" height="153" key="GridCell.Tab.0.right" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.right/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
     <state width="1173" height="81" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
     <state width="566" height="161" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.right/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.right/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
+    <state width="1174" height="153" key="GridCell.Tab.0.right/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
     <state x="265" y="62" key="RollbackChangesDialog" timestamp="1619534242923">
       <screen x="0" y="0" width="1211" height="720" />
     </state>
@@ -330,13 +365,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/gitlet/Gitlet.java</url>
-          <line>580</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/gitlet/Gitlet.java</url>
-          <line>581</line>
-          <option name="timeStamp" value="7" />
+          <line>435</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

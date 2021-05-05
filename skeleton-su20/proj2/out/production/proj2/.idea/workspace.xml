@@ -21,16 +21,8 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/notwug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/notwug1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/runner.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing/runner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test02-basic-checkout.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test03-basic-log.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test04-prev-checkout.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/Commits/decd33761855105832b4990cc4b7797c9b642808" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test01-init_4/.gitlet/branch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +81,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="add yin_4.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -99,7 +91,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="branch &quot;new_branch&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -109,7 +101,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="commit &quot;init&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -119,7 +111,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="find &quot;add xin_3.txt&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -129,7 +121,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="global-log" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -139,7 +131,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="init" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -149,7 +141,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="log" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -159,7 +151,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="rm A.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -169,7 +161,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="rm-branch &quot;master&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -179,7 +171,7 @@
       <module name="proj2" />
       <option name="PROGRAM_PARAMETERS" value="status" />
       <option name="VM_PARAMETERS" value="-ea" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing/test01-init_0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -232,14 +224,15 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1619532698449">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state x="128" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620199374998">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002381354" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616013141373" />
     <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="3" y="37" width="1089" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1212.720@0.0.1212.720" timestamp="1618932937560" />
+    <state x="128" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620199374998" />
     <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614977018788">
       <screen x="0" y="0" width="1217" height="720" />
     </state>

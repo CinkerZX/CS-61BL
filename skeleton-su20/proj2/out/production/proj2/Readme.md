@@ -1,5 +1,4 @@
-# We are going to start from here **Gitlet.java**
-### Test checkout, and write reset
+### Test checkout(test-05-branch-checkout.in) and write reset
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout

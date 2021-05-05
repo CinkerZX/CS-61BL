@@ -1,4 +1,4 @@
-### Test checkout(test-05-branch-checkout.in) and write reset
+### Write reset
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -11,6 +11,7 @@
     //https://d1b10bmlvqabco.cloudfront.net/attach/k5eevxebzpj25b/jqr7jm9igtc7l5/k97ipfmgmb3n/Gitlet_Slides.pdf
     //https://cs61bl.org/su20/projects/gitlet/#the-commands
     //Testing: https://www.youtube.com/watch?v=ksY5s0nHU5I&feature=youtu.be
+    //Those debugging "printout" will be regarded as error output
     Testing:
     Shit hole:
         runner.py: if msg != "OK": // msg.find("error"), will failed in Chinese systems, and will not print out the real error
