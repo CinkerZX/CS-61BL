@@ -104,7 +104,16 @@ public class Main {
                         mygitlet.checkoutCommitFilename(args[1],args[3]);
                     }
                     else{
-                        System.out.println("Please enter in on of the following formation: checkout -- [file name]; checkout -- [commit id] -- [file name]; checkout [branch name]");
+                        System.out.println("Please enter in one of the following formation: checkout -- [file name]; checkout -- [commit id] -- [file name]; checkout [branch name]");
+                    }
+                    break;
+                // reset
+                case "reset":
+                    if (args.length == 2){ // reset commit id
+                        mygitlet.reset(args[1]);
+                    }
+                    else{
+                        System.out.println("Please enter in the formation: reset [commit id]");
                     }
                     break;
                 default:

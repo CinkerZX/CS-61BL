@@ -22,35 +22,8 @@
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/add.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/init.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test01-init.in" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_0/.gitlet/Commits/ff36dc6832296d1b14e27697039ef5c58c58fbfe" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_0/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_0/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_0/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_0/wug.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_1/.gitlet/Commits/8caef152cd3599559c94a38ecf75ab3ec63bef6c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_1/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_1/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_1/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_1/wug.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_2/.gitlet/Commits/7824c7dee6c91028f8154649d77690cf25be7230" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_2/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_2/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_2/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_2/wug.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/Blobs/a5c19d7d6517d2690130516734301c4a1b4f2abf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/Commits/901e4dcec8ef65e1301b9cad8c68478d7d3c77ce" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/Staging Area/Staged for addition/a5c19d7d6517d2690130516734301c4a1b4f2abf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_3/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_3/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_3/wug.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_4/.gitlet/Commits/5fb9aa85669724034f23a61a930f6dca44073150" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_4/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_4/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_4/wug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_5/.gitlet/Commits/a6b35f4c547d731377d1e445f040e3f809b6ecc9" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_5/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_5/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_5/wug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_6/.gitlet/Commits/9fa377d6a04d3b65fcc593d91166639acffb6844" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_6/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_6/.gitlet/branch" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test05-branch-checkout_6/wug.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test05-branch-checkout_6/wug.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -272,6 +245,10 @@
     <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="3" y="37" width="1089" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1212.720@0.0.1212.720" timestamp="1618932937560" />
     <state x="-39" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620208031747" />
+    <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1620395378414">
+      <screen x="0" y="0" width="1217" height="720" />
+    </state>
+    <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1217.720@0.0.1217.720" timestamp="1620395378414" />
     <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614977018788">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
@@ -359,16 +336,5 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="272" y="41" width="672" height="678" key="search.everywhere.popup/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614977372458" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/gitlet/Gitlet.java</url>
-          <line>435</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
