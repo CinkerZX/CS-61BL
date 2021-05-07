@@ -15,21 +15,11 @@ public class Main {
         String workingDirectory;
         workingDirectory = System.getProperty("user.dir");
 
-        Gitlet gitletRe = new Gitlet();
-        gitletRe.workingDirectory = workingDirectory;
-        gitletRe.fileWD = new File(workingDirectory);
-        gitletRe.fileG = new File(gitletRe.fileWD,".gitlet");
-        gitletRe.fileB = new File(gitletRe.fileG,"Blobs");
-        gitletRe.fileC = new File(gitletRe.fileG,"Commits");
-        gitletRe.fileS = new File(gitletRe.fileG,"Staging Area");
-        gitletRe.stagingAdd = new File(gitletRe.fileS,"Staged for addition");
-        gitletRe.stagingRem = new File(gitletRe.fileS,"Staged for removal");
-
+        Gitlet gitletRe = new Gitlet(workingDirectory);
         File fileBM = new File(workingDirectory+"/.gitlet/BrancheManager");
         if(fileBM.exists()){
             gitletRe.branchManager = Utils.readObject(fileBM,BranchManager.class);
         }
-
 
         // if args[0] == XXX do XXX  init
         if(args.length >0){
