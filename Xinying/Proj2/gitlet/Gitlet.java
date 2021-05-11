@@ -7,17 +7,25 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class Gitlet implements Serializable {
 
-    public String workingDirectory;
-    public BranchManager branchManager; // be available to all functions in gitlet class
-    public File fileWD;
-    public File fileG;
-    public File fileC;
-    public File fileB;
-    public File fileS;
-    public File stagingAdd;
-    public File stagingRem;
+    public static String workingDirectory;
+    public static BranchManager branchManager; // be available to all functions in gitlet class
+    public static File fileWD;
+    public static File fileG;
+    public static File fileC;
+    public static File fileB;
+    public static File fileS;
+    public static File stagingAdd;
+    public static File stagingRem;
 
-    public Gitlet(){
+    public Gitlet(String wd){
+        this.workingDirectory = wd;
+        this.fileWD = new File(workingDirectory);
+        this.fileG = new File(fileWD,".gitlet");
+        this.fileB = new File(fileG,"Blobs");
+        this.fileC = new File(fileG,"Commits");
+        this.fileS = new File(fileG,"Staging Area");
+        this.stagingAdd = new File(fileS,"Staged for addition");
+        this.stagingRem = new File(fileS,"Staged for removal");
     }
 
     public void init() throws IOException {
@@ -43,7 +51,7 @@ public class Gitlet implements Serializable {
             Utils.writeObject(C0, Commit0);
             // initial branch manager
             this.branchManager = new BranchManager(Utils.sha1(Utils.serialize(Commit0)));
-            branchManager.writeBM(this.workingDirectory,branchManager);
+            branchManager.writeBM();
         }else{
             System.out.println("A Gitlet version-control system already exists in the current directory.");
 
@@ -138,7 +146,7 @@ public class Gitlet implements Serializable {
             Utils.writeObject(C, newCommit);
 
             branchManager.update_branch(Utils.sha1(Utils.serialize(newCommit)));
-            branchManager.writeBM(this.workingDirectory, branchManager);
+            branchManager.writeBM();
         }
     }
 
@@ -307,7 +315,7 @@ public class Gitlet implements Serializable {
         }else{
             NBtable[] newbranches = BranchManager.add(branchName,branchManager.branches);
             branchManager.branches = newbranches;
-            branchManager.writeBM(workingDirectory,branchManager);
+            branchManager.writeBM();
         }
     }
 
@@ -318,7 +326,7 @@ public class Gitlet implements Serializable {
             System.out.println("Cannot remove the current branch.");
         }else{
             branchManager.branches = BranchManager.remove(branchName,branchManager.branches);
-            branchManager.writeBM(workingDirectory,branchManager);
+            branchManager.writeBM();
         }
 
     }
@@ -360,7 +368,7 @@ public class Gitlet implements Serializable {
                     cover(CIDinCheckoutBranch);
                     // change current branch
                     branchManager.head = NBtable.UseNameFindNBtable(args[1],branchManager.branches);
-                    BranchManager.writeBM(workingDirectory,branchManager);
+                    BranchManager.writeBM();
                     }
                 break;
         }
@@ -421,7 +429,7 @@ public class Gitlet implements Serializable {
                 cover(Commit_id);
                 // change current head
                 branchManager.head.setSHA1Value(Commit_id);
-                BranchManager.writeBM(workingDirectory,branchManager);
+                BranchManager.writeBM();
             }
         }
         if(flag == false){System.out.println("No commit with that id exists.");}
