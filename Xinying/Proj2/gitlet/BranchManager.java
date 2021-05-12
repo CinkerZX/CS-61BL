@@ -43,9 +43,9 @@ public class BranchManager implements Serializable {
 
     public static Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException { return FindCommit(CurrentCommit.getPaSHA()); }
 
-    public static void writeBM(String workingDirectory,BranchManager BM) throws IOException {
-        File file1 = new File(workingDirectory,".gitlet");
-        File file = new File(file1,"BrancheManager");
+    //over
+    public static void writeBM() throws IOException {
+        File file = new File(Gitlet.fileG,"BrancheManager");
         if(file.exists()){
             PrintWriter writer = new PrintWriter(file);
             writer.print("");
@@ -53,7 +53,7 @@ public class BranchManager implements Serializable {
         }else{
             file.createNewFile();
         }
-        Utils.writeObject(file,BM);
+        Utils.writeObject(file,Gitlet.branchManager);
     }
 
     public static Boolean InPastedCommit(String filename, BranchManager BM) throws FileNotFoundException { return InPastedCommitHelper(filename, BM.head.getSHA1Value()); }

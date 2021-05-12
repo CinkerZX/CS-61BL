@@ -20,6 +20,7 @@ public class Main {
         if(fileBM.exists()){
             gitletRe.branchManager = Utils.readObject(fileBM,BranchManager.class);
         }
+
         // if args[0] == XXX do XXX  init
         if(args.length >0){
             switch(args[0]){
@@ -33,12 +34,12 @@ public class Main {
                     else{ System.out.println("gitlet.Main commit 'commit message'"); }
                     break;
                 case "add":
-                    if(args.length == 2){ gitletRe.add(workingDirectory,args[1]); }
+                    if(args.length == 2){ gitletRe.add(args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a file name."); }
                     else{ System.out.println("gitlet.Main add [filename]"); }
                     break;
                 case "rm":
-                    if(args.length == 2){ gitletRe.rm(workingDirectory, args[1]); }
+                    if(args.length == 2){ gitletRe.rm(args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a file name."); }
                     else{ System.out.println("gitlet.Main rm [filename]"); }
                     break;
@@ -47,7 +48,7 @@ public class Main {
                     else{ System.out.println("gitlet.Main log"); }
                     break;
                 case "global-log":
-                    if(args.length == 1){ gitletRe.global_log(workingDirectory); }
+                    if(args.length == 1){ gitletRe.global_log(); }
                     else{ System.out.println("gitlet.Main global-log"); }
                     break;
                 case "find":
@@ -55,27 +56,33 @@ public class Main {
                     else{ System.out.println("gitlet.Main find [commit message]"); }
                     break;
                 case "status":
-                    if(args.length == 1){ gitletRe.status(workingDirectory); }
+                    if(args.length == 1){ gitletRe.status(); }
                     else{ System.out.println("gitlet.Main status"); }
                     break;
                 case "branch":
-                    if(args.length == 2){ gitletRe.branch(workingDirectory,args[1]); }
+                    if(args.length == 2){ gitletRe.branch(args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a branch name."); }
                     else{ System.out.println("gitlet.Main branch [branch name]"); }
                     break;
                 case "rm-branch":
-                    if(args.length == 2){ gitletRe.rm_branch(workingDirectory,args[1]); }
+                    if(args.length == 2){ gitletRe.rm_branch(args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a branch name."); }
                     else{ System.out.println("gitlet.Main rm-branch [branch name]"); }
                     break;
                 case "checkout":
-                    if(args.length <= 3 || args.length >=1){ gitletRe.checkout(workingDirectory,args); }
+                    if(args.length <= 3 || args.length >=1){ gitletRe.checkout(args); }
                     else{ System.out.println("java gitlet.Main checkout -- [file name]\n" +
                             "java gitlet.Main checkout [commit id] -- [file name]\n" +
                             "java gitlet.Main checkout [branch name]"); }
                     break;
+                case "reset":
+                    if(args.length == 2){ gitletRe.reset(args[1]); }
+                    else if(args.length == 1){ System.out.println("Please enter a commit ID."); }
+                    else{ System.out.println("gitlet.Main reset [commit id]"); }
+                    break;
+
                 case "numOfBranch":
-                    gitletRe.numOfBranch(workingDirectory);
+                    gitletRe.numOfBranch();
                     break;
                 default:
                     System.out.println("No command with that name exists.");
