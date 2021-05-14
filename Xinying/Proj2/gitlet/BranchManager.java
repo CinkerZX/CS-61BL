@@ -16,8 +16,6 @@ public class BranchManager implements Serializable {
         head = master;
     }
 
-    public BranchManager(){ }
-
     public void update_branch(String newSHA){
         for (NBtable branch : branches){
             if(branch.findSHA(head.getSHA1Value())){
@@ -32,7 +30,7 @@ public class BranchManager implements Serializable {
     public Commit NewCommit(String message) throws FileNotFoundException { return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
 
     public static Commit FindCommit(String SHA1Value) throws FileNotFoundException{
-        File file = new File("./.gitlet/Commits",SHA1Value);
+        File file = new File(Gitlet.fileC,SHA1Value);
         Commit thisCommit = Utils.readObject(file, Commit.class);
         return thisCommit;
     }
@@ -41,30 +39,28 @@ public class BranchManager implements Serializable {
 
     public static Boolean inCommit(String filename, String commitID) throws FileNotFoundException{ return NBtable.FileNameinNBArray(filename, FindCommit(commitID).NBCommit); }
 
-    public static Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException { return FindCommit(CurrentCommit.getPaSHA()); }
+    public static Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException { return FindCommit(CurrentCommit.getPaSHA()[0]); }
 
-    //over
     public static void writeBM() throws IOException {
-        File file = new File(Gitlet.fileG,"BrancheManager");
-        if(file.exists()){
-            PrintWriter writer = new PrintWriter(file);
+        if(Gitlet.fileBM.exists()){
+            PrintWriter writer = new PrintWriter(Gitlet.fileBM);
             writer.print("");
             writer.close();
         }else{
-            file.createNewFile();
+            Gitlet.fileBM.createNewFile();
         }
-        Utils.writeObject(file,Gitlet.branchManager);
+        Utils.writeObject(Gitlet.fileBM,Gitlet.branchManager);
     }
 
-    public static Boolean InPastedCommit(String filename, BranchManager BM) throws FileNotFoundException { return InPastedCommitHelper(filename, BM.head.getSHA1Value()); }
+    public static Boolean InPastedCommit(String filename) throws FileNotFoundException { return InPastedCommitHelper(filename, Gitlet.branchManager.head.getSHA1Value()); }
 
     public static Boolean InPastedCommitHelper(String filename, String commitID) throws FileNotFoundException {
-        if(FindCommit(commitID).getPaSHA()==null){
+        if(FindCommit(commitID).getPaSHA()[0].length()<2){
             return false;
         }else if(inCommit(filename,commitID)){
             return true;
         }else{
-            return InPastedCommitHelper(filename, FindCommit(commitID).getPaSHA());
+            return InPastedCommitHelper(filename, FindCommit(commitID).getPaSHA()[0]);
         }
     }
 
@@ -89,8 +85,8 @@ public class BranchManager implements Serializable {
         return newbranches;
     }
 
-    public Commit FindCommitByID(String commitID,File fileC){
-        File file = new File(fileC,commitID);
+    public Commit FindCommitByID(String commitID){
+        File file = new File(Gitlet.fileC,commitID);
         return Utils.readObject(file,Commit.class);
     }
 }

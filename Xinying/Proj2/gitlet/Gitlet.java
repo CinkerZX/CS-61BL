@@ -14,6 +14,7 @@ public class Gitlet implements Serializable {
     public static File fileC;
     public static File fileB;
     public static File fileS;
+    public static File fileBM;
     public static File stagingAdd;
     public static File stagingRem;
 
@@ -24,6 +25,7 @@ public class Gitlet implements Serializable {
         this.fileB = new File(fileG,"Blobs");
         this.fileC = new File(fileG,"Commits");
         this.fileS = new File(fileG,"Staging Area");
+        this.fileBM = new File(workingDirectory+"/.gitlet/BrancheManager");
         this.stagingAdd = new File(fileS,"Staged for addition");
         this.stagingRem = new File(fileS,"Staged for removal");
     }
@@ -159,7 +161,7 @@ public class Gitlet implements Serializable {
         //while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";
         while(CurrentCommit.getPaSHA() != null){  // Commit0.paSHA = null
             Commit parentCommit = branchManager.ParentCommit(CurrentCommit);
-            PrintCommit(parentCommit,CurrentCommit.getPaSHA());
+            PrintCommit(parentCommit,CurrentCommit.getPaSHA()[0]);
             CurrentCommit = parentCommit;
         }
     }
@@ -272,8 +274,11 @@ public class Gitlet implements Serializable {
                 Set<String> sameNameCC = new HashSet<>();
                 Set<String> sameNameAdd = new HashSet<>();
                 for(String name : NBtable.intersection(nbCC,nbWD,"FullName")){
-                    if(!NBtable.FindSHAinNBArray(name,nbCC).equals(NBtable.FindSHAinNBArray(name,nbWD))){
-                        sameNameCC.add(name);
+                    String SHAinWD = NBtable.FindSHAinNBArray(name,nbWD);
+                    if(!NBtable.FindSHAinNBArray(name,nbCC).equals(SHAinWD)){
+                        if(!NBtable.SHAinNBArray(SHAinWD,nbAdd)){
+                            sameNameCC.add(name);
+                        }
                     }
                 }
                 for(String name : NBtable.intersection(nbAdd,nbWD,"FullName")){
@@ -281,6 +286,7 @@ public class Gitlet implements Serializable {
                         sameNameAdd.add(name);
                     }
                 }
+
                 sameNameCC.addAll(sameNameAdd);
                 String[] SCC = NBtable.SetToString(sameNameCC);
                 for(int n = 0; n <SCC.length;n++){
@@ -299,7 +305,7 @@ public class Gitlet implements Serializable {
             // not in all commits
             Set<String> sameNameWD = new HashSet<>();
             for(String filename : NBtable.NBtoString(nbWD,"FullName")){
-                if(!BranchManager.InPastedCommit(filename,branchManager)){
+                if(!BranchManager.InPastedCommit(filename)){
                     sameNameWD.add(filename);
                 }
             }
@@ -338,7 +344,7 @@ public class Gitlet implements Serializable {
         // checkout [branch name]  2
         switch(args.length){
             case 3:
-                NBtable[] blobsInCC = branchManager.FindCommitByID(branchManager.head.getSHA1Value(),fileC).NBCommit;
+                NBtable[] blobsInCC = branchManager.FindCommitByID(branchManager.head.getSHA1Value()).NBCommit;
                 if(!NBtable.FileNameinNBArray(args[2],blobsInCC)){ System.out.println("File does not exist in that commit.");}
                 else{
                     File file = new File(fileWD,args[2]);
@@ -350,7 +356,7 @@ public class Gitlet implements Serializable {
                 File CommitFile = new File(fileC,args[1]);
                 if(!CommitFile.exists()){System.out.println("No commit with that id exists.");}
                 else{
-                    Commit commit = branchManager.FindCommitByID(args[1],fileC);
+                    Commit commit = branchManager.FindCommitByID(args[1]);
                     NBtable[] blobsInC = commit.NBCommit;
                     if(!NBtable.FileNameinNBArray(args[3],blobsInC)){ System.out.println("File does not exist in that commit.");}
                     else{
@@ -381,9 +387,9 @@ public class Gitlet implements Serializable {
             }
         }else {
             // CheckoutCommit
-            NBtable[] blobsInCOC = branchManager.FindCommitByID(Commit_id, fileC).NBCommit;
+            NBtable[] blobsInCOC = branchManager.FindCommitByID(Commit_id).NBCommit;
             // DefaultCommit == CurrentCommit (blobsInCC)
-            NBtable[] blobsInDC = branchManager.FindCommitByID(branchManager.head.getSHA1Value(), fileC).NBCommit;
+            NBtable[] blobsInDC = branchManager.FindCommitByID(branchManager.head.getSHA1Value()).NBCommit;
             for (File file : fileWD.listFiles()) {
                 if (!file.equals(fileG)) {
                     String tempFileName = file.getName();
@@ -435,6 +441,10 @@ public class Gitlet implements Serializable {
         if(flag == false){System.out.println("No commit with that id exists.");}
     }
 
+    public void merge(String branchName) {
+
+    }
+
     //help-functions
     public void writeFile(File oriented_file, String fileContent ) throws IOException {
         if(oriented_file.exists()){
@@ -471,4 +481,8 @@ public class Gitlet implements Serializable {
             System.out.println("*************************");
         }
     }
+    public void printSet(Set<String> sets){
+        printString(NBtable.SetToString(sets));
+    }
+
 }
