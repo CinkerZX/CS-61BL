@@ -16,9 +16,8 @@ public class Main {
         workingDirectory = System.getProperty("user.dir");
 
         Gitlet gitletRe = new Gitlet(workingDirectory);
-        File fileBM = new File(workingDirectory+"/.gitlet/BrancheManager");
-        if(fileBM.exists()){
-            gitletRe.branchManager = Utils.readObject(fileBM,BranchManager.class);
+        if(Gitlet.fileBM.exists()){
+            gitletRe.branchManager = Utils.readObject(Gitlet.fileBM,BranchManager.class);
         }
 
         // if args[0] == XXX do XXX  init
@@ -79,6 +78,11 @@ public class Main {
                     if(args.length == 2){ gitletRe.reset(args[1]); }
                     else if(args.length == 1){ System.out.println("Please enter a commit ID."); }
                     else{ System.out.println("gitlet.Main reset [commit id]"); }
+                    break;
+                case "merge":
+                    if(args.length == 2){ gitletRe.merge(args[1]); }
+                    else if(args.length == 1){ System.out.println("Please enter a brand name."); }
+                    else{ System.out.println("gitlet.Main merge [branch name]"); }
                     break;
 
                 case "numOfBranch":

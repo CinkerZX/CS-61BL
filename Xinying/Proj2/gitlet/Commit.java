@@ -33,19 +33,20 @@ import java.util.Locale;
 */
 public class Commit implements Serializable {
     //public String mySHA;
-    private String paSHA;
+    private String[] paSHA;
     public String[] Metadata;  //include message and timestamp
     public NBtable[] NBCommit;
+    private static final long serialVersionUID = 8319805659239996826L;
 
     //Commit 0 constructor
     public Commit(){
-        paSHA = null;
+        paSHA = new String[] {""};
         Metadata = new String[] {"initial commit","Thur Jan 1 00:00:00 1970 -0800"};
         NBCommit = null;
     }
     //Commit n constructor
     public Commit(String parentSHA,String message,NBtable[] NBcommit){
-        paSHA = parentSHA;
+        paSHA = new String[] {parentSHA};
         Metadata = new String[] {message,timestamp()};
         NBCommit = NBcommit;
     }
@@ -55,9 +56,9 @@ public class Commit implements Serializable {
         return timestamp.format(new Date());
     }
 
-    public void setpaSHA(String paSHA){ this.paSHA = paSHA; }
+    public void setpaSHA(String[] paSHA){ this.paSHA = paSHA; }
 
-    public String getPaSHA(){ return paSHA; }
+    public String[] getPaSHA(){ return paSHA; }
 
 
 }
