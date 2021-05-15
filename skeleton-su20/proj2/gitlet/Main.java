@@ -116,6 +116,15 @@ public class Main {
                         System.out.println("Please enter in the formation: reset [commit id]");
                     }
                     break;
+                // merge
+                case "merge":
+                    if (args.length == 2){ //merge [branch name]
+                        mygitlet.merge(args[1]);
+                    }
+                    else{
+                        System.out.println("Please enter in the formation: merge [branch name]");
+                    }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
                     break;

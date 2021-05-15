@@ -10,6 +10,7 @@ package gitlet;
 //import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 //import org.apache.commons.lang3.ArrayUtils;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -206,4 +207,28 @@ public class NBtable implements Serializable {
         }
         return names_intersection;
     }
+
+    public static NBtable[] add_NBtable(NBtable[] oldNBtableArr, NBtable add_NBtable){
+        int n = oldNBtableArr.length + 1;
+        NBtable[] newNBtable = new NBtable[n];
+        int i = 0;
+        for(NBtable s : oldNBtableArr){
+            newNBtable[i++] = s;
+        }
+        newNBtable[n-1] = add_NBtable;
+        return(newNBtable);
+    }
+
+    public static NBtable[] rm_NBtable(NBtable[] oldNBtableArr, NBtable rm_NBtable){
+        int n = oldNBtableArr.length - 1;
+        NBtable[] branches_new = new NBtable[n];
+        int i = 0;
+        for(NBtable s : oldNBtableArr){
+            if (!s.getFile_name().equals(rm_NBtable.getFile_name())){
+                branches_new[i++] = s;
+            }
+        }
+        return(branches_new);
+    }
+
 }

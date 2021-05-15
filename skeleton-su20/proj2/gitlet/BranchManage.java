@@ -59,13 +59,7 @@ public class BranchManage implements Serializable {
         BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
         // get the name of all the branches
         NBtable[] existing_Branches = branch.getBranches();
-        int n = existing_Branches.length + 1;
-        NBtable[] branches_new = new NBtable[n];
-        int i = 0;
-        for(NBtable s : existing_Branches){
-            branches_new[i++] = s;
-        }
-        branches_new[n-1] = newBranch;
+        NBtable[] branches_new = NBtable.add_NBtable(existing_Branches, newBranch);
         setBranches(branches_new);
     }
 
@@ -75,14 +69,8 @@ public class BranchManage implements Serializable {
         BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
         // get the name of all the branches
         NBtable[] existing_Branches = branch.getBranches();
-        int n = existing_Branches.length - 1;
-        NBtable[] branches_new = new NBtable[n];
-        int i = 0;
-        for(NBtable s : existing_Branches){
-            if (!s.getFile_name().equals(branch_name)){
-                branches_new[i++] = s;
-            }
-        }
+        NBtable re_tabel = new NBtable(branch_name, "");
+        NBtable[] branches_new = NBtable.rm_NBtable(existing_Branches, re_tabel);
         setBranches(branches_new);
     }
 

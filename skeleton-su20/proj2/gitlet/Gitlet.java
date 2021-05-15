@@ -223,10 +223,10 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             System.out.println(cur_commit.getMetadata()[0]);// print the message
             System.out.println();
 
-            while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";   .isEmpty() <=> "" != null)<=> null
+            while(!cur_commit.getPa_sha()[0].isEmpty()){ // pa_sha = "";   .isEmpty() <=> "" != null)<=> null
                 System.out.println("===");
-                System.out.println("commit" + " " + cur_commit.getPa_sha()); // print the sha1
-                cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha());
+                System.out.println("commit" + " " + cur_commit.getPa_sha()[0]); // print the sha1
+                cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha()[0]);
                 System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
                 System.out.println(cur_commit.getMetadata()[0]);// print the message
                 System.out.println();
@@ -244,7 +244,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             for (File commit_file : commits){
                 Commit commit_read = Utils.readObject(commit_file, Commit.class);
                 System.out.println("===");
-                System.out.println("commit" + " " + commit_read.getPa_sha()); // print the sha1
+                System.out.println("commit" + " " + commit_read.getPa_sha()[0]); // print the sha1
                 System.out.println("Date:" + " " + commit_read.getMetadata()[1]);// print the time
                 System.out.println(commit_read.getMetadata()[0]);// print the message
             }
@@ -300,6 +300,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 }
                 System.out.println(branch_Names[j]);
             }
+            System.out.println(); // change into another new line
         } catch (Exception e){
             System.out.println("*******************");
             throw new RuntimeException(e);
@@ -322,6 +323,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             }
             // Print out in order
             printInOrder(additional_File_Names, "");
+            System.out.println(); // change into another new line
         } catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -341,12 +343,13 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             }
             // Print out in order
             printInOrder(file_removal_File_Names, "");
+            System.out.println(); // change into another new line
         } catch (Exception e){
             throw new RuntimeException(e);
         }
         //Files in the working direction (WD)
         File[] files_Working = get_all_files(working_directory);
-        NBtable[] nbtable_working = new NBtable[files_Working.length-3];
+        NBtable[] nbtable_working = new NBtable[files_Working.length-1];
         int i = 0;
         for (File file_Working : files_Working) {
             String file_name = file_Working.getName();
@@ -370,16 +373,21 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         String[] WD_inter_ADD_HASH = NBtable.get_string_Array(nbtable_working,nbtable_stage_add,"hash");
         String[] WD_inter_CC_ADD_HASH = NBtable.get_String_Array_Union(WD_inter_CC_HASH,WD_inter_ADD_HASH);
         String[] modified_files = NBtable.get_names_Compliment(WD_inter_CC_ADD,WD_inter_CC_ADD_HASH);
+        // WD intersect with CC by name INTERACT WD intersect with CC by hash \ ADD (hash)    changed in working directory, commit, then change back in working directory without stage in addition, still counted as modified
+        String[] WD_inter_CC = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(nbtable_working),NBtable.getFile_name_array(nbtable_cur_commit)); //by name
+        String[] WD_inter_CC_name_inter_hash = NBtable.get_simple_String_Intersection(WD_inter_CC, WD_inter_CC_HASH);
+        String[] object_set = NBtable.get_names_Compliment(WD_inter_CC_name_inter_hash, WD_inter_ADD_HASH);
 
         System.out.println("=== Modifications Not Staged For Commit ===");
         // Print out in order
-        printInOrder(modified_files, " (modified)");
+        printInOrder(NBtable.get_String_Array_Union(modified_files,object_set), " (modified)");
 
         // Print out delete: CC + ADD - WD - Rem by name
         String[] deleted_files = NBtable.get_names_Compliment(CC_ADD, NBtable.getFile_name_array(nbtable_working));
         deleted_files = NBtable.get_names_Compliment(deleted_files, file_removal_File_Names);
         // Print out in order
         printInOrder(deleted_files, " (deleted)");
+        System.out.println(); // change into another new line
 
         // Print out untracked Files
         // blobs_working_direc - all_blobs
@@ -605,7 +613,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         BranchManage cur_branch = getCurrentBranch();
         Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
         // if new branch doesn't have any commit
-        if(object_commit.getPa_sha().equals("No commit with that id")){
+        if(object_commit.getPa_sha()[0].equals("No commit with that id")){
             File[] files_Working = get_all_files(working_directory);
             for (File file_Working : files_Working) {
                 String file_name = file_Working.getName();
@@ -638,6 +646,16 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         }
     }
 
+    // Check if there are files in staging
+    public boolean staging_empty(){
+        File[] files_add = get_all_files(".gitlet/Staging Area/Staged for addition");
+        File[] files_rm = get_all_files(".gitlet/Staging Area/Staged for removal");
+        if(files_add.length+files_rm.length == 0){
+            return(true);
+        }
+        else return(false);
+    }
+
     // checkout file name
     public void checkoutFile(String file_name) throws IOException {
         BranchManage cur_branch = getCurrentBranch();
@@ -648,7 +666,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // checkout commit_id file_name
     public void checkoutCommitFilename(String commit_id, String file_name)throws IOException {
         Commit cur_commit = getCommit(commit_id);
-        if (cur_commit.getPa_sha().equals("No commit with that id")){
+        if (cur_commit.getPa_sha()[0].equals("No commit with that id")){
             System.out.println("No commit with that id exists.");
         }
         else{
@@ -679,7 +697,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // reset [commit id]
     public void reset(String commit_id) throws IOException {
         Commit object_commit = getCommit(commit_id);
-        if (object_commit.getPa_sha().equals("No commit with that id")){ // no such commit_id
+        if (object_commit.getPa_sha()[0].equals("No commit with that id")){ // no such commit_id
             System.out.println("No commit with that id exists.");
         }
         else{
@@ -692,6 +710,35 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             cur_branch.wt(working_directory, cur_branch);
             // clean the staging area
             clean_staging();
+        }
+    }
+
+    // merge [branch name]
+    public void merge(String branch_name) throws IOException {
+        //false case 1: If there are staged additions or removals present, print the error message, and exist
+        if (staging_empty()) {
+            System.out.println("You have uncommitted changes.");
+            return;
+        }
+        //false case 2: If a branch with the given name does not exist, print the error message, and exist
+        else {
+            NBtable object_branch = getBranch(branch_name);
+            Commit object_commit = getCommit(object_branch.getSha1_file_name());
+            if(object_commit.getPa_sha()[0].equals("No commit with that id")){
+                System.out.println("A branch with that name does not exist.");
+                return;
+            }
+            // false case 3: If attempting to merge a branch with itself, print the error message
+            else{
+                BranchManage cur_branch = getCurrentBranch();
+                if(cur_branch.getBranch_head().equals(branch_name)){
+                    System.out.println("Cannot merge a branch with itself.");
+                    return;
+                }
+                else{
+
+                }
+            }
         }
     }
 }

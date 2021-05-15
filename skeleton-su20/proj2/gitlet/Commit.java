@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class Commit implements Serializable {
     // Attributes
-    private String pa_sha;// String S need to be upper case
+    private String[] pa_sha;// String array should be able to change length
     private String[] metadata; // message & timestep
     private NBtable[] NB_commit;
 
@@ -43,21 +43,21 @@ public class Commit implements Serializable {
 
     //Constructor: commit_0
     public Commit(){
-        pa_sha = "";
+        pa_sha = new String[]{""};
         metadata = new String[] {"initial commit", "00:00:00 UTC, Thu, 1 Jan 1970"}; //create a new array object and assign to metadata
         NB_commit = null; //null n is lower case
     }
 
     //Constructor: commit n
     public Commit(String Pa_sha, String Message, NBtable[] Nb_commit){
-        pa_sha = Pa_sha;
+        pa_sha = new String[]{Pa_sha};
         metadata = new String[] {Message, timestamp()}; //{} array
         NB_commit = Nb_commit;
     }
 
     // set the pa_sha of the commit
     public void setPa_sha(String sha_name){
-        pa_sha = sha_name;
+        pa_sha = new String[]{sha_name};
     }
 
     // set the metadata of the commit
@@ -70,7 +70,7 @@ public class Commit implements Serializable {
         return(NB_commit);
     }
 
-    public String getPa_sha(){
+    public String[] getPa_sha(){
         return(pa_sha);
     }
 

@@ -21,6 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/NBtable.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/NBtable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,8 +239,8 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="-39" y="27" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620208031747">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state x="-39" y="27" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1621078624995">
+      <screen x="0" y="0" width="1218" height="720" />
     </state>
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002381354" />
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
@@ -242,6 +248,7 @@
     <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="3" y="37" width="1089" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1212.720@0.0.1212.720" timestamp="1618932937560" />
     <state x="-39" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620208031747" />
+    <state x="-39" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1218.720@0.0.1218.720" timestamp="1621078624995" />
     <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1620395378414">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
