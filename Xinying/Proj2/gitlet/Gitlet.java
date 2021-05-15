@@ -3,8 +3,6 @@ package gitlet;
 import java.io.*;
 import java.util.*;
 
-import org.apache.commons.lang3.ArrayUtils;
-
 public class Gitlet implements Serializable {
 
     public static String workingDirectory;
@@ -129,8 +127,7 @@ public class Gitlet implements Serializable {
                 File file = new File(fileB, name);  // use the filename stored in staging area locate blob in Blobs directory
                 File file1 = new File(stagingAdd,name);  // but delete the file stored in staging area instead of Blobs directory
                 Blob addition = Utils.readObject(file, Blob.class);
-                NBtable add = new NBtable(addition.getfilename(), name);
-                newbloblist = ArrayUtils.add(newbloblist, add);
+                newbloblist = NBtable.add(newbloblist, new NBtable(addition.getfilename(), name));
                 file1.delete();
             }
             // staged for removal
@@ -138,8 +135,7 @@ public class Gitlet implements Serializable {
                 File file = new File(fileB, name);
                 File file2 = new File(stagingRem, name);
                 Blob removal = Utils.readObject(file, Blob.class);
-                NBtable rem = new NBtable(removal.getfilename(), name);
-                newbloblist = ArrayUtils.removeElement(newbloblist, rem);
+                newbloblist = NBtable.remove(newbloblist, new NBtable(removal.getfilename(), name));
                 file2.delete();
             }
             newCommit.NBCommit = newbloblist;
@@ -159,7 +155,7 @@ public class Gitlet implements Serializable {
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
         PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
         //while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";
-        while(CurrentCommit.getPaSHA() != null){  // Commit0.paSHA = null
+        while(!CurrentCommit.getPaSHA()[0].equals("")){  // Commit0.paSHA = null
             Commit parentCommit = branchManager.ParentCommit(CurrentCommit);
             PrintCommit(parentCommit,CurrentCommit.getPaSHA()[0]);
             CurrentCommit = parentCommit;
@@ -319,8 +315,7 @@ public class Gitlet implements Serializable {
         if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name already exists.");
         }else{
-            NBtable[] newbranches = BranchManager.add(branchName,branchManager.branches);
-            branchManager.branches = newbranches;
+            branchManager.branches = NBtable.add(branchManager.branches,new NBtable(branchName,""));
             branchManager.writeBM();
         }
     }
@@ -331,7 +326,7 @@ public class Gitlet implements Serializable {
         }else if(branchManager.head.getFullName().equals(branchName)){
             System.out.println("Cannot remove the current branch.");
         }else{
-            branchManager.branches = BranchManager.remove(branchName,branchManager.branches);
+            branchManager.branches = NBtable.remove(branchManager.branches,new NBtable(branchName,""));
             branchManager.writeBM();
         }
 
@@ -442,7 +437,16 @@ public class Gitlet implements Serializable {
     }
 
     public void merge(String branchName) {
-
+        if(stagingAdd.list().length > 0 || stagingRem.list().length >0 ){ // Failure case 1: staged additions or removals present
+            System.out.println("You have uncommitted changes.");
+        }else if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){ // Failure case 2
+            System.out.println("A branch with that name does not exist.");
+        }else if(branchName.equals(branchManager.head.getFullName())){
+            System.out.println("Cannot merge a branch with itself."); // Failure case 3
+        }else{
+            //  NBtable[]1 NBtable[]2   CHOOSE THE ONE NOT EMPTY
+            findAncestor(branchManager.head.getSHA1Value(),NBtable.FindSHAinNBArray(branchName,branchManager.branches));
+        }
     }
 
     //help-functions
@@ -466,6 +470,29 @@ public class Gitlet implements Serializable {
         Arrays.sort(strings);//lexicographic order
         for(String item : strings){ System.out.println(item); }
     }
+    public String findAncestor(String Commit1, String Commit2){
+        // static NBtable[]1
+        // static NBtable[]2
+        return findAncestorHelper("7","0")[0]; // remain: merged branch  move: current branch
+    }
+    public String[] findAncestorHelper(String remainedCommit, String movedCommit){  // return blobIDArray
+    /*    if( either are leaf node or NBtable[] is empty){ // leaf node
+            update NBtable[] 12
+        }else if( remainedCommit == movedCommit){ //ancestor node
+
+            return new NBtable[] {files from remainedCommit};
+            update NBtable[] 12
+        }else{ //recursion
+            if( multiple parent){
+                return String[]{ findAncestorHelper multiple times}
+            }
+            return new String[]{findAncestorHelper(remainedCommit,ParentofMovedCommit1),findAncestorHelper(movedCommit,ParentofRemainedCommit2)};
+        }
+
+
+        ["5","3"....]
+     */
+    }*/
 
     //test-functions
     public void numOfBranch() throws FileNotFoundException {
