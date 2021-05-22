@@ -63,7 +63,7 @@ public class BranchManager implements Serializable {
         }
     }
 
-    public Commit FindCommitByID(String commitID){
+    public static Commit FindCommitByID(String commitID){
         File file = new File(Gitlet.fileC,commitID);
         return Utils.readObject(file,Commit.class);
     }

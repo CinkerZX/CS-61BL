@@ -149,8 +149,9 @@ public class Gitlet implements Serializable {
     }
 
     public void log() throws IOException {
+        ///merged node of two branches, The first parent is located in the current branch
 
-        ///TO-DO merged node of two branches
+        //TO-DO different printing format of merge node
 
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
         PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
@@ -444,8 +445,8 @@ public class Gitlet implements Serializable {
         }else if(branchName.equals(branchManager.head.getFullName())){
             System.out.println("Cannot merge a branch with itself."); // Failure case 3
         }else{
-            //  NBtable[]1 NBtable[]2   CHOOSE THE ONE NOT EMPTY
-            findAncestor(branchManager.head.getSHA1Value(),NBtable.FindSHAinNBArray(branchName,branchManager.branches));
+            LimeFamily LimeTree = generateLimeTree(branchName);
+            LimeTree.print();
         }
     }
 
@@ -470,29 +471,36 @@ public class Gitlet implements Serializable {
         Arrays.sort(strings);//lexicographic order
         for(String item : strings){ System.out.println(item); }
     }
-    public String findAncestor(String Commit1, String Commit2){
-        // static NBtable[]1
-        // static NBtable[]2
-        return findAncestorHelper("7","0")[0]; // remain: merged branch  move: current branch
+    public LimeFamily generateLimeTree(String branchName){
+        String sha = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
+        LimeFamily Lime = new LimeFamily(new String[] {branchManager.head.getSHA1Value(), sha});
+        generateLimeTreeHelper(sha,branchManager.head.getSHA1Value(),Lime);
+        return Lime;
     }
-    public String[] findAncestorHelper(String remainedCommit, String movedCommit){  // return blobIDArray
-    /*    if( either are leaf node or NBtable[] is empty){ // leaf node
-            update NBtable[] 12
-        }else if( remainedCommit == movedCommit){ //ancestor node
 
-            return new NBtable[] {files from remainedCommit};
-            update NBtable[] 12
-        }else{ //recursion
-            if( multiple parent){
-                return String[]{ findAncestorHelper multiple times}
+    public void generateLimeTreeHelper(String remainedCommitID,String movedCommitID,LimeFamily Lime){
+        Commit remainedCommit = BranchManager.FindCommitByID(remainedCommitID);
+        Commit movedCommit = BranchManager.FindCommitByID(movedCommitID);
+        String[] ID_pair = new String[]{remainedCommitID,movedCommitID};
+        if( remainedCommitID == movedCommitID){ //ancestor node
+        }else if(movedCommit.getPaSHA()[0].equals("")||remainedCommit.getPaSHA()[0].equals("")) { // leaf node (Commit 0)     or NBtable[] is empty
+        }else{  //recursion
+            if(!movedCommit.getPaSHA()[1].equals("")){
+                for(String parentSHA : movedCommit.getPaSHA()){
+                    generateLimeTreeHelper(remainedCommitID,parentSHA,Lime);
+                }
+            }else if(!remainedCommit.getPaSHA()[1].equals("")){
+                for(String parentSHA : remainedCommit.getPaSHA()){
+                    generateLimeTreeHelper(movedCommitID,parentSHA,Lime);
+                }
+            }else{
+                Lime.addLeftChild(ID_pair,movedCommit.getPaSHA()[0]);
+                Lime.addRightChild(ID_pair,remainedCommit.getPaSHA()[0]);
+                generateLimeTreeHelper(remainedCommitID,movedCommit.getPaSHA()[0],Lime);
+                generateLimeTreeHelper(movedCommitID,remainedCommit.getPaSHA()[0],Lime);
             }
-            return new String[]{findAncestorHelper(remainedCommit,ParentofMovedCommit1),findAncestorHelper(movedCommit,ParentofRemainedCommit2)};
         }
-
-
-        ["5","3"....]
-     */
-    }*/
+    }
 
     //test-functions
     public void numOfBranch() throws FileNotFoundException {
