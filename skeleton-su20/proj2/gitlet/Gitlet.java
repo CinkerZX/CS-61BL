@@ -477,6 +477,165 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         }
     }
 
+    //  Checks out all the files tracked by the given commit.
+    public void checkout_by_commit_id(Commit Object_commit, Commit Cur_commit) throws IOException {
+        // get the NBtable list of files of branches by branch name
+        NBtable[] object_nb_files = Object_commit.getNB_commit();
+        NBtable[] cur_nb_files = Cur_commit.getNB_commit();
+
+        // name of the files in object_nb_files but untraccted by current branch cur_nb_files
+        String[] prepare_add_files = NBtable.get_names_Compliment(object_nb_files, cur_nb_files);
+
+        //The blob of files in the working direction (nbtable_working)
+        String path = working_directory;
+        File file_WorkingDir = new File(path);
+        File[] files_Working = file_WorkingDir.listFiles();
+        NBtable[] nbtable_working = new NBtable[files_Working.length-1]; // if not test by python, need -3
+        int i = 0;
+        String[] file_name_WD = new String[files_Working.length-1]; // if not test by python, need -3
+        for (File file_Working : files_Working) {
+            String file_name = file_Working.getName();
+            file_name_WD[i] = file_name;
+            if(!file_name.equals(".gitlet") & !file_name.equals("runner.py") & !file_name.equals("python.exe")) {
+                String sha_blob = Utils.sha1(file_Working.getName() + Utils.readContentsAsString(file_Working)); // Read as string!!!!
+                nbtable_working[i] = new NBtable(file_name, sha_blob);
+                i = i+1;
+            }
+        }
+
+        // Intersection of file names in working direction & prepare_add_files
+        String[] check_blob_file_name = NBtable.get_simple_String_Intersection(file_name_WD,prepare_add_files);
+        // write the files in object_nb_files into the direction
+        for(NBtable file_add : object_nb_files) {
+            // if the file is untracked in the current branch and would be overwritten by the checkout
+            // if the name of this file is in "check_blob_file_name"
+            if (Arrays.asList(check_blob_file_name).contains(file_add.getFile_name())){
+                NBtable blob_WD = myTable(nbtable_working,file_add.getFile_name());
+                if (file_add.getSha1_file_name().equals(blob_WD.getSha1_file_name())){
+                    System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
+                }
+            }
+            else{
+                writeFile(file_add);
+            }
+        }
+        // get the name of files in cur_nb_files \ object_nb_files
+        String[] delete_file_names = NBtable.get_names_Compliment(cur_nb_files, object_nb_files);
+        // delete these files by name
+        for(String file_delete : delete_file_names) {
+            deleteFile(file_delete);
+        }
+    }
+
+    // checkout branchname
+    public void checkoutBranch(String Args) throws IOException {
+        // get the head with the branch name Args
+        NBtable object_branch = getBranch(Args);
+        Commit object_commit = getCommit(object_branch.getSha1_file_name());
+        BranchManage cur_branch = getCurrentBranch();
+        Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
+        // if new branch doesn't have any commit
+        if(object_commit.getPa_sha()[0].equals("No commit with that id")){
+            File[] files_Working = get_all_files(working_directory);
+            for (File file_Working : files_Working) {
+                String file_name = file_Working.getName();
+                if(!file_name.equals(".gitlet") & !file_name.equals("runner.py") & !file_name.equals("python.exe")) {
+//                    System.out.println(file_name);
+                    deleteFile(file_name);
+                }
+            }
+        }
+        else {
+            checkout_by_commit_id(object_commit, cur_commit);
+        }
+        cur_branch.update_head(Args, object_branch.getSha1_file_name());
+        cur_branch.wt(working_directory, cur_branch);
+        // Clean the staging area
+        clean_staging();
+    }
+
+    // checkout file name
+    public void checkoutFile(String file_name) throws IOException {
+        BranchManage cur_branch = getCurrentBranch();
+        String cur_commit_sha = cur_branch.get_cur_commit_sha1();
+        checkoutCommitFilename(cur_commit_sha, file_name);
+    }
+
+    // checkout commit_id file_name
+    public void checkoutCommitFilename(String commit_id, String file_name)throws IOException {
+        Commit cur_commit = getCommit(commit_id);
+        if (cur_commit.getPa_sha()[0].equals("No commit with that id")){
+            System.out.println("No commit with that id exists.");
+        }
+        else{
+            // Read the files in this commit
+            NBtable[] nb_files = cur_commit.getNB_commit();
+            // check if the file_name exists in the commit of the head of current branch
+            int exist = 0;
+            for (NBtable file : nb_files) {
+                if (file.getFile_name().equals(file_name)) {
+                    exist = 1;
+                    writeFile(file);
+                }
+            }
+            if (exist == 0) {
+                System.out.println("File does not exist in that commit.");
+            }
+        }
+    }
+
+    // reset [commit id]
+    public void reset(String commit_id) throws IOException {
+        Commit object_commit = getCommit(commit_id);
+        if (object_commit.getPa_sha()[0].equals("No commit with that id")){ // no such commit_id
+            System.out.println("No commit with that id exists.");
+        }
+        else{
+            //  Checks out all the files tracked by the given commit.
+            BranchManage cur_branch = getCurrentBranch();
+            Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
+            checkout_by_commit_id(object_commit, cur_commit);
+            //  Moves the current branch’s head to that commit node.
+            cur_branch.update_head(cur_branch.getBranch_head().getFile_name(), commit_id);
+            cur_branch.wt(working_directory, cur_branch);
+            // clean the staging area
+            clean_staging();
+        }
+    }
+
+    // merge [branch name]
+    public void merge(String branch_name) throws IOException {
+        //false case 1: If there are staged additions or removals present, print the error message, and exist
+        if (staging_empty()) {
+            System.out.println("You have uncommitted changes.");
+            return;
+        }
+        //false case 2: If a branch with the given name does not exist, print the error message, and exist
+        else {
+            NBtable object_branch = getBranch(branch_name);
+            Commit object_commit = getCommit(object_branch.getSha1_file_name());
+            if(object_commit.getPa_sha()[0].equals("No commit with that id")){
+                System.out.println("A branch with that name does not exist.");
+                return;
+            }
+            // false case 3: If attempting to merge a branch with itself, print the error message
+            else{
+                BranchManage cur_branch = getCurrentBranch();
+                if(cur_branch.getBranch_head().equals(branch_name)){
+                    System.out.println("Cannot merge a branch with itself.");
+                    return;
+                }
+                else{
+                    //  NBtable[]1 NBtable[]2   CHOOSE THE ONE NOT EMPTY
+                    findAncestor(branchManager.head.getSHA1Value(),NBtable.FindSHAinNBArray(branchName,branchManager.branches));
+                }
+            }
+        }
+    }
+
+
+
+    // Helping function
     // get current branch
     public BranchManage getCurrentBranch(){
         File d = new File(working_directory,".gitlet");
@@ -555,83 +714,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         return(not_found);
     }
 
-    //  Checks out all the files tracked by the given commit.
-    public void checkout_by_commit_id(Commit Object_commit, Commit Cur_commit) throws IOException {
-        // get the NBtable list of files of branches by branch name
-        NBtable[] object_nb_files = Object_commit.getNB_commit();
-        NBtable[] cur_nb_files = Cur_commit.getNB_commit();
-
-        // name of the files in object_nb_files but untraccted by current branch cur_nb_files
-        String[] prepare_add_files = NBtable.get_names_Compliment(object_nb_files, cur_nb_files);
-
-        //The blob of files in the working direction (nbtable_working)
-        String path = working_directory;
-        File file_WorkingDir = new File(path);
-        File[] files_Working = file_WorkingDir.listFiles();
-        NBtable[] nbtable_working = new NBtable[files_Working.length-1]; // if not test by python, need -3
-        int i = 0;
-        String[] file_name_WD = new String[files_Working.length-1]; // if not test by python, need -3
-        for (File file_Working : files_Working) {
-            String file_name = file_Working.getName();
-            file_name_WD[i] = file_name;
-            if(!file_name.equals(".gitlet") & !file_name.equals("runner.py") & !file_name.equals("python.exe")) {
-                String sha_blob = Utils.sha1(file_Working.getName() + Utils.readContentsAsString(file_Working)); // Read as string!!!!
-                nbtable_working[i] = new NBtable(file_name, sha_blob);
-                i = i+1;
-            }
-        }
-
-        // Intersection of file names in working direction & prepare_add_files
-        String[] check_blob_file_name = NBtable.get_simple_String_Intersection(file_name_WD,prepare_add_files);
-        // write the files in object_nb_files into the direction
-        for(NBtable file_add : object_nb_files) {
-            // if the file is untracked in the current branch and would be overwritten by the checkout
-            // if the name of this file is in "check_blob_file_name"
-            if (Arrays.asList(check_blob_file_name).contains(file_add.getFile_name())){
-                NBtable blob_WD = myTable(nbtable_working,file_add.getFile_name());
-                if (file_add.getSha1_file_name().equals(blob_WD.getSha1_file_name())){
-                    System.out.println("There is an untracked file in the way; delete it, or add and commit it first.");
-                }
-            }
-            else{
-                writeFile(file_add);
-            }
-        }
-        // get the name of files in cur_nb_files \ object_nb_files
-        String[] delete_file_names = NBtable.get_names_Compliment(cur_nb_files, object_nb_files);
-        // delete these files by name
-        for(String file_delete : delete_file_names) {
-            deleteFile(file_delete);
-        }
-    }
-
-    // checkout branchname
-    public void checkoutBranch(String Args) throws IOException {
-        // get the head with the branch name Args
-        NBtable object_branch = getBranch(Args);
-        Commit object_commit = getCommit(object_branch.getSha1_file_name());
-        BranchManage cur_branch = getCurrentBranch();
-        Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
-        // if new branch doesn't have any commit
-        if(object_commit.getPa_sha()[0].equals("No commit with that id")){
-            File[] files_Working = get_all_files(working_directory);
-            for (File file_Working : files_Working) {
-                String file_name = file_Working.getName();
-                if(!file_name.equals(".gitlet") & !file_name.equals("runner.py") & !file_name.equals("python.exe")) {
-//                    System.out.println(file_name);
-                    deleteFile(file_name);
-                }
-            }
-        }
-        else {
-            checkout_by_commit_id(object_commit, cur_commit);
-        }
-        cur_branch.update_head(Args, object_branch.getSha1_file_name());
-        cur_branch.wt(working_directory, cur_branch);
-        // Clean the staging area
-        clean_staging();
-    }
-
     // Clean the staging area
     public void clean_staging() throws IOException {
         File[] files_add = get_all_files(".gitlet/Staging Area/Staged for addition");
@@ -656,36 +738,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         else return(false);
     }
 
-    // checkout file name
-    public void checkoutFile(String file_name) throws IOException {
-        BranchManage cur_branch = getCurrentBranch();
-        String cur_commit_sha = cur_branch.get_cur_commit_sha1();
-        checkoutCommitFilename(cur_commit_sha, file_name);
-    }
-
-    // checkout commit_id file_name
-    public void checkoutCommitFilename(String commit_id, String file_name)throws IOException {
-        Commit cur_commit = getCommit(commit_id);
-        if (cur_commit.getPa_sha()[0].equals("No commit with that id")){
-            System.out.println("No commit with that id exists.");
-        }
-        else{
-            // Read the files in this commit
-            NBtable[] nb_files = cur_commit.getNB_commit();
-            // check if the file_name exists in the commit of the head of current branch
-            int exist = 0;
-            for (NBtable file : nb_files) {
-                if (file.getFile_name().equals(file_name)) {
-                    exist = 1;
-                    writeFile(file);
-                }
-            }
-            if (exist == 0) {
-                System.out.println("File does not exist in that commit.");
-            }
-        }
-    }
-
     // get all the files from certain directory
     public File[] get_all_files(String direc){
         String path = direc;
@@ -694,53 +746,34 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         return(files_Working);
     }
 
-    // reset [commit id]
-    public void reset(String commit_id) throws IOException {
-        Commit object_commit = getCommit(commit_id);
-        if (object_commit.getPa_sha()[0].equals("No commit with that id")){ // no such commit_id
-            System.out.println("No commit with that id exists.");
-        }
-        else{
-            //  Checks out all the files tracked by the given commit.
-            BranchManage cur_branch = getCurrentBranch();
-            Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
-            checkout_by_commit_id(object_commit, cur_commit);
-            //  Moves the current branch’s head to that commit node.
-            cur_branch.update_head(cur_branch.getBranch_head().getFile_name(), commit_id);
-            cur_branch.wt(working_directory, cur_branch);
-            // clean the staging area
-            clean_staging();
-        }
+    public String findAncestor(String Commit1, String Commit2){
+        // static NBtable[]1
+        // static NBtable[]2
+        return findAncestorHelper("7","0")[0]; // remain: merged branch  move: current branch
     }
+    public String[] findAncestorHelper(String remainedCommit, String movedCommit) throws IOException {  // return blobIDArray
+        if (getCommit(remainedCommit).getPa_sha().equals(getCommit(movedCommit).getPa_sha())) { // ancestor node
 
-    // merge [branch name]
-    public void merge(String branch_name) throws IOException {
-        //false case 1: If there are staged additions or removals present, print the error message, and exist
-        if (staging_empty()) {
-            System.out.println("You have uncommitted changes.");
-            return;
-        }
-        //false case 2: If a branch with the given name does not exist, print the error message, and exist
-        else {
-            NBtable object_branch = getBranch(branch_name);
-            Commit object_commit = getCommit(object_branch.getSha1_file_name());
-            if(object_commit.getPa_sha()[0].equals("No commit with that id")){
-                System.out.println("A branch with that name does not exist.");
-                return;
-            }
-            // false case 3: If attempting to merge a branch with itself, print the error message
-            else{
-                BranchManage cur_branch = getCurrentBranch();
-                if(cur_branch.getBranch_head().equals(branch_name)){
-                    System.out.println("Cannot merge a branch with itself.");
-                    return;
-                }
-                else{
+        }else if (getCommit(movedCommit).getPa_sha().equals("")) { // leaf node
 
-                }
-            }
         }
-    }
+    /*    if( either are leaf node){ // leaf node
+            update NBtable[] 12
+        }else if( remainedCommit == movedCommit){ //ancestor node
+
+            return new NBtable[] {files from remainedCommit};
+            update NBtable[] 12
+        }else{ //recursion
+            if( multiple parent){
+                return String[]{ findAncestorHelper multiple times}
+            }
+            return new String[]{findAncestorHelper(remainedCommit,ParentofMovedCommit1),findAncestorHelper(movedCommit,ParentofRemainedCommit2)};
+        }
+
+
+        ["5","3"....]
+     */
+    }*/
 }
 class MyFilenameFilter implements FilenameFilter {
 
