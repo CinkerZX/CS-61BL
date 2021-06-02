@@ -773,7 +773,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
         ["5","3"....]
      */
-    }*/
+    }
 }
 class MyFilenameFilter implements FilenameFilter {
 

@@ -98,7 +98,7 @@ public class BranchManage implements Serializable {
     }
 
     // get the commit by commit_sha
-    public Commit getCommit(String sha)throws IOException {
+    public static Commit getCommit(String sha)throws IOException {
         File commit = new File("./.gitlet/Commits",sha);
         //File commit = new File(d.getPath(),sha);
         Commit commit1 = new Commit();

@@ -11,6 +11,7 @@
     //https://d1b10bmlvqabco.cloudfront.net/attach/k5eevxebzpj25b/jqr7jm9igtc7l5/k97ipfmgmb3n/Gitlet_Slides.pdf
     //https://cs61bl.org/su20/projects/gitlet/#the-commands
     //Testing: https://www.youtube.com/watch?v=ksY5s0nHU5I&feature=youtu.be
+    //Datastructure(Tree): https://cs61bl.org/su20/labs/lab12/#stacks-and-queues
     //Those debugging "printout" will be regarded as error output
     Testing:
     Shit hole:
