@@ -26,12 +26,12 @@ public class BranchManager implements Serializable {
     }
 
     // copy current commit and set it as the parent commit
-    public Commit NewCommit(String message) throws FileNotFoundException { return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
+    public Commit NewCommit(String message) throws FileNotFoundException {
+        return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
 
     public static Commit FindCommit(String SHA1Value) throws FileNotFoundException{
         File file = new File(Gitlet.fileC,SHA1Value);
-        Commit thisCommit = Utils.readObject(file, Commit.class);
-        return thisCommit;
+        return Utils.readObject(file, Commit.class);
     }
 
     public Boolean inCurrentCommit(String filename) throws FileNotFoundException { return NBtable.FileNameinNBArray(filename, FindCommit(head.getSHA1Value()).NBCommit); }
@@ -63,8 +63,4 @@ public class BranchManager implements Serializable {
         }
     }
 
-    public static Commit FindCommitByID(String commitID){
-        File file = new File(Gitlet.fileC,commitID);
-        return Utils.readObject(file,Commit.class);
-    }
 }

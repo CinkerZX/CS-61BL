@@ -50,6 +50,12 @@ public class Commit implements Serializable {
         Metadata = new String[] {message,timestamp()};
         NBCommit = NBcommit;
     }
+    //Merged Commit constructor
+    public Commit(String FparentSHA,String SparentSHA,String message,NBtable[] NBcommit){
+        paSHA = new String[] {FparentSHA,SparentSHA};
+        Metadata = new String[] {message,timestamp()};
+        NBCommit = NBcommit;
+    }
 
     private String timestamp(){
         DateFormat timestamp = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.UK);

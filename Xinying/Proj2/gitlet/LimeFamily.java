@@ -1,28 +1,28 @@
 package gitlet;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Stack;
+import java.util.*;
+import java.util.function.Consumer;
 
 public class LimeFamily {
 
-    private LimeTree root = null;
+    /* ROOT is the root lime of this LimeFamily */
+    public LimeTree root;
 
+    /* Creates an LimeFamily, where the first Lime's parent is an ID_pair. */
     public LimeFamily(String[] ID_pair) {
         root = new LimeTree(ID_pair, null);
     }
 
-    // move current branch node first
-    public void addLeftChild(String[] PaID_pair, String childID) {
-        if (root != null) {
-            root.addChildHelper(PaID_pair[0], childID);
+    // move current branch node first M1
+    public void addLeftChild(LimeTree node, String childID) {
+        if (node != null) {
+            node.addChildHelper(node.PaSHA_pair[0], childID);
         }
     }
-    // move merged branch node later
-    public void addRightChild(String[] PaID_pair, String childID) {
-        if (root != null) {
-            root.addChildHelper(PaID_pair[1], childID);
+    // move merged branch node later M2
+    public void addRightChild(LimeTree node, String childID) {
+        if (node != null) {
+            node.addChildHelper(node.PaSHA_pair[1], childID);
         }
     }
 /*    public void addChild(String[] PaID_pair) {
@@ -36,8 +36,47 @@ public class LimeFamily {
        the ROOT Lime printed first. Each Lime should be indented four spaces
        more than its parent. */
     public void print() {
-
+        System.out.print(printHelper(root));
     }
+
+    private String printHelper(LimeTree node){
+        if(node.arity() == 0) return printNode(node);
+        else{
+            String R;
+            R = printNode(node);
+            for(int i = 0;i < node.arity();i +=1){
+                R += "    " + "/n"+ printHelper(node.child(i));
+                return R ;
+            }
+        }
+        return null;
+    }
+
+    /* Prints the name of all Limes in this LimeFamily in Depth-First Traversals, with
+       the ROOT Lime printed first. */
+    public void printDFS() {
+        LimeTreeDFSIterator LimeTreeDFSiterator = new LimeTreeDFSIterator();
+        while(LimeTreeDFSiterator.hasNext()){
+            LimeTree node = LimeTreeDFSiterator.next();
+            System.out.println(printNode(node));
+        }
+    }
+
+    public void printBFS() {
+        LimeTreeBFSIterator LimeTreeBFSiterator = new LimeTreeBFSIterator();
+        while(LimeTreeBFSiterator.hasNext()){
+            LimeTree node = LimeTreeBFSiterator.next();
+            System.out.println(printNode(node));
+        }
+    }
+
+    private String printNode(LimeTree node){
+        String nodeString;
+        nodeString = "{";
+        for(String ID : node.PaSHA_pair){ nodeString += ID+"  "; }
+        return nodeString + "}";
+    }
+
 
     /* Returns an Iterator for this AmoebaFamily. */
     public Iterator<LimeTree> iterator() {
@@ -61,7 +100,8 @@ public class LimeFamily {
         public ArrayList<LimeTree> getChildren() {
             return children;
         }
-
+        public int arity(){ return children.size();}
+        public LimeTree child(int k){ return children.get(k);}
         public void addChildHelper(String parentID, String childID) {
             if (PaSHA_pair[0].equals(parentID)) {
                 LimeTree child = new LimeTree(new String[]{childID,PaSHA_pair[1]}, this);
@@ -83,10 +123,8 @@ public class LimeFamily {
         private Stack<LimeTree> fringe = new Stack<LimeTree>();
         /* AmoebaDFSIterator constructor. Sets up all of the initial information
            for the AmoebaDFSIterator. */
-        public LimeTreeDFSIterator(LimeTree root) {
-            if (root != null) {
-                fringe.push(root);
-            }
+        public LimeTreeDFSIterator() {
+            fringe.push(root);
         }
 
         /* Returns true if there is a next element to return. */
@@ -96,16 +134,15 @@ public class LimeFamily {
 
         /* Returns the next element. */
         public LimeTree next() {
-            if (!hasNext()) {
+            /*if (!hasNext()) {
                 throw new NoSuchElementException("tree ran out of elements");
-            }
+            }*/
             LimeTree node = fringe.pop();
-            for(LimeTree child : node.children){
-                if (child != null) {
-                    fringe.push(child);
+            for(int i = node.arity()-1;i>=0;i-=1){
+                if (node.child(i) != null) {
+                    fringe.push(node.child(i));
                 }
             }
-
             return node;
         }
 
@@ -119,21 +156,32 @@ public class LimeFamily {
        O(N) operations. */
     public class LimeTreeBFSIterator implements Iterator<LimeTree> {
 
-        // TODO: IMPLEMENT THE CLASS HERE
-
         /* AmoebaBFSIterator constructor. Sets up all of the initial information
            for the AmoebaBFSIterator. */
+        private ArrayDeque<LimeTree> fringe = new ArrayDeque<LimeTree>();
+
         public LimeTreeBFSIterator() {
+            fringe.push(root);
         }
 
         /* Returns true if there is a next element to return. */
         public boolean hasNext() {
-            return false;
+            return !fringe.isEmpty();
         }
 
         /* Returns the next element. */
         public LimeTree next() {
-            return null;
+            if (!hasNext()) {
+                throw new NoSuchElementException("tree ran out of elements");
+            }
+            LimeTree node = fringe.remove();
+            for(int i = node.arity()-1;i>=0;i-=1){
+                if (node.child(i) != null) {
+                    fringe.push(node.child(i));
+                }
+            }
+            return node;
+
         }
 
         public void remove() {
