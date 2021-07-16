@@ -1,7 +1,7 @@
 package gitlet;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.*;
 
 // limeTree structure
@@ -15,6 +15,7 @@ How to construct a tree:
     3) Note: addChildHelper will iterate until the fringe is cleaned which judged by function next
 */
 public class LimeTreeFamily {
+    // inside class
     public static class LimeTree {
         public String[] PaSha_pair;
         public LimeTree parent;
@@ -33,6 +34,11 @@ public class LimeTreeFamily {
             this.children = new ArrayList<LimeTree>();
         }
 
+        // Add sub tree
+        public void addChild(LimeTree child_tree){
+            this.children.add(child_tree);
+        }
+
         public LimeTree getParent() {
             return parent;
         }
@@ -46,11 +52,22 @@ public class LimeTreeFamily {
         }
     }
 
+    // Feature of LimeTreeFamily
     private LimeTree root = null;
 
+    // Constructor of LimeTreeFamily
+    public LimeTreeFamily(String Sha_Moved, String Sha_Remained) {
+        root = new LimeTree(Sha_Moved, Sha_Remained);
+    }
+
+    // Methods of LimeTreeFamily
     public LimeTree getRoot(){
-        System.out.println(root.PaSha_pair);
         return root;
+    }
+
+    public void expandLimeTree(LimeTree pa_tree, LimeTree child_tree){
+        //TODO: add subtrees
+        pa_tree.addChild(child_tree);
     }
 
     /* Where we will store the pending travel sha & compared sha */
@@ -64,25 +81,37 @@ public class LimeTreeFamily {
     }
 
     /* Add child, move the Sha_pair[0] first, Sha_pair saved in stack */
-    public void addChildHelper(LimeTree pa_tree) throws IOException {
-        // Get the pa_sha by pa_tree.PaSha_pair[0](move)
-        Commit this_commit = BranchManage.getCommit(pa_tree.PaSha_pair[0]);
-        if(!this_commit.getPa_sha().equals("")){
-            //put the pre_sha[1](retain) [0] in the fringe
-            fringe.push(new String[] {pa_tree.PaSha_pair[1],pa_tree.PaSha_pair[0]});
-            String[] pre_sha = this_commit.getPa_sha();
-            LimeTree child_tree = new LimeTree(pre_sha[0], pa_tree.PaSha_pair[1], pa_tree);
-            //add tree
-            pa_tree.children.add(child_tree);
-            // Put the rest into the fringe
-            if(pre_sha.length > 1){
-                for(String s : pre_sha){
-                    fringe.push(new String[] {s,pa_tree.PaSha_pair[1]});
+    public void addChildHelper(LimeTree pa) throws IOException {
+        if (!hasNext()) {
+            throw new NoSuchElementException("Fringe is clean");
+        }
+        else{
+            // get the string pair out from fringe
+            String[] move_compare = fringe.pop();
+            // Get the pa_sha by pa_tree.PaSha_pair[0](move)
+            Commit this_commit = BranchManage.getCommit(move_compare[0]);
+            if(!this_commit.getPa_sha().equals("")){
+                //put the pre_sha[1](retain) [0] in the fringe
+                fringe.push(new String[] {move_compare[1],move_compare[0]});
+                String[] pre_sha = this_commit.getPa_sha();
+                LimeTree child_tree = new LimeTree(pre_sha[0], move_compare[1], pa);
+                //add tree
+                pa.children.add(child_tree);
+                // Put the rest into the fringe
+                if(pre_sha.length > 1){
+                    for(String s : pre_sha){
+                        fringe.push(new String[] {s,move_compare[1]});
+                    }
                 }
+                addChildHelper(child_tree);
             }
-            next(child_tree);
+            else{//push the remain into the fringe
+                fringe.push(new String[] {move_compare[1],move_compare[0]});
+                addChildHelper(pa);
+            }
         }
     }
+
     /* Returns whether or not we have any more nodes to visit. */
     public boolean hasNext() {
         return !fringe.isEmpty();
@@ -103,49 +132,51 @@ Depth first travelsal
  */
     public void depth_First_Tra(){
         LimeTree root_node = getRoot();
-        Stack<LimeTree> fringe = new Stack<LimeTree>();
-        //ArrayDeque<LimeTree> fringe_2 = new ArrayDeque<>();
+        //Stack<LimeTree> fringe = new Stack<LimeTree>();
+        ArrayDeque<LimeTree> fringe_2 = new ArrayDeque<>();
         ArrayList<LimeTree> children = root_node.getChildren();
+        System.out.println(children.size());
         Collections.reverse(Arrays.asList(children));
         for(LimeTree t : children){
-            fringe.push(t);
-            //fringe_2.push(t);
+            //fringe.push(t);
+            fringe_2.add(t);
         }
-        Depth_Tra_helper(root_node,fringe,a);
-        //Width_Tra_helper(root_node,fringe_2,a);
+        tree_print("", root_node);
+        //Depth_Tra_helper(fringe,a);
+        Width_Tra_helper(fringe_2,a);
     }
 
     public String a = "    ";
 
-    public void Depth_Tra_helper(LimeTree T, Stack<LimeTree> bookmark, String head){
+    public void Depth_Tra_helper(Stack<LimeTree> bookmark, String head){
         if(!bookmark.isEmpty()){
             LimeTree tree_to_print = bookmark.pop();
             tree_print(head, tree_to_print);
             Collections.reverse(Arrays.asList(tree_to_print.children));
             for (LimeTree t : tree_to_print.children){
                 bookmark.push(t);
-                Depth_Tra_helper(t,bookmark,a+head);
             }
+            Depth_Tra_helper(bookmark,a+head);
         }
     }
 /*
 Width first travelsal
 Just change the (LIFO) stack to a (FIFO) queue
  */
-    public void Width_Tra_helper(LimeTree T, ArrayDeque<LimeTree> bookmark, String head){
+    public void Width_Tra_helper(ArrayDeque<LimeTree> bookmark, String head){
         if(!bookmark.isEmpty()){
             LimeTree tree_to_print = bookmark.remove();
             tree_print(head,tree_to_print);
             for (LimeTree t : tree_to_print.children){
-                bookmark.push(t);
-                Width_Tra_helper(t,bookmark,a+head);
+                bookmark.add(t);
             }
+            Width_Tra_helper(bookmark,a+head);
         }
     }
 
     // print out the tree
     public void tree_print(String HEAD, LimeTree p_tree){
         System.out.print(HEAD);
-        System.out.println(p_tree.PaSha_pair);
+        System.out.println(p_tree.PaSha_pair[0].toString()+p_tree.PaSha_pair[1].toString());
     }
 }

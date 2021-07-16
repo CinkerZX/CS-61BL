@@ -20,9 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/gitlet/LimeTree_test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/testing/samples/test07-buildTree.in" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test05-branch-checkout.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +35,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -54,6 +59,9 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../CODE/DL4LD/Javascript" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
@@ -61,7 +69,24 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Application.init">
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="gitlet" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.LimeTree_test">
+    <configuration name="LimeTree_test" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.LimeTree_test" />
+      <module name="proj2" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
@@ -79,7 +104,7 @@
     <configuration name="add" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="add yin_4.txt" />
+      <option name="PROGRAM_PARAMETERS" value="add wug.txt" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -89,7 +114,17 @@
     <configuration name="branch" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="branch &quot;new_branch&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="branch &quot;xin xin&quot;" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="checkout" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
+      <module name="proj2" />
+      <option name="PROGRAM_PARAMETERS" value="checkout &quot;master&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -99,7 +134,7 @@
     <configuration name="commit" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="gitlet.Main" />
       <module name="proj2" />
-      <option name="PROGRAM_PARAMETERS" value="commit &quot;init&quot;" />
+      <option name="PROGRAM_PARAMETERS" value="commit &quot;add wug.txt&quot;" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/testing" />
       <method v="2">
@@ -177,16 +212,18 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.rm_branch" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.branch" />
       <item itemvalue="Application.add" />
+      <item itemvalue="Application.LimeTree_test" />
+      <item itemvalue="Application.branch" />
+      <item itemvalue="Application.checkout" />
       <item itemvalue="Application.commit" />
       <item itemvalue="Application.find" />
       <item itemvalue="Application.globalLog" />
       <item itemvalue="Application.init" />
       <item itemvalue="Application.log" />
       <item itemvalue="Application.rm" />
+      <item itemvalue="Application.rm_branch" />
       <item itemvalue="Application.status" />
     </list>
   </component>
@@ -220,80 +257,47 @@
       <screen x="0" y="0" width="1212" height="720" />
     </state>
     <state x="490" y="222" key="#Notifications/0.0.1212.720@0.0.1212.720" timestamp="1619266540328" />
-    <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog" timestamp="1614976733844">
-      <screen x="0" y="0" width="1217" height="720" />
-    </state>
-    <state x="630" y="193" key="#com.intellij.codeInsight.template.impl.EditVariableDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614976733844" />
-    <state x="128" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1620199374998">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state x="146" y="15" width="865" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1626442515634">
+      <screen x="0" y="0" width="1215" height="720" />
     </state>
     <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618002381354" />
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614372991205" />
-    <state x="107" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616013141373" />
+    <state x="146" y="15" width="865" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626442515634" />
     <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="3" y="37" width="1089" height="683" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1212.720@0.0.1212.720" timestamp="1618932937560" />
-    <state x="128" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620199374998" />
-    <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1614977018788">
+    <state x="-39" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620208031747" />
+    <state x="115" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1218.720@0.0.1218.720" timestamp="1623483602302" />
+    <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1620395378414">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
-    <state x="49" y="196" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614977018788" />
-    <state x="390" y="66" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1613149993944">
-      <screen x="0" y="0" width="1216" height="720" />
-    </state>
-    <state x="390" y="66" key="#com.intellij.ide.macro.MacrosDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613149993944" />
-    <state x="350" y="127" key="#com.intellij.ide.util.MemberChooser" timestamp="1617735015797">
-      <screen x="0" y="0" width="1212" height="720" />
-    </state>
-    <state x="350" y="127" key="#com.intellij.ide.util.MemberChooser/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1617735015797" />
-    <state x="340" y="150" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1613501304697">
-      <screen x="0" y="0" width="1216" height="720" />
-    </state>
-    <state x="340" y="150" key="#com.intellij.ide.util.TreeClassChooserDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613501304697" />
-    <state x="49" y="213" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1612470287435">
-      <screen x="0" y="0" width="1216" height="720" />
-    </state>
-    <state x="49" y="213" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470287435" />
-    <state x="413" y="230" key="DetectedRootsChooserDialog" timestamp="1612470867506">
-      <screen x="0" y="0" width="1216" height="720" />
-    </state>
-    <state x="413" y="230" key="DetectedRootsChooserDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1612470867506" />
-    <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl" timestamp="1617222339386">
+    <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1217.720@0.0.1217.720" timestamp="1620395378414" />
+    <state width="1174" height="153" key="GridCell.Tab.0.bottom" timestamp="1620210069114">
       <screen x="0" y="0" width="1217" height="720" />
-    </state>
-    <state x="341" y="166" width="438" height="478" key="FileChooserDialogImpl/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365305264" />
-    <state x="341" y="166" key="FileChooserDialogImpl/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1617222339386" />
-    <state width="1168" height="145" key="GridCell.Tab.0.bottom" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.bottom/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
-    <state width="1173" height="81" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375527" />
-    <state width="566" height="161" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.bottom/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.bottom/0.0.1212.720@0.0.1212.720" timestamp="1618933342569" />
-    <state width="1168" height="145" key="GridCell.Tab.0.center" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.bottom/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
+    <state width="1174" height="153" key="GridCell.Tab.0.center" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.center/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
-    <state width="1173" height="81" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
-    <state width="566" height="161" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.center/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.center/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state width="1168" height="145" key="GridCell.Tab.0.left" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.center/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
+    <state width="1174" height="153" key="GridCell.Tab.0.left" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.left/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
-    <state width="1173" height="81" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
-    <state width="566" height="161" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.left/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.left/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
-    <state width="1168" height="145" key="GridCell.Tab.0.right" timestamp="1619534996315">
-      <screen x="0" y="0" width="1211" height="720" />
+    <state width="1174" height="153" key="GridCell.Tab.0.left/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
+    <state width="1174" height="153" key="GridCell.Tab.0.right" timestamp="1620210069114">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1169" height="62" key="GridCell.Tab.0.right/-1920.0.1212.720/0.0.1212.720@0.0.1212.720" timestamp="1618006655279" />
-    <state width="1173" height="81" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614373375526" />
-    <state width="566" height="161" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1616017413489" />
     <state width="1168" height="145" key="GridCell.Tab.0.right/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1169" height="145" key="GridCell.Tab.0.right/0.0.1212.720@0.0.1212.720" timestamp="1618933342568" />
+    <state width="1174" height="153" key="GridCell.Tab.0.right/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
     <state x="265" y="62" key="RollbackChangesDialog" timestamp="1619534242923">
       <screen x="0" y="0" width="1211" height="720" />
     </state>
@@ -301,20 +305,14 @@
     <state x="87" y="2" width="914" height="707" key="SettingsEditor" timestamp="1619532834287">
       <screen x="0" y="0" width="1211" height="720" />
     </state>
-    <state x="43" y="0" key="SettingsEditor/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1614365662541" />
-    <state x="303" y="0" width="914" height="720" key="SettingsEditor/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614977497587" />
     <state x="87" y="2" width="914" height="707" key="SettingsEditor/0.0.1211.720@0.0.1211.720" timestamp="1619532834287" />
-    <state x="338" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1613146159202">
-      <screen x="0" y="0" width="1216" height="720" />
+    <state x="380" y="52" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1626441737289">
+      <screen x="0" y="0" width="1215" height="720" />
     </state>
-    <state x="338" y="252" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1613146159202" />
-    <state x="711" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1615569717255">
-      <screen x="0" y="0" width="1217" height="720" />
+    <state x="380" y="52" key="com.intellij.testIntegration.createTest.CreateTestDialog/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626441737289" />
+    <state x="266" y="161" key="run.anything.popup" timestamp="1623220857507">
+      <screen x="0" y="0" width="1218" height="720" />
     </state>
-    <state x="711" y="277" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1615569717255" />
-    <state x="272" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1614977372458">
-      <screen x="0" y="0" width="1217" height="720" />
-    </state>
-    <state x="272" y="41" width="672" height="678" key="search.everywhere.popup/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1614977372458" />
+    <state x="266" y="161" key="run.anything.popup/0.0.1218.720@0.0.1218.720" timestamp="1623220857507" />
   </component>
 </project>

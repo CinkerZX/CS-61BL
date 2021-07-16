@@ -1,4 +1,4 @@
-### Test checkout(test-05-branch-checkout.in) and write reset
+### Write and test merge, start with findAncester and findAncesterhelper
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
@@ -11,6 +11,8 @@
     //https://d1b10bmlvqabco.cloudfront.net/attach/k5eevxebzpj25b/jqr7jm9igtc7l5/k97ipfmgmb3n/Gitlet_Slides.pdf
     //https://cs61bl.org/su20/projects/gitlet/#the-commands
     //Testing: https://www.youtube.com/watch?v=ksY5s0nHU5I&feature=youtu.be
+    //Datastructure(Tree): https://cs61bl.org/su20/labs/lab12/#stacks-and-queues
+    //Those debugging "printout" will be regarded as error output
     Testing:
     Shit hole:
         runner.py: if msg != "OK": // msg.find("error"), will failed in Chinese systems, and will not print out the real error
@@ -37,12 +39,10 @@
         RME: staged for removal
     branch // Creates a new branch with the given name *java gitlet.Main branch [branch name]*
     rm-branch // Remove branch
-    
-    $$ to do $$ checkout // Update the current files in the current direction by *java gitlet.Main checkout -- [file name]*
+    checkout // Update the current files in the current direction by *java gitlet.Main checkout -- [file name]*
                             *java gitlet.Main checkout [commit id] -- [file name]*
                             *java gitlet.Main checkout [branch name]*
-    
-    $$ to do $$ reset // Checks out all the files tracked by the given commit *java gitlet.Main reset [commit id]*
+    reset // Checks out all the files tracked by the given commit *java gitlet.Main reset [commit id]*
     
     $$ to do $$ merge
     $$ to do $$ rebase // *java gitlet.Main rebase [branch name]*

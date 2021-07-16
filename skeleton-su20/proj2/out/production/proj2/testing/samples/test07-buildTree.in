@@ -1,0 +1,33 @@
+# Check that we can check out a previous version.
+D branch0 "master"
+D branch1 "xinxin"
+> init
+<<<
++ wug.txt wug.txt
+> add wug.txt
+<<<
+> commit "Add wug.txt(wug)"
+<<<
++ wug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "Add wug.txt(notwug)"
+<<<
+# Create the new branch
+> branch ${branch1}
+<<<
+# Checkout to the new branch
+> checkout ${branch1}
+<<<
++ wug.txt notwug.txt
+> add wug.txt
+<<<
+> commit "add wug.text(notwug)"
+<<<
+# check out to master again
+> checkout ${branch0}
+<<<
+> rm wug.txt
+<<<
+> commit "remove wug.txt(notwug)"
+<<<*

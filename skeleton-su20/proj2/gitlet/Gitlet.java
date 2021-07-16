@@ -604,6 +604,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     }
 
     // merge [branch name]
+/*
     public void merge(String branch_name) throws IOException {
         //false case 1: If there are staged additions or removals present, print the error message, and exist
         if (staging_empty()) {
@@ -614,26 +615,24 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         else {
             NBtable object_branch = getBranch(branch_name);
             Commit object_commit = getCommit(object_branch.getSha1_file_name());
-            if(object_commit.getPa_sha()[0].equals("No commit with that id")){
+            if (object_commit.getPa_sha()[0].equals("No commit with that id")) {
                 System.out.println("A branch with that name does not exist.");
                 return;
             }
             // false case 3: If attempting to merge a branch with itself, print the error message
-            else{
+            else {
                 BranchManage cur_branch = getCurrentBranch();
-                if(cur_branch.getBranch_head().equals(branch_name)){
+                if (cur_branch.getBranch_head().equals(branch_name)) {
                     System.out.println("Cannot merge a branch with itself.");
                     return;
-                }
-                else{
+                } else {
                     //  NBtable[]1 NBtable[]2   CHOOSE THE ONE NOT EMPTY
-                    findAncestor(branchManager.head.getSHA1Value(),NBtable.FindSHAinNBArray(branchName,branchManager.branches));
+                    findAncestor(branchManager.head.getSHA1Value(), NBtable.FindSHAinNBArray(branchName, branchManager.branches));
                 }
             }
         }
     }
-
-
+*/
 
     // Helping function
     // get current branch
@@ -746,11 +745,13 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         return(files_Working);
     }
 
-    public String findAncestor(String Commit1, String Commit2){
+    /*
+    public String findAncestor(String Commit1, String Commit2) throws IOException {
         // static NBtable[]1
         // static NBtable[]2
         return findAncestorHelper("7","0")[0]; // remain: merged branch  move: current branch
     }
+
     public String[] findAncestorHelper(String remainedCommit, String movedCommit) throws IOException {  // return blobIDArray
         if (getCommit(remainedCommit).getPa_sha().equals(getCommit(movedCommit).getPa_sha())) { // ancestor node
 
@@ -772,9 +773,18 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
 
         ["5","3"....]
-     */
-    }
+
+    }*/
+
+
+
+    // test for tree building
+    /*
+    public void buildTree(String branchName){
+
+    }*/
 }
+
 class MyFilenameFilter implements FilenameFilter {
 
     String initials;
