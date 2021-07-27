@@ -1,7 +1,9 @@
 package gitlet;
 
+import java.io.IOException;
+
 public class LimeTree_test {
-    public static void main(String... args){
+    public static void main(String... args) throws IOException {
         LimeTreeFamily my_tree = new LimeTreeFamily("0", "3");
         LimeTreeFamily.LimeTree tree_1 = new LimeTreeFamily.LimeTree("1","3", my_tree.getRoot());
         LimeTreeFamily.LimeTree tree_2 = new LimeTreeFamily.LimeTree("2","0", my_tree.getRoot());

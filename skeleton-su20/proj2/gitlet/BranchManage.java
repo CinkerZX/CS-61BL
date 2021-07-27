@@ -102,7 +102,7 @@ public class BranchManage implements Serializable {
         File commit = new File("./.gitlet/Commits",sha);
         //File commit = new File(d.getPath(),sha);
         Commit commit1 = new Commit();
-        commit1.setPa_sha("No commit with that id");
+        commit1.setPa_sha("");
         try {
             Commit myCommit = Utils.readObject(commit, Commit.class);
             return(myCommit);
@@ -112,7 +112,7 @@ public class BranchManage implements Serializable {
     }
 
     // Get the current_commit object
-    public Commit current_commit(String working_directory){ // name => sha1
+    public static Commit current_commit(String working_directory){ // name => sha1
         File d = new File(working_directory,".gitlet");
         File branchMa = new File(d.getPath(), "branch");
         try{

@@ -6,12 +6,7 @@ D branch1 "xinxin"
 + wug.txt wug.txt
 > add wug.txt
 <<<
-> commit "Add wug.txt(wug)"
-<<<
-+ wug.txt notwug.txt
-> add wug.txt
-<<<
-> commit "Add wug.txt(notwug)"
+> commit "Commit1"
 <<<
 # Create the new branch
 > branch ${branch1}
@@ -22,12 +17,12 @@ D branch1 "xinxin"
 + wug.txt notwug.txt
 > add wug.txt
 <<<
-> commit "add wug.text(notwug)"
+> commit "Commit3"
 <<<
 # check out to master again
 > checkout ${branch0}
 <<<
 > rm wug.txt
 <<<
-> commit "remove wug.txt(notwug)"
+> commit "Commit0"
 <<<*

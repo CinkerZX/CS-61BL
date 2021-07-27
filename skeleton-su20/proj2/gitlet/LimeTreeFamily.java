@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
+import static gitlet.BranchManage.getCommit;
+
 // limeTree structure
 // each node: [Sha_Moved, Sha_Remained]
 // have a parent tree, and a series of children tree
@@ -75,7 +77,7 @@ public class LimeTreeFamily {
 
     public void addChild() throws IOException {
         if (root != null){
-            fringe.push(new String[] {root.PaSha_pair[1],root.PaSha_pair[0]});
+            fringe.push(new String[] {root.PaSha_pair[0],root.PaSha_pair[1]});
             addChildHelper(root);
         }
     }
@@ -83,32 +85,49 @@ public class LimeTreeFamily {
     /* Add child, move the Sha_pair[0] first, Sha_pair saved in stack */
     public void addChildHelper(LimeTree pa) throws IOException {
         if (!hasNext()) {
-            throw new NoSuchElementException("Fringe is clean");
+            System.out.println("Fringe is clean");
         }
         else{
-            // get the string pair out from fringe
-            String[] move_compare = fringe.pop();
+            System.out.println("current fringe contains");
+            for(String[] i : fringe){
+                System.out.println(getCommit(i[0]).getMetadata()[0] +" "+ getCommit(i[1]).getMetadata()[0]);
+            }
+            // (1) get the string pair out from fringe
+            String[] move_compare = fringe.pop();  // (2) get out from the fringe
             // Get the pa_sha by pa_tree.PaSha_pair[0](move)
-            Commit this_commit = BranchManage.getCommit(move_compare[0]);
-            if(!this_commit.getPa_sha().equals("")){
-                //put the pre_sha[1](retain) [0] in the fringe
-                fringe.push(new String[] {move_compare[1],move_compare[0]});
+            Commit this_commit = getCommit(move_compare[0]);
+            // Pay attention to the pushing requirements
+            if(!this_commit.getMetadata()[0].equals("initial commit") & !move_compare[0].equals(move_compare[1])){
+                System.out.println("Move commit: "+ this_commit.getMetadata()[0]);
+                System.out.println("Whose pa_sha commit is: " + getCommit(this_commit.getPa_sha()[0]).getMetadata()[0]);
+
+                if (!getCommit(this_commit.getPa_sha()[0]).getMetadata()[0].equals("initial commit")) {
+                    fringe.push(new String[]{move_compare[1], move_compare[0]}); // (3) put the changed position pairs in
+                }
                 String[] pre_sha = this_commit.getPa_sha();
                 LimeTree child_tree = new LimeTree(pre_sha[0], move_compare[1], pa);
                 //add tree
-                pa.children.add(child_tree);
+                pa.children.add(child_tree); // trace back and add tree
                 // Put the rest into the fringe
                 if(pre_sha.length > 1){
+                    Collections.reverse(Arrays.asList(pre_sha)); // reverse
                     for(String s : pre_sha){
-                        fringe.push(new String[] {s,move_compare[1]});
+                        if(!move_compare[1].equals(s) & !move_compare[1].equals("initial commit")) {
+                            fringe.push(new String[]{move_compare[1], s});
+                        }
                     }
                 }
-                addChildHelper(child_tree);
+                else{
+                    if(!move_compare[1].equals(pre_sha[0]) & !move_compare[1].equals("initial commit")){
+                        fringe.push(new String[]{move_compare[1],pre_sha[0]}); // (4) put the traced back pair into
+                    }
+                }
+                if(!pre_sha[0].equals(move_compare[1]) & !pre_sha[0].equals("initial commit")) {
+                    fringe.push(new String[]{pre_sha[0], move_compare[1]}); // (5) put the added tree pair into, so that next time will trace back from here
+                }
+                pa = child_tree;
             }
-            else{//push the remain into the fringe
-                fringe.push(new String[] {move_compare[1],move_compare[0]});
-                addChildHelper(pa);
-            }
+            addChildHelper(pa);
         }
     }
 
@@ -130,25 +149,25 @@ public class LimeTreeFamily {
 /*
 Depth first travelsal
  */
-    public void depth_First_Tra(){
+    public void depth_First_Tra() throws IOException {
         LimeTree root_node = getRoot();
-        //Stack<LimeTree> fringe = new Stack<LimeTree>();
-        ArrayDeque<LimeTree> fringe_2 = new ArrayDeque<>();
+        Stack<LimeTree> fringe = new Stack<LimeTree>();
+        //ArrayDeque<LimeTree> fringe_2 = new ArrayDeque<>();
         ArrayList<LimeTree> children = root_node.getChildren();
         System.out.println(children.size());
         Collections.reverse(Arrays.asList(children));
         for(LimeTree t : children){
-            //fringe.push(t);
-            fringe_2.add(t);
+            fringe.push(t);
+            //fringe_2.add(t);
         }
         tree_print("", root_node);
-        //Depth_Tra_helper(fringe,a);
-        Width_Tra_helper(fringe_2,a);
+        Depth_Tra_helper(fringe,a);
+        //Width_Tra_helper(fringe_2,a);
     }
 
     public String a = "    ";
 
-    public void Depth_Tra_helper(Stack<LimeTree> bookmark, String head){
+    public void Depth_Tra_helper(Stack<LimeTree> bookmark, String head) throws IOException {
         if(!bookmark.isEmpty()){
             LimeTree tree_to_print = bookmark.pop();
             tree_print(head, tree_to_print);
@@ -163,7 +182,7 @@ Depth first travelsal
 Width first travelsal
 Just change the (LIFO) stack to a (FIFO) queue
  */
-    public void Width_Tra_helper(ArrayDeque<LimeTree> bookmark, String head){
+    public void Width_Tra_helper(ArrayDeque<LimeTree> bookmark, String head) throws IOException {
         if(!bookmark.isEmpty()){
             LimeTree tree_to_print = bookmark.remove();
             tree_print(head,tree_to_print);
@@ -175,8 +194,8 @@ Just change the (LIFO) stack to a (FIFO) queue
     }
 
     // print out the tree
-    public void tree_print(String HEAD, LimeTree p_tree){
+    public void tree_print(String HEAD, LimeTree p_tree) throws IOException {
         System.out.print(HEAD);
-        System.out.println(p_tree.PaSha_pair[0].toString()+p_tree.PaSha_pair[1].toString());
+        System.out.println(getCommit(p_tree.PaSha_pair[0].toString()).getMetadata()[0]+getCommit(p_tree.PaSha_pair[1].toString()).getMetadata()[0]);
     }
 }

@@ -1,4 +1,4 @@
-### Write and test merge, start with findAncester and findAncesterhelper
+### Construct the branch, and test the recursion of LimeTree
 ### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
 ### ? branchmanage.read method
 ### add the methods of reset, branchmanagement, checkout
