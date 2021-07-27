@@ -103,7 +103,8 @@ public class Gitlet implements Serializable {
         }else{ System.out.println("No reason to remove the file.");}
     }
 
-    public void commit(String arg) throws IOException {
+    public void commit(String arg,String SecondParent) throws IOException {
+        // gitlet.Main commit 'commit message'"
         // check if the staging area is empty  &&  args checking  (failure cases
         // generate a new commit object (newCommit) by coping NBtable from "current commit"
         // make a list of tracking files combining the info from staging area
@@ -119,7 +120,7 @@ public class Gitlet implements Serializable {
             System.out.println("Please enter a commit message.");
         }
         else {
-            Commit newCommit = branchManager.NewCommit(arg);
+            Commit newCommit = createNewCommit(arg, SecondParent);
             NBtable[] newbloblist = newCommit.NBCommit;
 
             // staged for addition
@@ -149,8 +150,9 @@ public class Gitlet implements Serializable {
     }
 
     public void log() throws IOException {
+        ///merged node of two branches, The first parent is located in the current branch
 
-        ///TO-DO merged node of two branches
+        //TO-DO different printing format of merge node
 
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
         PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
@@ -316,6 +318,10 @@ public class Gitlet implements Serializable {
             System.out.println("A branch with that name already exists.");
         }else{
             branchManager.branches = NBtable.add(branchManager.branches,new NBtable(branchName,""));
+            NBtable b = NBtable.UseNameFindNBtable(branchName, branchManager.branches);
+            if(b.getSHA1Value().equals("")){
+                b.setSHA1Value(branchManager.head.getSHA1Value());
+            }
             branchManager.writeBM();
         }
     }
@@ -334,12 +340,12 @@ public class Gitlet implements Serializable {
 
     public void checkout(String[] args) throws IOException {
         //args :
-        // checkout -- [filename]  3
-        // checkout [commit id] -- [file name]  4
-        // checkout [branch name]  2
+        // checkout -- [filename]  3  modify file with the version in the current commit
+        // checkout [commit id] -- [file name]  4 modify file with the version in certain commit
+        // checkout [branch name]  2 switch branch
         switch(args.length){
             case 3:
-                NBtable[] blobsInCC = branchManager.FindCommitByID(branchManager.head.getSHA1Value()).NBCommit;
+                NBtable[] blobsInCC = branchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;
                 if(!NBtable.FileNameinNBArray(args[2],blobsInCC)){ System.out.println("File does not exist in that commit.");}
                 else{
                     File file = new File(fileWD,args[2]);
@@ -351,7 +357,7 @@ public class Gitlet implements Serializable {
                 File CommitFile = new File(fileC,args[1]);
                 if(!CommitFile.exists()){System.out.println("No commit with that id exists.");}
                 else{
-                    Commit commit = branchManager.FindCommitByID(args[1]);
+                    Commit commit = branchManager.FindCommit(args[1]);
                     NBtable[] blobsInC = commit.NBCommit;
                     if(!NBtable.FileNameinNBArray(args[3],blobsInC)){ System.out.println("File does not exist in that commit.");}
                     else{
@@ -382,9 +388,9 @@ public class Gitlet implements Serializable {
             }
         }else {
             // CheckoutCommit
-            NBtable[] blobsInCOC = branchManager.FindCommitByID(Commit_id).NBCommit;
+            NBtable[] blobsInCOC = branchManager.FindCommit(Commit_id).NBCommit;
             // DefaultCommit == CurrentCommit (blobsInCC)
-            NBtable[] blobsInDC = branchManager.FindCommitByID(branchManager.head.getSHA1Value()).NBCommit;
+            NBtable[] blobsInDC = branchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;
             for (File file : fileWD.listFiles()) {
                 if (!file.equals(fileG)) {
                     String tempFileName = file.getName();
@@ -395,7 +401,8 @@ public class Gitlet implements Serializable {
                     //      has the same content with the file in WD : pass
                     //  not in:
                     //      in Current branch : delete
-                    Boolean NameinCOC = NBtable.FileNameinNBArray(tempFileName, blobsInCOC);
+                    Boolean NameinCOC;
+                    if(blobsInCOC==null){NameinCOC = false;}else {NameinCOC = NBtable.FileNameinNBArray(tempFileName, blobsInCOC);}
                     Boolean NameinCC = NBtable.FileNameinNBArray(tempFileName, blobsInDC);
                     if (NameinCOC) {
                         //failure case : in checkout branch && untracked in current branch
@@ -436,7 +443,7 @@ public class Gitlet implements Serializable {
         if(flag == false){System.out.println("No commit with that id exists.");}
     }
 
-    public void merge(String branchName) {
+    public void merge(String branchName) throws IOException {
         if(stagingAdd.list().length > 0 || stagingRem.list().length >0 ){ // Failure case 1: staged additions or removals present
             System.out.println("You have uncommitted changes.");
         }else if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){ // Failure case 2
@@ -444,12 +451,45 @@ public class Gitlet implements Serializable {
         }else if(branchName.equals(branchManager.head.getFullName())){
             System.out.println("Cannot merge a branch with itself."); // Failure case 3
         }else{
-            //  NBtable[]1 NBtable[]2   CHOOSE THE ONE NOT EMPTY
-            findAncestor(branchManager.head.getSHA1Value(),NBtable.FindSHAinNBArray(branchName,branchManager.branches));
+            // generate a Id-pair tree
+            LimeFamily LimeTree = generateLimeTree(branchName);
+            //LimeTree.printDFS();
+            // from left to right, the first leaf node with same ID in pair is the ancestor node
+
+            // some files operating actions
+            String GB_SHA = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
+            Commit GB = BranchManager.FindCommit(GB_SHA);
+            //for test : delete after test please
+            for(NBtable file: GB.NBCommit){
+                checkout(new String[] {GB_SHA,"--",file.getFullName()});
+                add(file.getFullName());
+            }
+
+            // automatically commit with the log message "Merged [given branch name] into [current branch name]"
+            // records as parents both the head of CB (the first parent) and GB
+            String message = "Merged " + branchName + " into " + branchManager.head.getFullName();
+            try {
+                commit(message, GB_SHA);
+            }catch (Exception e){
+                System.out.println("Encountered a merge conflict.");
+            }
+
+
         }
     }
 
     //help-functions
+    public Commit createNewCommit(String arg,String SecondParent){
+        Commit newCommit;
+        String Firstparent = branchManager.head.getSHA1Value();
+        if(SecondParent.isEmpty()){
+            newCommit = new Commit(Firstparent, arg, new NBtable[0]);
+        }else{
+            newCommit = new Commit(Firstparent, SecondParent, arg, new NBtable[0]);
+        }
+        return newCommit;
+    }
+
     public void writeFile(File oriented_file, String fileContent ) throws IOException {
         if(oriented_file.exists()){
             PrintWriter writer = new PrintWriter(oriented_file);
@@ -466,33 +506,57 @@ public class Gitlet implements Serializable {
         System.out.println(commit.Metadata[0]);
         System.out.println();
     }
-    public void printString(String[] strings){
+    public static void printString(String[] strings){
         Arrays.sort(strings);//lexicographic order
         for(String item : strings){ System.out.println(item); }
     }
-    public String findAncestor(String Commit1, String Commit2){
-        // static NBtable[]1
-        // static NBtable[]2
-        return findAncestorHelper("7","0")[0]; // remain: merged branch  move: current branch
+    public static BranchManager.CommitTree MakeACT(String defaultbranch,String otherbranch) throws FileNotFoundException {
+        return BranchManager.MakeACommitTree(defaultbranch,otherbranch,branchManager.branches);
     }
-    public String[] findAncestorHelper(String remainedCommit, String movedCommit){  // return blobIDArray
-    /*    if( either are leaf node or NBtable[] is empty){ // leaf node
-            update NBtable[] 12
-        }else if( remainedCommit == movedCommit){ //ancestor node
 
-            return new NBtable[] {files from remainedCommit};
-            update NBtable[] 12
-        }else{ //recursion
-            if( multiple parent){
-                return String[]{ findAncestorHelper multiple times}
+
+    //TODO:  now we have tested data structure for Commit Tree and Lime Tree. Next step is to generate Lime tree from Commit tree (using recursion maybe)
+
+
+
+    public static LimeFamily generateLimeTree(String branchName) throws FileNotFoundException {
+        String sha = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
+        LimeFamily Lime = new LimeFamily(new String[] {branchManager.head.getSHA1Value(), sha});
+        generateLimeTreeHelper(branchManager.head.getSHA1Value(),sha,Lime.root,Lime);
+        return Lime;
+    }
+
+    private static void generateLimeTreeHelper(String movedCommitID, String remainedCommitID, LimeFamily.LimeTree node, LimeFamily Lime) throws FileNotFoundException {
+        Commit remainedCommit = BranchManager.FindCommit(remainedCommitID);
+        Commit movedCommit = BranchManager.FindCommit(movedCommitID);
+        /*ancestor node*/
+        if( remainedCommitID == movedCommitID){}
+        /*leaf node (Commit 0)   or NBtable[] is empty*/
+        else if(movedCommit.getPaSHA()[0].equals("")||remainedCommit.getPaSHA()[0].equals("")){}
+        /*recursion*/
+        else{
+            /* M1 : find the parents of the commit node from current branch first*/
+            if(!movedCommit.getPaSHA()[1].equals("")){
+                for(int i = 0;i<2;i++){
+                    Lime.addLeftChild(node,movedCommit.getPaSHA()[i]);
+                    generateLimeTreeHelper(remainedCommitID,movedCommit.getPaSHA()[i],node.child(i),Lime);
+                }
             }
-            return new String[]{findAncestorHelper(remainedCommit,ParentofMovedCommit1),findAncestorHelper(movedCommit,ParentofRemainedCommit2)};
+            else{
+                Lime.addLeftChild(node,movedCommit.getPaSHA()[0]);
+                generateLimeTreeHelper(remainedCommitID,movedCommit.getPaSHA()[0],node.child(0),Lime);
+            }
+            /* M2 : find the parents of the commit node from merged branch later*/
+            if(!remainedCommit.getPaSHA()[1].equals("")){
+                for(int i = 0;i<2;i++){
+                    generateLimeTreeHelper(movedCommitID,remainedCommit.getPaSHA()[i],node.child(i),Lime);
+                }
+            }else{
+                Lime.addRightChild(node,remainedCommit.getPaSHA()[0]);
+                generateLimeTreeHelper(movedCommitID,remainedCommit.getPaSHA()[0],node.child(1),Lime);
+            }
         }
-
-
-        ["5","3"....]
-     */
-    }*/
+    }
 
     //test-functions
     public void numOfBranch() throws FileNotFoundException {
@@ -500,6 +564,8 @@ public class Gitlet implements Serializable {
             System.out.println(branch.getFullName());
             File fileTemp = new File(fileC,branch.getSHA1Value());
             Commit commit = Utils.readObject(fileTemp,Commit.class);
+            System.out.println("parent:");
+            System.out.println(commit.getPaSHA()[0]);
             System.out.println("Blobs:");
             for(NBtable blob:commit.NBCommit){
                 System.out.println(blob.getFullName());
@@ -507,6 +573,10 @@ public class Gitlet implements Serializable {
             }
             System.out.println("*************************");
         }
+    }
+    public static void MakeACommitTree() throws FileNotFoundException {
+        BranchManager.CommitTree CT = Gitlet.MakeACT("master","main");
+        CT.print();
     }
     public void printSet(Set<String> sets){
         printString(NBtable.SetToString(sets));

@@ -11,7 +11,6 @@ public class Main {
     /** Usage: java gitlet.Main ARGS, where ARGS contains
      *  <COMMAND> <OPERAND> .... */
     public static void main(String... args) throws IOException {
-        // FILL THIS IN
         String workingDirectory;
         workingDirectory = System.getProperty("user.dir");
 
@@ -28,7 +27,7 @@ public class Main {
                     else{ System.out.println("Incorrect operands."); }
                     break;  /// must break after each case!!!!!!!!
                 case "commit":
-                    if(args.length == 2){ gitletRe.commit(args[1]); }
+                    if(args.length == 2){ gitletRe.commit(args[1],""); }
                     else if(args.length == 1){ System.out.println("Please enter a commit message."); }
                     else{ System.out.println("gitlet.Main commit 'commit message'"); }
                     break;
@@ -85,6 +84,9 @@ public class Main {
                     else{ System.out.println("gitlet.Main merge [branch name]"); }
                     break;
 
+                case "MakeACT":
+                    gitletRe.MakeACommitTree();
+                    break;
                 case "numOfBranch":
                     gitletRe.numOfBranch();
                     break;

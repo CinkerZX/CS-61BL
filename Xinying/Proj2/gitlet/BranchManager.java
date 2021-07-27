@@ -1,6 +1,11 @@
 package gitlet;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Stack;
 
 
 public class BranchManager implements Serializable {
@@ -26,12 +31,15 @@ public class BranchManager implements Serializable {
     }
 
     // copy current commit and set it as the parent commit
-    public Commit NewCommit(String message) throws FileNotFoundException { return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
+    public Commit NewCommit(String message) throws FileNotFoundException {
+        return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
 
     public static Commit FindCommit(String SHA1Value) throws FileNotFoundException{
+        if (SHA1Value== null){
+            return null;
+        }
         File file = new File(Gitlet.fileC,SHA1Value);
-        Commit thisCommit = Utils.readObject(file, Commit.class);
-        return thisCommit;
+        return Utils.readObject(file, Commit.class);
     }
 
     public Boolean inCurrentCommit(String filename) throws FileNotFoundException { return NBtable.FileNameinNBArray(filename, FindCommit(head.getSHA1Value()).NBCommit); }
@@ -63,8 +71,115 @@ public class BranchManager implements Serializable {
         }
     }
 
-    public Commit FindCommitByID(String commitID){
-        File file = new File(Gitlet.fileC,commitID);
-        return Utils.readObject(file,Commit.class);
+    public static CommitTree MakeACommitTree(String branchname1,String branchname2,NBtable[] branches) throws FileNotFoundException {
+        //root & ends
+        CommitTree commitTree = new CommitTree(new Commit(),new Commit[]{FindCommit(NBtable.FindSHAinNBArray(branchname1,branches)),FindCommit(NBtable.FindSHAinNBArray(branchname2,branches))});
+
+        //fill in the whole tree
+        for(CommitTree.CommitTreeNode head:commitTree.branchHeads){
+            commitTree.enlargeTree(head, head.self);
+        }
+
+        return commitTree;
+    }
+
+    public static class CommitTree{
+        public CommitTreeNode root;
+        public CommitTreeNode[] branchHeads;
+
+
+        public CommitTree(Commit root){
+            this.root = new CommitTreeNode(root);
+
+        }
+
+        public CommitTree(Commit root,Commit[] branchheads){
+            this.root = new CommitTreeNode(root);
+            branchHeads = new CommitTreeNode[]{new CommitTreeNode(branchheads[0]),new CommitTreeNode(branchheads[1])};
+        }
+
+        public void enlargeTree(CommitTreeNode node,Commit nodeCommit) throws FileNotFoundException{
+            node.enlargeParent();
+            for(CommitTreeNode parent : node.parents){
+                if(parent.self.Metadata[0].equals(this.root.self.Metadata[0])){
+                    this.root.children.add(node);
+                }
+                enlargeTreeHelper(parent,nodeCommit);
+            }
+        }
+
+        public void enlargeTreeHelper(CommitTreeNode node,Commit nodeCommit) throws FileNotFoundException{
+            if(nodeCommit.equals(this.root)){
+
+            }else{
+                node.enlargeParent();
+                for(CommitTreeNode parent : node.parents){
+                    if(parent.self.Metadata[0].equals(this.root.self.Metadata[0])){
+                        this.root.children.add(node);
+                    }
+                    enlargeTreeHelper(parent,nodeCommit);
+                }
+                node.enlargeChildren(nodeCommit);
+            }
+        }
+
+
+
+        public static class CommitTreeNode{
+            public Commit self;
+            private ArrayList<CommitTree.CommitTreeNode> parents;
+            private ArrayList<CommitTree.CommitTreeNode> children;
+
+            public CommitTreeNode(Commit node){
+                self = node;
+                children = new ArrayList<CommitTree.CommitTreeNode>();
+            }
+
+            public ArrayList<CommitTree.CommitTreeNode> getParent() {
+                return parents;
+            }
+            public ArrayList<CommitTree.CommitTreeNode> getChildren() {
+                return children;
+            }
+            public int arity(){ return children.size();}
+            public CommitTree.CommitTreeNode child(int k){ return children.get(k);}
+
+            public void enlargeParent() throws FileNotFoundException{
+                parents = new ArrayList<CommitTree.CommitTreeNode>();
+                for(String paSHA : self.getPaSHA()){
+                    if(!paSHA.isEmpty()){
+                        parents.add(new CommitTreeNode(FindCommit(self.getPaSHA()[0])));
+                    }
+                }
+            }
+            public void enlargeChildren(Commit child) throws FileNotFoundException{
+                children = new ArrayList<CommitTree.CommitTreeNode>();
+                children.add(new CommitTreeNode(child));
+            }
+        }
+
+
+
+        public void print() {
+            System.out.print(printHelper(root));
+        }
+        private String printHelper(CommitTree.CommitTreeNode node){
+            if(node.arity() == 0) return printNode(node);
+            else{
+                String R;
+                R = printNode(node);
+                for(int i = 0;i < node.arity();i +=1){
+                    R += "    " + "/n"+ printHelper(node.child(i));
+                    return R ;
+                }
+            }
+            return null;
+        }
+        private String printNode(CommitTree.CommitTreeNode node){
+            return "{"+ node.self.Metadata[0] + "}";
+        }
+
+
+
     }
 }
