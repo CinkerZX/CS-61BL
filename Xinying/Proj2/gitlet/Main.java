@@ -11,7 +11,6 @@ public class Main {
     /** Usage: java gitlet.Main ARGS, where ARGS contains
      *  <COMMAND> <OPERAND> .... */
     public static void main(String... args) throws IOException {
-        // FILL THIS IN
         String workingDirectory;
         workingDirectory = System.getProperty("user.dir");
 
@@ -85,6 +84,9 @@ public class Main {
                     else{ System.out.println("gitlet.Main merge [branch name]"); }
                     break;
 
+                case "MakeACT":
+                    gitletRe.MakeACommitTree();
+                    break;
                 case "numOfBranch":
                     gitletRe.numOfBranch();
                     break;
