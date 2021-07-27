@@ -94,6 +94,12 @@ public class UnitTest {
 
     }
 
+    /** CommitTreeTest*/
+    @Test
+    public void GenerateCommitTreeTest(){
+
+    }
+
 }
 
 
