@@ -453,6 +453,7 @@ public class Gitlet implements Serializable {
         }else{
             // generate a Id-pair tree
             LimeFamily LimeTree = generateLimeTree(branchName);
+            LimeTree.print();
             //LimeTree.printDFS();
             // from left to right, the first leaf node with same ID in pair is the ancestor node
 
@@ -520,40 +521,35 @@ public class Gitlet implements Serializable {
 
 
     public static LimeFamily generateLimeTree(String branchName) throws FileNotFoundException {
-        String sha = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
-        LimeFamily Lime = new LimeFamily(new String[] {branchManager.head.getSHA1Value(), sha});
-        generateLimeTreeHelper(branchManager.head.getSHA1Value(),sha,Lime.root,Lime);
+        BranchManager.CommitTree CT = Gitlet.MakeACT(branchManager.head.getFullName(),branchName);
+        //String sha = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
+        LimeFamily Lime = new LimeFamily(new Commit[] {CT.branchHeads[0].self, CT.branchHeads[1].self});
+        BranchManager.CommitTree.CommitTreeNode movedNode = CT.branchHeads[0];
+        BranchManager.CommitTree.CommitTreeNode remainedNode = CT.branchHeads[1];
+        generateLimeTreeHelper(movedNode,remainedNode,Lime.root,Lime,CT);
         return Lime;
     }
 
-    private static void generateLimeTreeHelper(String movedCommitID, String remainedCommitID, LimeFamily.LimeTree node, LimeFamily Lime) throws FileNotFoundException {
-        Commit remainedCommit = BranchManager.FindCommit(remainedCommitID);
-        Commit movedCommit = BranchManager.FindCommit(movedCommitID);
+    private static void generateLimeTreeHelper(BranchManager.CommitTree.CommitTreeNode movedNode, BranchManager.CommitTree.CommitTreeNode remainedNode, LimeFamily.LimeTree node, LimeFamily Lime, BranchManager.CommitTree CT) throws FileNotFoundException {
         /*ancestor node*/
-        if( remainedCommitID == movedCommitID){}
-        /*leaf node (Commit 0)   or NBtable[] is empty*/
-        else if(movedCommit.getPaSHA()[0].equals("")||remainedCommit.getPaSHA()[0].equals("")){}
+        if(movedNode.equals(remainedNode)){}
+        /*leaf node (Commit 0)*/
+        else if(movedNode.equals(CT.root)||remainedNode.equals(CT.root)){}
         /*recursion*/
         else{
             /* M1 : find the parents of the commit node from current branch first*/
-            if(!movedCommit.getPaSHA()[1].equals("")){
-                for(int i = 0;i<2;i++){
-                    Lime.addLeftChild(node,movedCommit.getPaSHA()[i]);
-                    generateLimeTreeHelper(remainedCommitID,movedCommit.getPaSHA()[i],node.child(i),Lime);
-                }
-            }
-            else{
-                Lime.addLeftChild(node,movedCommit.getPaSHA()[0]);
-                generateLimeTreeHelper(remainedCommitID,movedCommit.getPaSHA()[0],node.child(0),Lime);
+            int i = 0;
+            for(BranchManager.CommitTree.CommitTreeNode parent: movedNode.getParent()){
+                Lime.addLeftChild(node,parent.self);
+                generateLimeTreeHelper(remainedNode,parent,node.child(i),Lime,CT);
+                i++;
             }
             /* M2 : find the parents of the commit node from merged branch later*/
-            if(!remainedCommit.getPaSHA()[1].equals("")){
-                for(int i = 0;i<2;i++){
-                    generateLimeTreeHelper(movedCommitID,remainedCommit.getPaSHA()[i],node.child(i),Lime);
-                }
-            }else{
-                Lime.addRightChild(node,remainedCommit.getPaSHA()[0]);
-                generateLimeTreeHelper(movedCommitID,remainedCommit.getPaSHA()[0],node.child(1),Lime);
+            int j = 0;
+            for(BranchManager.CommitTree.CommitTreeNode parent: remainedNode.getParent()){
+                Lime.addLeftChild(node,parent.self);
+                generateLimeTreeHelper(movedNode,parent,node.child(j),Lime,CT);
+                j++;
             }
         }
     }
