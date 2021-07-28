@@ -9,7 +9,7 @@ public class MergeTest {
         // using generateLimeTree and generateLimeTreeHelper method in Gitlet
 
 
-        return new LimeFamily(new String[] {"0","0"});
+        return new LimeFamily(new Commit[]{});
     }
 
     /** this method generate a CommitTree from scratch */

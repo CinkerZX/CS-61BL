@@ -9,20 +9,20 @@ public class LimeFamily {
     public LimeTree root;
 
     /* Creates an LimeFamily, where the first Lime's parent is an ID_pair. */
-    public LimeFamily(String[] ID_pair) {
+    public LimeFamily(Commit[] ID_pair) {
         root = new LimeTree(ID_pair, null);
     }
 
     // move current branch node first M1
-    public void addLeftChild(LimeTree node, String childID) {
+    public void addLeftChild(LimeTree node, Commit child) {
         if (node != null) {
-            node.addChildHelper(node.PaSHA_pair[0], childID);
+            node.addChildHelper(node.Parents_pair[0], child);
         }
     }
     // move merged branch node later M2
-    public void addRightChild(LimeTree node, String childID) {
+    public void addRightChild(LimeTree node, Commit child) {
         if (node != null) {
-            node.addChildHelper(node.PaSHA_pair[1], childID);
+            node.addChildHelper(node.Parents_pair[1], child);
         }
     }
 /*    public void addChild(String[] PaID_pair) {
@@ -73,7 +73,7 @@ public class LimeFamily {
     private String printNode(LimeTree node){
         String nodeString;
         nodeString = "{";
-        for(String ID : node.PaSHA_pair){ nodeString += ID+"  "; }
+        for(Commit ID : node.Parents_pair){ nodeString += ID.Metadata[0] +"  "; }
         return nodeString + "}";
     }
 
@@ -84,12 +84,12 @@ public class LimeFamily {
     }
 
     public class LimeTree {
-        public String[] PaSHA_pair;  //{remainedCommitID, MovedCommitID}
+        public Commit[] Parents_pair;  //{remainedCommitID, MovedCommitID}
         public LimeTree parent;
         public ArrayList<LimeTree> children;
 
-        public LimeTree(String[] paSHA_pair, LimeTree Parent){
-            this.PaSHA_pair = paSHA_pair;
+        public LimeTree(Commit[] paSHA_pair, LimeTree Parent){
+            this.Parents_pair = paSHA_pair;
             this.parent = Parent;
             this.children = new ArrayList<LimeTree>();
         }
@@ -103,16 +103,16 @@ public class LimeFamily {
         public int arity(){ return children.size();}
         public LimeTree child(int k){ return children.get(k);}
 
-        public void addChildHelper(String parentID, String childID) {
-            if (PaSHA_pair[0].equals(parentID)) {
-                LimeTree child = new LimeTree(new String[]{childID,PaSHA_pair[1]}, this);
+        public void addChildHelper(Commit parent, Commit baby) {
+            if (Parents_pair[0].equals(parent)) {
+                LimeTree child = new LimeTree(new Commit []{baby,Parents_pair[1]}, this);
                 children.add(child);
-            }else if(PaSHA_pair[1].equals(parentID)){
-                LimeTree child = new LimeTree(new String[]{PaSHA_pair[0],childID}, this);
+            }else if(Parents_pair[1].equals(parent)){
+                LimeTree child = new LimeTree(new Commit []{Parents_pair[0],baby}, this);
                 children.add(child);
             }else {
                 for (LimeTree a : children) {
-                    a.addChildHelper(parentID, childID);
+                    a.addChildHelper(parent, baby);
                 }
             }
         }
