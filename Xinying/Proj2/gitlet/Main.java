@@ -84,9 +84,6 @@ public class Main {
                     else{ System.out.println("gitlet.Main merge [branch name]"); }
                     break;
 
-                case "MakeACT":
-                    gitletRe.MakeACommitTree();
-                    break;
                 case "numOfBranch":
                     gitletRe.numOfBranch();
                     break;
