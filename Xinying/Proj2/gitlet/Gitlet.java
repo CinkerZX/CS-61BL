@@ -1,5 +1,6 @@
 package gitlet;
 
+import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.util.*;
 
@@ -453,29 +454,32 @@ public class Gitlet implements Serializable {
         }else{
             // generate a Id-pair tree
             LimeFamily LimeTree = generateLimeTree(branchName);
-            LimeTree.print();
-            //LimeTree.printDFS();
             // from left to right, the first leaf node with same ID in pair is the ancestor node
+            Commit splitPoint = LimeTree.SplitPoint();
+            //TODO:  now we have find split point, continue merging
 
-            // some files operating actions
-            String GB_SHA = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
-            Commit GB = BranchManager.FindCommit(GB_SHA);
+            // files operations
+            String OTHER_SHA = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
+            Commit OTHER = BranchManager.FindCommit(OTHER_SHA);
+            Commit HEAD = BranchManager.FindCommit(branchManager.head.getSHA1Value());
+
+            NBtable[] AllFiles = new NBtable[]{};
+
+
             //for test : delete after test please
-            for(NBtable file: GB.NBCommit){
-                checkout(new String[] {GB_SHA,"--",file.getFullName()});
+            /*for(NBtable file: OTHER.NBCommit){
+                checkout(new String[] {OTHER_SHA,"--",file.getFullName()});
                 add(file.getFullName());
-            }
+            }*/
 
             // automatically commit with the log message "Merged [given branch name] into [current branch name]"
             // records as parents both the head of CB (the first parent) and GB
             String message = "Merged " + branchName + " into " + branchManager.head.getFullName();
             try {
-                commit(message, GB_SHA);
+                commit(message, OTHER_SHA);
             }catch (Exception e){
                 System.out.println("Encountered a merge conflict.");
             }
-
-
         }
     }
 
@@ -514,12 +518,6 @@ public class Gitlet implements Serializable {
     public static BranchManager.CommitTree MakeACT(String defaultbranch,String otherbranch) throws FileNotFoundException {
         return BranchManager.MakeACommitTree(defaultbranch,otherbranch,branchManager.branches);
     }
-
-
-    //TODO:  now we have tested data structure for Commit Tree and Lime Tree. Next step is to generate Lime tree from Commit tree (using recursion maybe)
-
-
-
     public static LimeFamily generateLimeTree(String branchName) throws FileNotFoundException {
         BranchManager.CommitTree CT = Gitlet.MakeACT(branchManager.head.getFullName(),branchName);
         //String sha = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
@@ -529,25 +527,25 @@ public class Gitlet implements Serializable {
         generateLimeTreeHelper(movedNode,remainedNode,Lime.root,Lime,CT);
         return Lime;
     }
-
     private static void generateLimeTreeHelper(BranchManager.CommitTree.CommitTreeNode movedNode, BranchManager.CommitTree.CommitTreeNode remainedNode, LimeFamily.LimeTree node, LimeFamily Lime, BranchManager.CommitTree CT) throws FileNotFoundException {
         /*ancestor node*/
-        if(movedNode.equals(remainedNode)){}
+        if(movedNode.self.Metadata[0].equals(remainedNode.self.Metadata[0])){return;}
         /*leaf node (Commit 0)*/
-        else if(movedNode.equals(CT.root)||remainedNode.equals(CT.root)){}
+        else if(movedNode.self.Metadata[0].equals(CT.root.self.Metadata[0])||remainedNode.self.Metadata[0].equals(CT.root.self.Metadata[0])){return;}
         /*recursion*/
         else{
             /* M1 : find the parents of the commit node from current branch first*/
             int i = 0;
             for(BranchManager.CommitTree.CommitTreeNode parent: movedNode.getParent()){
                 Lime.addLeftChild(node,parent.self);
-                generateLimeTreeHelper(remainedNode,parent,node.child(i),Lime,CT);
+                generateLimeTreeHelper(parent,remainedNode,node.child(i),Lime,CT);
                 i++;
+
             }
             /* M2 : find the parents of the commit node from merged branch later*/
-            int j = 0;
+            int j = i;
             for(BranchManager.CommitTree.CommitTreeNode parent: remainedNode.getParent()){
-                Lime.addLeftChild(node,parent.self);
+                Lime.addRightChild(node,parent.self);
                 generateLimeTreeHelper(movedNode,parent,node.child(j),Lime,CT);
                 j++;
             }
@@ -570,10 +568,10 @@ public class Gitlet implements Serializable {
             System.out.println("*************************");
         }
     }
-    public static void MakeACommitTree() throws FileNotFoundException {
+/*    public static void MakeACommitTree() throws FileNotFoundException {
         BranchManager.CommitTree CT = Gitlet.MakeACT("master","main");
         CT.print();
-    }
+    }*/
     public void printSet(Set<String> sets){
         printString(NBtable.SetToString(sets));
     }

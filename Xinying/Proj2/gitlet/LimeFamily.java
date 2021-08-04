@@ -35,6 +35,7 @@ public class LimeFamily {
     /* Prints the name of all Limes in this LimeFamily in preorder, with
        the ROOT Lime printed first. Each Lime should be indented four spaces
        more than its parent. */
+/*
     public void print() {
         System.out.print(printHelper(root));
     }
@@ -51,6 +52,7 @@ public class LimeFamily {
         }
         return null;
     }
+*/
 
     /* Prints the name of all Limes in this LimeFamily in Depth-First Traversals, with
        the ROOT Lime printed first. */
@@ -62,13 +64,33 @@ public class LimeFamily {
         }
     }
 
-    public void printBFS() {
+    public Commit SplitPoint() {
+        LimeTreeDFSIterator LimeTreeDFSiterator = new LimeTreeDFSIterator();
+        LimeTree tempAncestor = new LimeTree();
+        Commit point = new Commit();
+        while(LimeTreeDFSiterator.hasNext()){
+            LimeTree node = LimeTreeDFSiterator.next();
+            if(SplitPointHelper(node,tempAncestor)){
+                point = node.Parents_pair[0];
+                tempAncestor = node;
+            }
+        }
+        return point;
+    }
+    private Boolean SplitPointHelper(LimeTree node,LimeTree tempAncestor){
+        if(node.Parents_pair[0].Metadata[0].equals(node.Parents_pair[1].Metadata[0])){
+            if(tempAncestor.height > node.height){return true;}
+        }
+        return false;
+    }
+
+    /*public void printBFS() {
         LimeTreeBFSIterator LimeTreeBFSiterator = new LimeTreeBFSIterator();
         while(LimeTreeBFSiterator.hasNext()){
             LimeTree node = LimeTreeBFSiterator.next();
             System.out.println(printNode(node));
         }
-    }
+    }*/
 
     private String printNode(LimeTree node){
         String nodeString;
@@ -87,12 +109,21 @@ public class LimeFamily {
         public Commit[] Parents_pair;  //{remainedCommitID, MovedCommitID}
         public LimeTree parent;
         public ArrayList<LimeTree> children;
+        public int height;
 
         public LimeTree(Commit[] paSHA_pair, LimeTree Parent){
             this.Parents_pair = paSHA_pair;
             this.parent = Parent;
             this.children = new ArrayList<LimeTree>();
+            if(Parent==null){
+                this.height = 0;
+            }else{this.height = parent.height+1;}
         }
+
+        public LimeTree(){
+            this.height = 10000;
+        }
+
 
         public LimeTree getParent() {
             return parent;
