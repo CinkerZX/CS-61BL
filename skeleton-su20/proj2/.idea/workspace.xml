@@ -21,18 +21,11 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily$LimeTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily$LimeTree.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test07-buildTree_0/.gitlet/Commits/02610ca14246bda9d0ccb5817c6a64128c6d9dc4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test07-buildTree_0/.gitlet/Commits/c02f65b74cba0b45491d9359de5a22fea42bc185" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test07-buildTree_0/.gitlet/Commits/c92dc105ed10800f8cfb6ac0667dd9f99a537eb5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test07-buildTree_0/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test07-buildTree_0/.gitlet/branch" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -282,32 +275,32 @@
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1217.720@0.0.1217.720" timestamp="1620395378414" />
-    <state width="566" height="157" key="GridCell.Tab.0.bottom" timestamp="1628099884150">
+    <state width="1173" height="195" key="GridCell.Tab.0.bottom" timestamp="1628106262005">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.bottom/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
-    <state width="566" height="157" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628099884150" />
+    <state width="1173" height="195" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1168" height="145" key="GridCell.Tab.0.bottom/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1174" height="153" key="GridCell.Tab.0.bottom/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
-    <state width="566" height="157" key="GridCell.Tab.0.center" timestamp="1628099884149">
+    <state width="1173" height="195" key="GridCell.Tab.0.center" timestamp="1628106262005">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.center/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
-    <state width="566" height="157" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628099884149" />
+    <state width="1173" height="195" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1168" height="145" key="GridCell.Tab.0.center/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1174" height="153" key="GridCell.Tab.0.center/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
-    <state width="566" height="157" key="GridCell.Tab.0.left" timestamp="1628099884149">
+    <state width="1173" height="195" key="GridCell.Tab.0.left" timestamp="1628106262005">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.left/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
-    <state width="566" height="157" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628099884149" />
+    <state width="1173" height="195" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1168" height="145" key="GridCell.Tab.0.left/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1174" height="153" key="GridCell.Tab.0.left/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
-    <state width="566" height="157" key="GridCell.Tab.0.right" timestamp="1628099884150">
+    <state width="1173" height="195" key="GridCell.Tab.0.right" timestamp="1628106262005">
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.right/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
-    <state width="566" height="157" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628099884150" />
+    <state width="1173" height="195" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1168" height="145" key="GridCell.Tab.0.right/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
     <state width="1174" height="153" key="GridCell.Tab.0.right/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
     <state width="1173" height="209" key="GridCell.Tab.1.bottom" timestamp="1627414361710">

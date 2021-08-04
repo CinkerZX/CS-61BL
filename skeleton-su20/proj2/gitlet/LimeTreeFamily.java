@@ -45,14 +45,6 @@ public class LimeTreeFamily {
         public void addChild(LimeTree child_tree){
             this.children.add(child_tree);
         }
-
-        public LimeTree getParent() {
-            return parent;
-        }
-
-        public ArrayList<LimeTree> getChildren() {
-            return children;
-        }
     }
 
     // Feature of LimeTreeFamily
@@ -95,13 +87,10 @@ public class LimeTreeFamily {
             while((!pa.PaSha_pair[0].equals(move_compare[0]) & !pa.PaSha_pair[0].equals(move_compare[1])) || (!pa.PaSha_pair[1].equals(move_compare[0]) & !pa.PaSha_pair[1].equals(move_compare[1]))){
                 pa = pa.parent;
             }
-            System.out.println("Pop: "+getCommit(move_compare[0]).getMetadata()[0] +" "+ getCommit(move_compare[1]).getMetadata()[0]);
             // Get the pa_sha by pa_tree.PaSha_pair[0](move)
             Commit this_commit = getCommit(move_compare[0]);
             // Pay attention to the pushing requirements
             if(!this_commit.getMetadata()[0].equals("initial commit") & !move_compare[0].equals(move_compare[1])){
-//                System.out.println("Move commit: "+ this_commit.getMetadata()[0]);
-//                System.out.println("Whose pa_sha commit is: " + getCommit(this_commit.getPa_sha()[0]).getMetadata()[0]);
                 if (!getCommit(this_commit.getPa_sha()[0]).getMetadata()[0].equals("initial commit") & !move_compare[1].equals(move_compare[0])) {
                     fringe.push(new String[]{move_compare[1], move_compare[0]}); // (3) put the changed position pairs in
 
@@ -110,11 +99,9 @@ public class LimeTreeFamily {
                 LimeTree child_tree = new LimeTree(pre_sha[0], move_compare[1], pa);
                 //add tree
                 pa.children.add(child_tree); // trace back and add tree
-                System.out.println("Add: " + getCommit(child_tree.PaSha_pair[0]).getMetadata()[0] + ' ' + getCommit(child_tree.PaSha_pair[1]).getMetadata()[0]);
-                System.out.println("Pa: " + getCommit(pa.PaSha_pair[0]).getMetadata()[0] + ' ' + getCommit(pa.PaSha_pair[1]).getMetadata()[0]);
                 // Put the rest into the fringe
                 if(pre_sha.length > 1){
-                    Collections.reverse(Arrays.asList(pre_sha)); // reverse
+                    Collections.reverse(Arrays.asList(pre_sha)); // reverse Arrays.asList can be used to String or Integer
                     for(String s : pre_sha){
                         if(!move_compare[1].equals(s) & !move_compare[1].equals("initial commit")) {
                             fringe.push(new String[]{move_compare[1], s});
@@ -173,8 +160,8 @@ Depth first travelsal
         root_node.level = 0;
         Stack<LimeTree> fringe = new Stack<LimeTree>();
         // ArrayDeque<LimeTree> fringe_2 = new ArrayDeque<>();
-        ArrayList<LimeTree> children = root_node.getChildren();
-        Collections.reverse(Arrays.asList(children));
+        ArrayList<LimeTree> children = root_node.children;
+        Collections.reverse(children); // attention: here do not need to add "Arrays.asList"
         for(LimeTree t : children){
             fringe.push(t);
             //fringe_2.add(t);
@@ -200,7 +187,7 @@ Depth first travelsal
                     t.level = t.parent.level+1;
                 }
             }
-            Collections.reverse(Arrays.asList(tree_to_print.children));
+            Collections.reverse(tree_to_print.children);
             for (LimeTree t : tree_to_print.children){
                 bookmark.push(t);
             }
