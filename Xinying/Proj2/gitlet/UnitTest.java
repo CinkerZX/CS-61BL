@@ -17,6 +17,7 @@ public class UnitTest {
     }
 
     /** LimeTree test */
+/*
     @Test
     public void PrintLimeTreeTest() {
 
@@ -93,6 +94,7 @@ public class UnitTest {
         assertArrayEquals(R2child1,family.root.child(0).child(1).PaSHA_pair);
 
     }
+*/
 
     /** CommitTreeTest*/
     @Test
