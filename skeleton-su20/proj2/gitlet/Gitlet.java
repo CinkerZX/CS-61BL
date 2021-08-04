@@ -602,9 +602,8 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             clean_staging();
         }
     }
-
-    // merge [branch name]
 /*
+    // merge [branch name]
     public void merge(String branch_name) throws IOException {
         //false case 1: If there are staged additions or removals present, print the error message, and exist
         if (staging_empty()) {
@@ -631,8 +630,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 }
             }
         }
-    }
-*/
+    } */
 
     // Helping function
     // get current branch

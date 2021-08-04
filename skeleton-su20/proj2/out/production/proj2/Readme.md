@@ -1,6 +1,4 @@
-### Construct the branch, and test the recursion of LimeTree
-### Gitlet.java try integration test on those existing methods by python + '.in' to debug add, remove, commit
-### ? branchmanage.read method
+### Test merge
 ### add the methods of reset, branchmanagement, checkout
 
 ### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 
