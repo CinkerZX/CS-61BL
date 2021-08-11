@@ -21,11 +21,12 @@
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily$LimeTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily$LimeTree.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,40 +269,39 @@
     </state>
     <state x="146" y="15" width="865" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626442596808" />
     <state x="-7" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628086417312" />
-    <state x="157" y="30" width="865" height="690" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1211.720@0.0.1211.720" timestamp="1619532698449" />
     <state x="-39" y="27" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1217.720@0.0.1217.720" timestamp="1620208031747" />
     <state x="115" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1218.720@0.0.1218.720" timestamp="1623483602302" />
     <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1620395378414">
       <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state x="336" y="161" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1217.720@0.0.1217.720" timestamp="1620395378414" />
-    <state width="1173" height="195" key="GridCell.Tab.0.bottom" timestamp="1628106262005">
-      <screen x="0" y="0" width="1216" height="720" />
+    <state width="1174" height="49" key="GridCell.Tab.0.bottom" timestamp="1628709512978">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.bottom/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
-    <state width="1168" height="145" key="GridCell.Tab.0.bottom/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
+    <state width="1174" height="49" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512978" />
     <state width="1174" height="153" key="GridCell.Tab.0.bottom/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
-    <state width="1173" height="195" key="GridCell.Tab.0.center" timestamp="1628106262005">
-      <screen x="0" y="0" width="1216" height="720" />
+    <state width="1174" height="49" key="GridCell.Tab.0.center" timestamp="1628709512977">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.center/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
-    <state width="1168" height="145" key="GridCell.Tab.0.center/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
+    <state width="1174" height="49" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
     <state width="1174" height="153" key="GridCell.Tab.0.center/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
-    <state width="1173" height="195" key="GridCell.Tab.0.left" timestamp="1628106262005">
-      <screen x="0" y="0" width="1216" height="720" />
+    <state width="1174" height="49" key="GridCell.Tab.0.left" timestamp="1628709512977">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.left/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
-    <state width="1168" height="145" key="GridCell.Tab.0.left/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
+    <state width="1174" height="49" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
     <state width="1174" height="153" key="GridCell.Tab.0.left/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
-    <state width="1173" height="195" key="GridCell.Tab.0.right" timestamp="1628106262005">
-      <screen x="0" y="0" width="1216" height="720" />
+    <state width="1174" height="49" key="GridCell.Tab.0.right" timestamp="1628709512977">
+      <screen x="0" y="0" width="1217" height="720" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.right/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
-    <state width="1168" height="145" key="GridCell.Tab.0.right/0.0.1211.720@0.0.1211.720" timestamp="1619534996315" />
+    <state width="1174" height="49" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
     <state width="1174" height="153" key="GridCell.Tab.0.right/0.0.1217.720@0.0.1217.720" timestamp="1620210069114" />
     <state width="1173" height="209" key="GridCell.Tab.1.bottom" timestamp="1627414361710">
       <screen x="0" y="0" width="1216" height="720" />
@@ -319,14 +319,6 @@
       <screen x="0" y="0" width="1216" height="720" />
     </state>
     <state width="1173" height="209" key="GridCell.Tab.1.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1627414361710" />
-    <state x="265" y="62" key="RollbackChangesDialog" timestamp="1619534242923">
-      <screen x="0" y="0" width="1211" height="720" />
-    </state>
-    <state x="265" y="62" key="RollbackChangesDialog/0.0.1211.720@0.0.1211.720" timestamp="1619534242923" />
-    <state x="87" y="2" width="914" height="707" key="SettingsEditor" timestamp="1619532834287">
-      <screen x="0" y="0" width="1211" height="720" />
-    </state>
-    <state x="87" y="2" width="914" height="707" key="SettingsEditor/0.0.1211.720@0.0.1211.720" timestamp="1619532834287" />
     <state x="215" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1627394797919">
       <screen x="0" y="0" width="1216" height="720" />
     </state>

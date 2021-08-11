@@ -1,4 +1,9 @@
-### Complete the file operations of merge function
+### To do: 1) justify the position of split point
+### 2) correct OTHER_nb_files, HEAD_nb_files
+###    split_point(oldest commit) -> root(latest commit)
+###    if the file name is the same, replace the current one, if different then add into the NB table array
+### 3) case (5) the file was absent at the split point and has different contents in the given and current branches. ---CONFLICT
+ 
 ### add the methods of reset, branchmanagement, checkout
 
 ### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 

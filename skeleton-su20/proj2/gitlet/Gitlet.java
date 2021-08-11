@@ -70,14 +70,14 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             //generate a blob
             Blob blob = new Blob(f_workingDirec);
             File blob_add = new File(".gitlet/Blobs", blob.getBlob_name());
-            // check if this blob already exists by it's sha1
+            // check if such add operation has already exists in the "staged for addition"
             if (!check(Args, ".gitlet/Staging Area/Staged for addition")){ //not exists
                 // add the sha1(blob) into Staged for addition
                 File f_add = new File(".gitlet/Staging Area/Staged for addition", blob.getBlob_name());
                 f_add.createNewFile();
                 Utils.writeContents(f_add, blob.getfileName());
             }
-            // check if such add operation has already exists in the "staged for addition"
+            // check if this blob already exists by it's sha1
             if (!check(blob.getBlob_name(), ".gitlet/Blobs")) { // not yet
                 // add the blob into the content
                 blob_add.createNewFile(); // Create the file
@@ -159,6 +159,76 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
                 // generate a new commit object (newCommit) by coping NBtable from "current commit"
                 Commit new_Commit = branch.new_commit(Args, working_directory);
+                // make a list of tracking files combining the info from staging area
+                NBtable[] blob_list = new_Commit.getNB_commit();
+
+                File file_blob = new File(working_directory,".gitlet/Blobs"); // we meed to go to the Blobs directory to find the blob
+
+                // staged for addition : append new blobs of "staged for addition" to newCommit's NBtable
+                for (String sha_blob : file_add.list()){
+                    // find the blob object by its hash name
+                    File blob = new File(file_blob, sha_blob);
+                    Blob add_blob = Utils.readObject(blob, Blob.class); // read the blob out
+                    //generate the new NBtable of this blob
+                    NBtable new_blob = new NBtable(add_blob.getfileName(), sha_blob);
+                    blob_list = ArrayUtils.add(blob_list,new_blob);
+
+                    // clear staging area (clear the file in addition diction)
+                    File staging_add = new File(file_add, sha_blob); // delete the file 'sha_blob' in "Staging Area\Staged for addition"
+                    staging_add.delete();
+                }
+
+                // staged for removal : remove blobs of "staged for removal" from newCommit's NBtable
+                for (String sha_blob : file_remove.list()){
+                    // find the blob object by its hash name
+                    File blob = new File(file_blob, sha_blob);
+                    Blob remove_blob = Utils.readObject(blob, Blob.class); // read the blob out
+                    //generate the new NBtable of this blob
+                    NBtable new_blob = new NBtable(remove_blob.getfileName(), sha_blob);
+                    blob_list = ArrayUtils.removeElement(blob_list,new_blob);
+
+                    // clear staging area (clear the file in removal diction)
+                    File staging_remove = new File(file_remove, sha_blob);
+                    staging_remove.delete();
+                }
+
+                // Don't forget to write blobs into the commit
+                new_Commit.setNB_commit(blob_list);
+                //System.out.println("already add the blob"+ blob_list.length);
+
+                // write commit object
+                File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(new_Commit)));
+                commit_add.createNewFile();
+                Utils.writeObject(commit_add, new_Commit); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
+
+                // Update branches and update_head
+                branch.update_branches(Utils.sha1(Utils.serialize(new_Commit)));
+                branch.wt(working_directory,branch); // write the branch management object
+            } catch (Exception e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
+    public void commit(String Args, String pa_sha_1, String pa_sha_2) throws IOException {
+        // check if the staging area is empty  &&  args checking  (failure cases
+        File file_add = new File(working_directory,".gitlet/Staging Area/Staged for addition");
+        File file_remove = new File(working_directory,".gitlet/Staging Area/Staged for removal");
+        if(file_add.list().length == 0 & file_remove.list().length == 0){ // if file_add.list() is empty, [] is not null, here must use the length of the list to judge
+            System.out.println("No changes added to the commit");
+        }
+        else if(Args.isEmpty()){ // E is upper case
+            System.out.println("Please enter a commit message");
+        }
+        else{
+            // Read the existing branch
+            File d = new File(working_directory,".gitlet");
+            File branchMa = new File(d.getPath(), "branch");
+            try{
+                BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+                // generate a new commit object (newCommit) by coping NBtable from "current commit"
+                Commit new_Commit = branch.new_commit(Args, working_directory);
+                new_Commit.addPa_sha(pa_sha_1, pa_sha_2);
+
                 // make a list of tracking files combining the info from staging area
                 NBtable[] blob_list = new_Commit.getNB_commit();
 
@@ -535,7 +605,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         BranchManage cur_branch = getCurrentBranch();
         Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
         // if new branch doesn't have any commit
-        if(object_commit.getPa_sha()[0].equals("No commit with that id")){
+        if(object_commit.getPa_sha()[0].equals("")){
             File[] files_Working = get_all_files(working_directory);
             for (File file_Working : files_Working) {
                 String file_name = file_Working.getName();
@@ -564,7 +634,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // checkout commit_id file_name
     public void checkoutCommitFilename(String commit_id, String file_name)throws IOException {
         Commit cur_commit = getCommit(commit_id);
-        if (cur_commit.getPa_sha()[0].equals("No commit with that id")){
+        if (cur_commit.getPa_sha()[0].equals("")){
             System.out.println("No commit with that id exists.");
         }
         else{
@@ -587,7 +657,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // reset [commit id]
     public void reset(String commit_id) throws IOException {
         Commit object_commit = getCommit(commit_id);
-        if (object_commit.getPa_sha()[0].equals("No commit with that id")){ // no such commit_id
+        if (object_commit.getPa_sha()[0].equals("")){ // no such commit_id
             System.out.println("No commit with that id exists.");
         }
         else{
@@ -602,7 +672,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             clean_staging();
         }
     }
-/*
+
     // merge [branch name]
     public void merge(String branch_name) throws IOException {
         //false case 1: If there are staged additions or removals present, print the error message, and exist
@@ -614,7 +684,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         else {
             NBtable object_branch = getBranch(branch_name);
             Commit object_commit = getCommit(object_branch.getSha1_file_name());
-            if (object_commit.getPa_sha()[0].equals("No commit with that id")) {
+            if (object_commit.getPa_sha()[0].equals("")) {
                 System.out.println("A branch with that name does not exist.");
                 return;
             }
@@ -625,12 +695,68 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                     System.out.println("Cannot merge a branch with itself.");
                     return;
                 } else {
-                    //  NBtable[]1 NBtable[]2   CHOOSE THE ONE NOT EMPTY
-                    findAncestor(branchManager.head.getSHA1Value(), NBtable.FindSHAinNBArray(branchName, branchManager.branches));
+                    // get the split_commit
+                    try {
+                        NBtable[] branches = cur_branch.getBranches();
+                        String sha_moved = cur_branch.get_cur_commit_sha1(); // sha1 of *master
+                        Commit HEAD = getCommit(sha_moved);// latest commit of the current branch
+                        String sha_remain = myTable(branches, branch_name).getSha1_file_name();// sha1 of xinxin
+                        Commit OTHER = getCommit(sha_remain); // latest commit of the merged branch
+                        // Construct LimeTreeFamily
+                        LimeTreeFamily my_tree = new LimeTreeFamily(sha_moved, sha_remain);
+                        // Fulfill the tree
+                        my_tree.addChild();
+                        // Check if the splitPoint function
+                        Commit split_commit = getCommit(my_tree.splitPoint());
+
+                        // case(2) Files added in OTHER
+                        NBtable[] OTHER_nb_files = OTHER.getNB_commit();
+                        NBtable[] SPLIT_nb_files = split_commit.getNB_commit();
+                        String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
+                        for (String s : add_filenames){
+                            checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
+                        }
+
+                        // case (3) Files removed from OTHER and not changed in HEAD
+                        String[] rm_filenames = NBtable.get_names_Compliment(SPLIT_nb_files, OTHER_nb_files);
+                        NBtable[] HEAD_nb_files = HEAD.getNB_commit();
+                        for (String s : rm_filenames){
+                            if (files_sameContent(s,HEAD_nb_files,SPLIT_nb_files)){
+                                // if the same, delete the file from working directory
+                                deleteFile(s);
+                            }
+                        }
+
+                        // SPLIT_nb_files intersect OTHER_nb_files intersect HEAD_nb_files
+                        String[] set_SOH_Name = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(SPLIT_nb_files),NBtable.getFile_name_array(OTHER_nb_files));
+                        set_SOH_Name = NBtable.get_simple_String_Intersection(set_SOH_Name,NBtable.getFile_name_array(HEAD_nb_files));
+                        String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files,OTHER_nb_files);
+                        // case(1)
+                        String[] files_SH_sameCon = files_sameContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
+                        for (String s : files_SH_sameCon){
+                            checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
+                        }
+
+                        // case(4)
+                        String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
+                        String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files);
+                        for (String s : files_SO_diffCon){
+                            new_file(s, HEAD_nb_files, OTHER_nb_files);
+                        }
+
+                        // case(5)
+
+                        //commit
+                        String commit_m = "Merged"+ branch_name + "into" + cur_branch.getBranch_head().getFile_name()+".";
+                        commit(commit_m, sha_moved, sha_remain);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
         }
-    } */
+    }
 
     // Helping function
     // get current branch
@@ -662,7 +788,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         File commit = new File("./.gitlet/Commits",sha);
         //File commit = new File(d.getPath(),sha);
         Commit commit1 = new Commit();
-        commit1.setPa_sha("No commit with that id");
+        commit1.setPa_sha("");
         try {
             Commit myCommit = Utils.readObject(commit, Commit.class);
             return(myCommit);
@@ -742,6 +868,111 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         File[] files_Working = file_WorkingDir.listFiles();
         return(files_Working);
     }
+
+    // judge if two files with the same name have the same content in two NB_table array
+    public boolean files_sameContent(String filename, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
+        if (myTable(NBtableArr_1,filename).getSha1_file_name().equals(myTable(NBtableArr_2,filename).getSha1_file_name()))
+        {
+            return(true);
+        }else{
+            return(false);
+        }
+    }
+
+    // return the number of files who share different content in two NB_table array
+    public int num_files_diffContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
+        int i = 0;
+        for (String s : filenames){
+            if (!files_sameContent(s,NBtableArr_1,NBtableArr_2)){
+                i += 1;
+            }
+        }
+        return(i);
+    }
+
+    // return the names of files who share different content in two NB_table array
+    public String[] files_diffContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
+        int j = num_files_diffContent(filenames, NBtableArr_1,NBtableArr_2);
+        String[] set_HO_Content = new String[j];
+        if(j != 0){
+            int i = 0;
+            for (String s : filenames){
+                if (!files_sameContent(s,NBtableArr_1,NBtableArr_2)){
+                    set_HO_Content[i]=s;
+                }
+                i +=1;
+            }
+        }
+        return(set_HO_Content);
+    }
+
+    // return the number of files who share the same content in two NB_table array
+    public int num_files_sameContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
+        int i = 0;
+        for (String s : filenames){
+            if (files_sameContent(s,NBtableArr_1,NBtableArr_2)){
+                i += 1;
+            }
+        }
+        return(i);
+    }
+
+    // return the names of files who share the same content in two NB_table array
+    public String[] files_sameContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
+        int j = num_files_diffContent(filenames, NBtableArr_1,NBtableArr_2);
+        String[] set_HO_Content = new String[j];
+        if(j != 0){
+            int i = 0;
+            for (String s : filenames){
+                if (files_sameContent(s,NBtableArr_1,NBtableArr_2)){
+                    set_HO_Content[i]=s;
+                }
+                i +=1;
+            }
+        }
+        return(set_HO_Content);
+    }
+
+    // checkout NBtable[] file_name
+    public void checkoutNBtableArrFilename(NBtable[] NBtableArr, String file_name)throws IOException {
+        for (NBtable file : NBtableArr) {
+            if (file.getFile_name().equals(file_name)) {
+                writeFile(file);
+                // stage
+                File f_workingDirec = new File(working_directory, file_name);
+                Blob blob = new Blob(f_workingDirec);
+                File blob_add = new File(".gitlet/Blobs", blob.getBlob_name());
+                if (!check(file_name, ".gitlet/Staging Area/Staged for addition")) { //not exists
+                    // add the sha1(blob) into Staged for addition
+                    File f_add = new File(".gitlet/Staging Area/Staged for addition", blob.getBlob_name());
+                    f_add.createNewFile();
+                    Utils.writeContents(f_add, blob.getfileName());
+                }
+            }
+        }
+    }
+
+    // Create a new file to compare the difference
+    public void new_file(String file_name, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2) throws IOException {
+        NBtable table_1 = myTable(NBtableArr_1,file_name);
+        NBtable table_2 = myTable(NBtableArr_2,file_name);
+        //Get the sha(blob) of this file, find the blob by sha name
+        Blob blob_1 = getBlob(table_1.getSha1_file_name());
+        Blob blob_2 = getBlob(table_2.getSha1_file_name());
+
+        // put it in the working directory
+        File file_overWriting = new File("./",file_name);
+        if (file_overWriting.exists()) {
+            file_overWriting.delete(); // if file already exists, delete it
+        }
+        file_overWriting.createNewFile();
+        String newContent =  "<<<<<<< HEAD" + "\r\n" + blob_1.getContent() + "\r\n" + "=======" + "\r\n" + blob_2.getContent() + "\r\n" + ">>>>>>>";
+        Utils.writeContents(file_overWriting, newContent); // write the file name as its content
+
+        // add this new file
+        add(file_name); // generate blob, staged
+    }
+
 
     /*
     public String findAncestor(String Commit1, String Commit2) throws IOException {

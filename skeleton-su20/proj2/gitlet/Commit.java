@@ -59,6 +59,12 @@ public class Commit implements Serializable {
     public void setPa_sha(String sha_name){
         pa_sha = new String[]{sha_name};
     }
+    // add pa_sha of the commit
+    public void addPa_sha(String add_sha_name_1, String add_sha_name_2){
+        pa_sha = new String[2]; //2
+        pa_sha[0] = add_sha_name_1;
+        pa_sha[1] = add_sha_name_2;
+    }
 
     // set the metadata of the commit
     public void setMetadata(String Arg){

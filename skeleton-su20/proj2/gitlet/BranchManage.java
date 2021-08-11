@@ -86,6 +86,14 @@ public class BranchManage implements Serializable {
         return n_commit;
     }
 
+    // Generate the new_commit by copying from the current commit
+    public Commit new_commit(String Arg, String work_dir, String[] Pa_sha){
+        Commit n_commit = current_commit(work_dir);
+        n_commit.setPa_sha(Utils.sha1(Utils.serialize(n_commit))); // need to serialize the object
+        n_commit.setMetadata(Arg);
+        return n_commit;
+    }
+
     // Judge if the file exists in the current commit(Yes/No)
     public boolean in_current_commit(String file_name, String work_dir){
         Commit cur_commit = current_commit(work_dir);

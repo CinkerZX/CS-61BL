@@ -148,7 +148,7 @@ public class LimeTreeFamily {
 
     public String splitPoint() throws IOException {
         // todo: return the commit id of the split point
-        depth_First_Tra();
+        depth_First_Tra_withoutPrint();
         return sp.PaSha_pair[0];
     }
 
@@ -172,6 +172,19 @@ Depth first travelsal
         //Width_Tra_helper(fringe_2);
     }
 
+    public void depth_First_Tra_withoutPrint() throws IOException {
+        LimeTree root_node = getRoot();
+        root_node.level = 0;
+        Stack<LimeTree> fringe = new Stack<LimeTree>();
+        ArrayList<LimeTree> children = root_node.children;
+        Collections.reverse(children); // attention: here do not need to add "Arrays.asList"
+        for(LimeTree t : children){
+            fringe.push(t);
+            t.level = 1;
+        }
+        Depth_Tra_helper_withoutPrint(fringe);
+    }
+
     public static LimeTree sp;
     public static int h = 10000;
 
@@ -192,6 +205,25 @@ Depth first travelsal
                 bookmark.push(t);
             }
             Depth_Tra_helper(bookmark);
+        }
+    }
+
+    public void Depth_Tra_helper_withoutPrint(Stack<LimeTree> bookmark) throws IOException {
+        if(!bookmark.isEmpty()){
+            LimeTree tree_to_print = bookmark.pop();
+            if(tree_to_print.PaSha_pair[0].equals(tree_to_print.PaSha_pair[1])){
+                splitPoint_helper(tree_to_print);
+            }
+            else{
+                for (LimeTree t : tree_to_print.children){
+                    t.level = t.parent.level+1;
+                }
+            }
+            Collections.reverse(tree_to_print.children);
+            for (LimeTree t : tree_to_print.children){
+                bookmark.push(t);
+            }
+            Depth_Tra_helper_withoutPrint(bookmark);
         }
     }
 /*
