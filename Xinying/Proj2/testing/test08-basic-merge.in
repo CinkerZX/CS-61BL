@@ -34,3 +34,4 @@ D BRANCH2 "main"
 > commit "add0.txt"
 <<<
 > merge ${BRANCH2}
+<<<
