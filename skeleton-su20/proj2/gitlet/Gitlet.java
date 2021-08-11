@@ -141,74 +141,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     }
 
     // construct the commit object
-    public void commit(String Args) throws IOException {
-        // check if the staging area is empty  &&  args checking  (failure cases
-        File file_add = new File(working_directory,".gitlet/Staging Area/Staged for addition");
-        File file_remove = new File(working_directory,".gitlet/Staging Area/Staged for removal");
-        if(file_add.list().length == 0 & file_remove.list().length == 0){ // if file_add.list() is empty, [] is not null, here must use the length of the list to judge
-            System.out.println("No changes added to the commit");
-        }
-        else if(Args.isEmpty()){ // E is upper case
-            System.out.println("Please enter a commit message");
-        }
-        else{
-            // Read the existing branch
-            File d = new File(working_directory,".gitlet");
-            File branchMa = new File(d.getPath(), "branch");
-            try{
-                BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
-                // generate a new commit object (newCommit) by coping NBtable from "current commit"
-                Commit new_Commit = branch.new_commit(Args, working_directory);
-                // make a list of tracking files combining the info from staging area
-                NBtable[] blob_list = new_Commit.getNB_commit();
-
-                File file_blob = new File(working_directory,".gitlet/Blobs"); // we meed to go to the Blobs directory to find the blob
-
-                // staged for addition : append new blobs of "staged for addition" to newCommit's NBtable
-                for (String sha_blob : file_add.list()){
-                    // find the blob object by its hash name
-                    File blob = new File(file_blob, sha_blob);
-                    Blob add_blob = Utils.readObject(blob, Blob.class); // read the blob out
-                    //generate the new NBtable of this blob
-                    NBtable new_blob = new NBtable(add_blob.getfileName(), sha_blob);
-                    blob_list = ArrayUtils.add(blob_list,new_blob);
-
-                    // clear staging area (clear the file in addition diction)
-                    File staging_add = new File(file_add, sha_blob); // delete the file 'sha_blob' in "Staging Area\Staged for addition"
-                    staging_add.delete();
-                }
-
-                // staged for removal : remove blobs of "staged for removal" from newCommit's NBtable
-                for (String sha_blob : file_remove.list()){
-                    // find the blob object by its hash name
-                    File blob = new File(file_blob, sha_blob);
-                    Blob remove_blob = Utils.readObject(blob, Blob.class); // read the blob out
-                    //generate the new NBtable of this blob
-                    NBtable new_blob = new NBtable(remove_blob.getfileName(), sha_blob);
-                    blob_list = ArrayUtils.removeElement(blob_list,new_blob);
-
-                    // clear staging area (clear the file in removal diction)
-                    File staging_remove = new File(file_remove, sha_blob);
-                    staging_remove.delete();
-                }
-
-                // Don't forget to write blobs into the commit
-                new_Commit.setNB_commit(blob_list);
-                //System.out.println("already add the blob"+ blob_list.length);
-
-                // write commit object
-                File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(new_Commit)));
-                commit_add.createNewFile();
-                Utils.writeObject(commit_add, new_Commit); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
-
-                // Update branches and update_head
-                branch.update_branches(Utils.sha1(Utils.serialize(new_Commit)));
-                branch.wt(working_directory,branch); // write the branch management object
-            } catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        }
-    }
     public void commit(String Args, String pa_sha_1, String pa_sha_2) throws IOException {
         // check if the staging area is empty  &&  args checking  (failure cases
         File file_add = new File(working_directory,".gitlet/Staging Area/Staged for addition");
@@ -227,8 +159,9 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
                 // generate a new commit object (newCommit) by coping NBtable from "current commit"
                 Commit new_Commit = branch.new_commit(Args, working_directory);
-                new_Commit.addPa_sha(pa_sha_1, pa_sha_2);
-
+                if (!pa_sha_1.isEmpty()){
+                    new_Commit.addPa_sha(pa_sha_1, pa_sha_2);
+                }
                 // make a list of tracking files combining the info from staging area
                 NBtable[] blob_list = new_Commit.getNB_commit();
 

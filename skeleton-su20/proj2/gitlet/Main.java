@@ -29,7 +29,7 @@ public class Main {
                 case "commit":
                     // construct the commit object by gitlet method ""
                     if(args.length == 2){
-                        mygitlet.commit(args[1]);
+                        mygitlet.commit(args[1], "", "");
                     }else if(args.length > 2){
                         System.out.println("Please enter in such formation: commit 'XXXXX'.");
                     }
