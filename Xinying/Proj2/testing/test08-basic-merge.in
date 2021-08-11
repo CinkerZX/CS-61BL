@@ -2,10 +2,8 @@ D BRANCH1 "master"
 D BRANCH2 "main"
 > init
 <<<
-
 > branch ${BRANCH2}
 <<<
-
 #+ 2.txt 2.txt
 #> add 2.txt
 #<<<
@@ -16,7 +14,6 @@ D BRANCH2 "main"
 <<<
 > commit "add1.txt"
 <<<
-
 > checkout ${BRANCH2}
 <<<
 + 3.txt 3.txt
@@ -35,4 +32,6 @@ D BRANCH2 "main"
 > add 0.txt
 <<<
 > commit "add0.txt"
+<<<
+> merge ${BRANCH2}
 <<<

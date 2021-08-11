@@ -49,8 +49,7 @@ public class NBtable implements Serializable, Cloneable {
                 return NB.getSHA1Value();
             }
         }
-        System.out.println("Wrong finename!");
-        return NBArray[0].getSHA1Value();
+        return "Wrong";
     }
     public static NBtable UseNameFindNBtable(String filename, NBtable[] NBArray){  // find blob commit
         for(NBtable NB : NBArray){ if(NB.FullName.equals(filename)){ return NB; } }
