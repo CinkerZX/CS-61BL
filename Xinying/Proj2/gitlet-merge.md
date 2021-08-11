@@ -44,6 +44,10 @@ Split point(SP)
 
    ----checkout to the version in GB and stage for add
 
+   checkout 3 filename
+
+   add filename
+
 2. Any files that have been modified in the current branch but not in the given branch since the split point should stay as they are.
 
    in SP
@@ -98,7 +102,17 @@ Split point(SP)
 
    ----remain absent, (do nothing)
 
-8. Any files modified in different ways in the current and given branches are *in conflict*. “Modified in different ways” can mean that the contents of both are changed and different from other, or the contents of one are changed and the other file is deleted, or the file was absent at the split point and has different contents in the given and current branches. In this case, replace the contents of the conflicted file with
+
+
+![image-20210804191748353](C:\Users\huxiy\AppData\Roaming\Typora\typora-user-images\image-20210804191748353.png)
+
+DNM: does not matter 
+
+
+
+
+
+1. Any files modified in different ways in the current and given branches are *in conflict*. “Modified in different ways” can mean that the contents of both are changed and different from other, or the contents of one are changed and the other file is deleted, or the file was absent at the split point and has different contents in the given and current branches. In this case, replace the contents of the conflicted file with
 
 - ```
         <<<<<<< HEAD

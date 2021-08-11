@@ -456,22 +456,51 @@ public class Gitlet implements Serializable {
             LimeFamily LimeTree = generateLimeTree(branchName);
             // from left to right, the first leaf node with same ID in pair is the ancestor node
             Commit splitPoint = LimeTree.SplitPoint();
-            //TODO:  now we have find split point, continue merging
+            //TODO: justify the position of split point
 
             // files operations
             String OTHER_SHA = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
             Commit OTHER = BranchManager.FindCommit(OTHER_SHA);
             Commit HEAD = BranchManager.FindCommit(branchManager.head.getSHA1Value());
+            // TODO: two filelists(NBtable[]) along the path from sp to head and other should be generate
+            //  base on lime tree , from SP along the path( constantly calling parent) till root(latest Commits pair)
+            //  OBS: keep the latest version of files
 
-            NBtable[] AllFiles = new NBtable[]{};
 
+            // case1 : File modified in Other but not modified in Current ---- checkout OTHER filename && add filename
+            // case3 : modified in different way ---- CONFLICT
+            String[] inter_1 = NBtable.intersection(OTHER.NBCommit,HEAD.NBCommit,"FullName");
+            String[] inter_0 = NBtable.intersection(inter_1,NBtable.NBtoString(splitPoint.NBCommit,"FullName"));
+            for(String name : inter_0){
+                if(CompareID(name,OTHER,HEAD)==false){ //modified in OTHER
+                    if(CompareID(name,splitPoint,HEAD)==true){  // case1 not modified in HEAD
+                        checkout(new String[]{"checkout",OTHER_SHA,"--",name});
+                        add(name);
+                    }else{ // modified in HEAD
+                        if(CompareID(name,splitPoint,OTHER)==false){ // case 3 conflict
+                            //TODO
+                            Conflict();
+                            return;
+                        }
+                    }
+                }
+            }
+            // TODO : the file was absent at the split point and has different contents in the given and current branches. ---CONFLICT
 
-            //for test : delete after test please
-            /*for(NBtable file: OTHER.NBCommit){
-                checkout(new String[] {OTHER_SHA,"--",file.getFullName()});
-                add(file.getFullName());
-            }*/
-
+            // case5 : File added in Other ---- checkout OTHER filename && add filename
+            String[] case_5 = NBtable.complement(OTHER.NBCommit,splitPoint.NBCommit,"FullName");
+            for(String name: case_5){
+                checkout(new String[]{"checkout",OTHER_SHA,"--",name});
+                add(name);
+            }
+            // case6 : File removed from Other and not changed in Current ---- REMOVE
+            String[] case_6 = NBtable.complement(splitPoint.NBCommit,OTHER.NBCommit,"FullName");
+            for(String name: case_6){
+                if (CompareID(name,OTHER,HEAD)==true) {
+                    File file = new File(fileWD, name);
+                    if(file.exists()){file.delete();}// removed and untracked
+                }
+            }
             // automatically commit with the log message "Merged [given branch name] into [current branch name]"
             // records as parents both the head of CB (the first parent) and GB
             String message = "Merged " + branchName + " into " + branchManager.head.getFullName();
@@ -480,6 +509,8 @@ public class Gitlet implements Serializable {
             }catch (Exception e){
                 System.out.println("Encountered a merge conflict.");
             }
+
+            //TODO:  now we have finish merge function, next will be test
         }
     }
 
@@ -494,8 +525,7 @@ public class Gitlet implements Serializable {
         }
         return newCommit;
     }
-
-    public void writeFile(File oriented_file, String fileContent ) throws IOException {
+    public static void writeFile(File oriented_file, String fileContent ) throws IOException {
         if(oriented_file.exists()){
             PrintWriter writer = new PrintWriter(oriented_file);
             writer.print("");
@@ -551,7 +581,22 @@ public class Gitlet implements Serializable {
             }
         }
     }
-
+    private static Boolean CompareID(String fileName,Commit c1,Commit c2){
+        String ID1 = NBtable.FindSHAinNBArray(fileName,c1.NBCommit);
+        String ID2 = NBtable.FindSHAinNBArray(fileName,c2.NBCommit);
+        // in both commit with same ID. if it equals to "Wrong", it doesn't exist in Commit
+        return ID1==ID2 && ID1 != "Wrong";
+    }
+    private static void Conflict(String name,Commit Other,Commit HEAD) throws IOException {
+        String content_HEAD = Utils.readContentsAsString(new File(fileB,NBtable.FindSHAinNBArray(name,HEAD.NBCommit)));
+        String content_OTHER = Utils.readContentsAsString(new File(fileB,NBtable.FindSHAinNBArray(name,OTHER.NBCommit)));
+        File Confilct_file = new File(fileWD,name);
+        String content = "<<<<<<< HEAD"+"/n" +
+                content_HEAD + "/n" +
+                content_OTHER + "/n" +
+                ">>>>>>>";
+        writeFile(Confilct_file,content);
+    }
     //test-functions
     public void numOfBranch() throws FileNotFoundException {
         for(NBtable branch :branchManager.branches){
