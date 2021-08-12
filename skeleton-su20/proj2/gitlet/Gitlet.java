@@ -663,16 +663,22 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         // SPLIT_nb_files intersect OTHER_nb_files intersect HEAD_nb_files
                         String[] set_SOH_Name = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(SPLIT_nb_files),NBtable.getFile_name_array(OTHER_nb_files));
                         set_SOH_Name = NBtable.get_simple_String_Intersection(set_SOH_Name,NBtable.getFile_name_array(HEAD_nb_files));
-                        String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files,OTHER_nb_files);
+                        String[] files_HO_sameCon = NBtable.get_string_Array(HEAD_nb_files, OTHER_nb_files,"");
+                        String[] files_HO_diffCon = NBtable.get_names_Compliment(set_SOH_Name, files_HO_sameCon);
+                        //String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files,OTHER_nb_files);
                         // case(1)
-                        String[] files_SH_sameCon = files_sameContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
-                        for (String s : files_SH_sameCon){
+                        String[] files_SH_sameCon = NBtable.get_string_Array(SPLIT_nb_files, HEAD_nb_files,"");
+                        for (String s : NBtable.get_simple_String_Intersection(files_SH_sameCon, files_HO_diffCon)){
                             checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
                         }
 
                         // case(4)
-                        String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
-                        String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files);
+                        String[] files_SH_diffCon = NBtable.get_names_Compliment(files_HO_diffCon, files_SH_sameCon);
+                        String[] files_SO_sameCon = NBtable.get_string_Array(SPLIT_nb_files,OTHER_nb_files,"");
+                        String[] files_SO_diffCon = NBtable.get_names_Compliment(files_SH_diffCon, files_SO_sameCon);
+
+                        //String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
+                        //String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files);
                         for (String s : files_SO_diffCon){
                             new_file(s, HEAD_nb_files, OTHER_nb_files);
                         }
@@ -812,60 +818,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         }
     }
 
-    // return the number of files who share different content in two NB_table array
-    public int num_files_diffContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
-        int i = 0;
-        for (String s : filenames){
-            if (!files_sameContent(s,NBtableArr_1,NBtableArr_2)){
-                i += 1;
-            }
-        }
-        return(i);
-    }
-
-    // return the names of files who share different content in two NB_table array
-    public String[] files_diffContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
-        int j = num_files_diffContent(filenames, NBtableArr_1,NBtableArr_2);
-        String[] set_HO_Content = new String[j];
-        if(j != 0){
-            int i = 0;
-            for (String s : filenames){
-                if (!files_sameContent(s,NBtableArr_1,NBtableArr_2)){
-                    set_HO_Content[i]=s;
-                }
-                i +=1;
-            }
-        }
-        return(set_HO_Content);
-    }
-
-    // return the number of files who share the same content in two NB_table array
-    public int num_files_sameContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
-        int i = 0;
-        for (String s : filenames){
-            if (files_sameContent(s,NBtableArr_1,NBtableArr_2)){
-                i += 1;
-            }
-        }
-        return(i);
-    }
-
-    // return the names of files who share the same content in two NB_table array
-    public String[] files_sameContent(String[] filenames, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
-        int j = num_files_diffContent(filenames, NBtableArr_1,NBtableArr_2);
-        String[] set_HO_Content = new String[j];
-        if(j != 0){
-            int i = 0;
-            for (String s : filenames){
-                if (files_sameContent(s,NBtableArr_1,NBtableArr_2)){
-                    set_HO_Content[i]=s;
-                }
-                i +=1;
-            }
-        }
-        return(set_HO_Content);
-    }
-
     // checkout NBtable[] file_name
     public void checkoutNBtableArrFilename(NBtable[] NBtableArr, String file_name)throws IOException {
         for (NBtable file : NBtableArr) {
@@ -905,46 +857,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         // add this new file
         add(file_name); // generate blob, staged
     }
-
-
-    /*
-    public String findAncestor(String Commit1, String Commit2) throws IOException {
-        // static NBtable[]1
-        // static NBtable[]2
-        return findAncestorHelper("7","0")[0]; // remain: merged branch  move: current branch
-    }
-
-    public String[] findAncestorHelper(String remainedCommit, String movedCommit) throws IOException {  // return blobIDArray
-        if (getCommit(remainedCommit).getPa_sha().equals(getCommit(movedCommit).getPa_sha())) { // ancestor node
-
-        }else if (getCommit(movedCommit).getPa_sha().equals("")) { // leaf node
-
-        }
-    /*    if( either are leaf node){ // leaf node
-            update NBtable[] 12
-        }else if( remainedCommit == movedCommit){ //ancestor node
-
-            return new NBtable[] {files from remainedCommit};
-            update NBtable[] 12
-        }else{ //recursion
-            if( multiple parent){
-                return String[]{ findAncestorHelper multiple times}
-            }
-            return new String[]{findAncestorHelper(remainedCommit,ParentofMovedCommit1),findAncestorHelper(movedCommit,ParentofRemainedCommit2)};
-        }
-
-
-        ["5","3"....]
-
-    }*/
-
-
-
-    // test for tree building
-    /*
-    public void buildTree(String branchName){
-
-    }*/
 }
 
 class MyFilenameFilter implements FilenameFilter {
