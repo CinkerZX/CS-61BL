@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import static gitlet.BranchManage.getCommit;
+import static gitlet.NBtable.*;
 
 // limeTree structure
 // each node: [Sha_Moved, Sha_Remained]
@@ -146,10 +147,10 @@ public class LimeTreeFamily {
         }
     }
 
-    public String splitPoint() throws IOException {
+    public LimeTree splitPoint() throws IOException {
         // todo: return the commit id of the split point
         depth_First_Tra_withoutPrint();
-        return sp.PaSha_pair[0];
+        return sp;
     }
 
 /*
@@ -245,5 +246,52 @@ Just change the (LIFO) stack to a (FIFO) queue
     public void tree_print(LimeTree p_tree) throws IOException {
         System.out.print(StringUtils.repeat("    ", p_tree.level));
         System.out.println(getCommit(p_tree.PaSha_pair[0].toString()).getMetadata()[0]+getCommit(p_tree.PaSha_pair[1].toString()).getMetadata()[0]);
+    }
+
+    // collect files from the split point (leaves) to root ([current_branch, given_branch])
+    public static Stack<String> commitSha_HEAD = new Stack<String>();
+    public static Stack<String> commitSha_OTHER = new Stack<String>();
+
+    public static void latest_files_BranchToSplit(LimeTreeFamily tree, NBtable[] HEAD_nb_files, NBtable[] OTHER_nb_files) throws IOException {
+        // todo: move from splitPoint to the root, all commit on the left[0](right) is for HEAD_nb_files(OTHER_nb_files)
+        LimeTree curTree = tree.splitPoint();
+        while(!tree.getRoot().equals(curTree)){
+            if(!commitSha_HEAD.contains(curTree.PaSha_pair[0])){
+                commitSha_HEAD.push(curTree.PaSha_pair[0]);
+            }
+            if(!commitSha_OTHER.contains(curTree.PaSha_pair[1])) {
+                commitSha_OTHER.push(curTree.PaSha_pair[1]);
+            }
+            curTree = curTree.parent;
+        }
+        // Update the HEAD_nb_files & OTHER_nb_files
+        while(!commitSha_HEAD.isEmpty()){// just add the files hasn't exists, as the top object from the stack is the latest
+            String commitSha_head = commitSha_HEAD.pop();
+            latest_files_BranchToSplit_helper(commitSha_head, HEAD_nb_files);
+        }
+        while(!commitSha_OTHER.isEmpty()){// just add the files hasn't exists, as the top object from the stack is the latest
+            String commitSha_other = commitSha_OTHER.pop();
+            latest_files_BranchToSplit_helper(commitSha_other, OTHER_nb_files);
+        }
+    }
+    public static void latest_files_BranchToSplit_helper(String commitSha, NBtable[] nb_files) throws IOException {
+        //todo: add files
+        NBtable[] filesCandidate_head = getCommit(commitSha).getNB_commit();
+        int n = filesCandidate_head.length;
+        NBtable[] files_add = new NBtable[n];
+        int i = 0;
+        for(NBtable s : filesCandidate_head){
+            files_add[i++] = s;
+        }
+        if(nb_files.length != 0){
+            for(NBtable t : filesCandidate_head){
+                for(NBtable ta : nb_files){
+                    if(ta.find_sha1(t.getSha1_file_name())){ // file already exist there
+                        rm_NBtable(files_add,t);
+                    }
+                }
+            }
+        }
+        add_NBtables(nb_files,files_add);
     }
 }

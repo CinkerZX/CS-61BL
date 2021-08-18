@@ -28,7 +28,7 @@ public class LimeTree_Cons_Test {
             // Check if the tree is correct
             my_tree.depth_First_Tra();
             // Check if the splitPoint function
-            Commit split_commit = getCommit(my_tree.splitPoint());
+            Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
             System.out.println(split_commit.getMetadata()[0]);
 
         } catch (Exception e) {

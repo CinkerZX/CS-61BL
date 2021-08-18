@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
 import java.util.Arrays;
+import static gitlet.LimeTreeFamily.*;
 
 public class Gitlet implements Serializable{ // class is abstract // tell java this class is Serializable
 
@@ -608,6 +609,8 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
     // merge [branch name]
     public void merge(String branch_name) throws IOException {
+        NBtable[] OTHER_nb_files = new NBtable[0];
+        NBtable[] HEAD_nb_files = new NBtable[0];
         //false case 1: If there are staged additions or removals present, print the error message, and exist
         if (staging_empty()) {
             System.out.println("You have uncommitted changes.");
@@ -640,10 +643,19 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         // Fulfill the tree
                         my_tree.addChild();
                         // Check if the splitPoint function
-                        Commit split_commit = getCommit(my_tree.splitPoint());
+                        Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
+                        if(split_commit.getMetadata()[0].equals(OTHER.getMetadata()[0])) {
+                            System.out.println("Given branch is an ancestor of the current branch.");
+                            return; // end up the entire function
+                        }
+                        if(split_commit.getMetadata()[0].equals(HEAD.getMetadata()[0])){
+                            checkoutBranch(branch_name);
+                            System.out.println("Current branch fast-forwarded");
+                            return;
+                        }
 
                         // case(2) Files added in OTHER
-                        NBtable[] OTHER_nb_files = OTHER.getNB_commit();
+                        latest_files_BranchToSplit(my_tree, HEAD_nb_files, OTHER_nb_files);
                         NBtable[] SPLIT_nb_files = split_commit.getNB_commit();
                         String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
                         for (String s : add_filenames){
@@ -652,7 +664,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
                         // case (3) Files removed from OTHER and not changed in HEAD
                         String[] rm_filenames = NBtable.get_names_Compliment(SPLIT_nb_files, OTHER_nb_files);
-                        NBtable[] HEAD_nb_files = HEAD.getNB_commit();
                         for (String s : rm_filenames){
                             if (files_sameContent(s,HEAD_nb_files,SPLIT_nb_files)){
                                 // if the same, delete the file from working directory
@@ -666,30 +677,38 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         String[] files_HO_sameCon = NBtable.get_string_Array(HEAD_nb_files, OTHER_nb_files,"");
                         String[] files_HO_diffCon = NBtable.get_names_Compliment(set_SOH_Name, files_HO_sameCon);
                         //String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files,OTHER_nb_files);
-                        // case(1)
+
+                        // case(1) Files modified in OTHER but not in HEAD
                         String[] files_SH_sameCon = NBtable.get_string_Array(SPLIT_nb_files, HEAD_nb_files,"");
                         for (String s : NBtable.get_simple_String_Intersection(files_SH_sameCon, files_HO_diffCon)){
                             checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
                         }
 
-                        // case(4)
+                        // case(4) files have different content in head and other but in split point.
                         String[] files_SH_diffCon = NBtable.get_names_Compliment(files_HO_diffCon, files_SH_sameCon);
                         String[] files_SO_sameCon = NBtable.get_string_Array(SPLIT_nb_files,OTHER_nb_files,"");
                         String[] files_SO_diffCon = NBtable.get_names_Compliment(files_SH_diffCon, files_SO_sameCon);
-
                         //String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
                         //String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files);
                         for (String s : files_SO_diffCon){
                             new_file(s, HEAD_nb_files, OTHER_nb_files);
                         }
 
-                        // case(5)
+                        // case(5) files have different content in head and other but absent in split point
+                        String[] addInHead_filenames = NBtable.get_names_Compliment(HEAD_nb_files, SPLIT_nb_files);
+                        String[] addInOther_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
+                        String[] addInHO_filenames = NBtable.get_simple_String_Intersection(addInHead_filenames, addInOther_filenames);
+                        String[] addInHO_filenames_diffCon = NBtable.get_names_Compliment(addInHO_filenames, files_HO_sameCon);
+                        for (String s : addInHO_filenames_diffCon){
+                            new_file(s, HEAD_nb_files, OTHER_nb_files);
+                        }
 
                         //commit
                         String commit_m = "Merged"+ branch_name + "into" + cur_branch.getBranch_head().getFile_name()+".";
                         commit(commit_m, sha_moved, sha_remain);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        System.out.println("Encountered a merge conflict.");
                     }
 
                 }
