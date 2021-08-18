@@ -61,9 +61,7 @@ public class Commit implements Serializable {
         DateFormat timestamp = new SimpleDateFormat("EEE MMM dd HH:mm:ss yyyy Z", Locale.UK);
         return timestamp.format(new Date());
     }
-
     public void setpaSHA(String[] paSHA){ this.paSHA = paSHA; }
-
     public String[] getPaSHA(){ return paSHA; }
 
 

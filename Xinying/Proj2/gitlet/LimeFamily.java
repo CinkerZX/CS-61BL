@@ -64,18 +64,16 @@ public class LimeFamily {
         }
     }
 
-    public Commit SplitPoint() {
+    public LimeTree SplitPoint() {
         LimeTreeDFSIterator LimeTreeDFSiterator = new LimeTreeDFSIterator();
         LimeTree tempAncestor = new LimeTree();
-        Commit point = new Commit();
         while(LimeTreeDFSiterator.hasNext()){
             LimeTree node = LimeTreeDFSiterator.next();
             if(SplitPointHelper(node,tempAncestor)){
-                point = node.Parents_pair[0];
                 tempAncestor = node;
             }
         }
-        return point;
+        return tempAncestor;
     }
     private Boolean SplitPointHelper(LimeTree node,LimeTree tempAncestor){
         if(node.Parents_pair[0].Metadata[0].equals(node.Parents_pair[1].Metadata[0])){
@@ -91,14 +89,12 @@ public class LimeFamily {
             System.out.println(printNode(node));
         }
     }*/
-
     private String printNode(LimeTree node){
         String nodeString;
         nodeString = "{";
         for(Commit ID : node.Parents_pair){ nodeString += ID.Metadata[0] +"  "; }
         return nodeString + "}";
     }
-
 
     /* Returns an Iterator for this AmoebaFamily. */
     public Iterator<LimeTree> iterator() {
@@ -119,11 +115,9 @@ public class LimeFamily {
                 this.height = 0;
             }else{this.height = parent.height+1;}
         }
-
         public LimeTree(){
             this.height = 10000;
         }
-
 
         public LimeTree getParent() {
             return parent;
@@ -147,7 +141,6 @@ public class LimeFamily {
                 }
             }
         }
-
     }
 
     public class LimeTreeDFSIterator implements Iterator<LimeTree> {
