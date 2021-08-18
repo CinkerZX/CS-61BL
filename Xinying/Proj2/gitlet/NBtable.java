@@ -53,7 +53,7 @@ public class NBtable implements Serializable, Cloneable {
     }
     public static NBtable UseNameFindNBtable(String filename, NBtable[] NBArray){  // find blob commit
         for(NBtable NB : NBArray){ if(NB.FullName.equals(filename)){ return NB; } }
-        System.out.println("Error: No such Name");
+        //System.out.println("Error: No such Name");
         return new NBtable("noname","noid");
     }
     public static Boolean NBinNBtables(NBtable NB, NBtable[] NBtables){
@@ -155,4 +155,6 @@ public class NBtable implements Serializable, Cloneable {
 
     public void setSHA1Value(String newSHA) { this.SHA1Value = newSHA; }
     public void setFullName(String fullName) { this.FullName = fullName; }
+
+
 }
