@@ -445,79 +445,92 @@ public class Gitlet implements Serializable {
     }
 
     public void merge(String branchName) throws IOException {
-        if(stagingAdd.list().length > 0 || stagingRem.list().length >0 ){ // Failure case 1: staged additions or removals present
-            System.out.println("You have uncommitted changes.");
-        }else if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){ // Failure case 2
-            System.out.println("A branch with that name does not exist.");
-        }else if(branchName.equals(branchManager.head.getFullName())){
-            System.out.println("Cannot merge a branch with itself."); // Failure case 3
-        }else{
-            // generate a Id-pair tree
-            LimeFamily LimeTree = generateLimeTree(branchName);
-            // from left to right, the first leaf node with same ID in pair is the ancestor node
-            Commit splitPoint = LimeTree.SplitPoint();
-            //TODO: justify the position of split point
-
-            // files operations
-            String OTHER_SHA = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
-            Commit OTHER = BranchManager.FindCommit(OTHER_SHA);
-            Commit HEAD = BranchManager.FindCommit(branchManager.head.getSHA1Value());
-            // TODO: two filelists(NBtable[]) along the path from sp to head and other should be generate
-            //  base on lime tree , from SP along the path( constantly calling parent) till root(latest Commits pair)
-            //  OBS: keep the latest version of files
-
-
-            // case1 : File modified in Other but not modified in Current ---- checkout OTHER filename && add filename
-            // case3 : modified in different way ---- CONFLICT
-            String[] inter_1 = NBtable.intersection(OTHER.NBCommit,HEAD.NBCommit,"FullName");
-            String[] inter_0 = NBtable.intersection(inter_1,NBtable.NBtoString(splitPoint.NBCommit,"FullName"));
-            for(String name : inter_0){
-                if(CompareID(name,OTHER,HEAD)==false){ //modified in OTHER
-                    if(CompareID(name,splitPoint,HEAD)==true){  // case1 not modified in HEAD
-                        checkout(new String[]{"checkout",OTHER_SHA,"--",name});
+        if(stagingAdd.list().length > 0 || stagingRem.list().length >0 ){
+            System.out.println("You have uncommitted changes."); return;}// Failure case 1: staged additions or removals present
+        if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){
+            System.out.println("A branch with that name does not exist."); return;}// Failure case 2
+        if(branchName.equals(branchManager.head.getFullName())){
+            System.out.println("Cannot merge a branch with itself."); return;}// Failure case 3
+        LimeFamily LimeTree = generateLimeTree(branchName); // generate a Id-pair tree
+        LimeFamily.LimeTree node = LimeTree.SplitPoint();  // from left to right, the first leaf node with same ID in pair is the ancestor node
+        Commit splitPoint = node.Parents_pair[0];
+        //justify the position of split point
+        String OTHER_SHA = NBtable.FindSHAinNBArray(branchName,branchManager.branches);
+        Commit OTHER = BranchManager.FindCommit(OTHER_SHA);
+        Commit HEAD = BranchManager.FindCommit(branchManager.head.getSHA1Value());
+        if(splitPoint.Metadata[0].equals(OTHER.Metadata[0])){
+            System.out.println("Given branch is an ancestor of the current branch.");
+            return;
+        }// SP == OTHER
+        if(splitPoint.Metadata[0].equals(HEAD.Metadata[0])){
+            checkout(new String[]{"checkout",branchName});
+            System.out.println("Current branch fast-forwarded.");
+            return;
+        } // SP == HEAD
+        // two file lists(NBtable[]) along the path from sp to head and other should be generated
+        //  base on lime tree , from SP along the path( constantly calling parent) till root(the latest Commits pair)
+        //  OBS: All files are in the latest versions
+        NBtable[] Files_SP = splitPoint.NBCommit;
+        int Length = splitPoint.NBCommit.length;
+        NBtable[] Files_OTHER = new NBtable[Length]; System.arraycopy(Files_SP,0,Files_OTHER,0,Length);
+        NBtable[] Files_HEAD = new NBtable[Length]; System.arraycopy(Files_SP,0,Files_HEAD,0,Length);
+        FileListsAlongPath(Files_HEAD,Files_OTHER,node,LimeTree);
+        // Files Operations
+        // case1 : File modified in Other but not modified in Current ---- checkout OTHER filename && add filename
+        String[] inter_1 = NBtable.intersection(Files_OTHER,Files_HEAD,"FullName");
+        String[] inter_0 = NBtable.intersection(inter_1,NBtable.NBtoString(Files_SP,"FullName"));
+        for(String name : inter_0){
+            if(!CompareID(name,Files_OTHER,Files_HEAD)){ //modified in OTHER
+                if(CompareID(name,Files_SP,Files_HEAD)){  // case1 not modified in HEAD
+                    updateFile(name,OTHER_SHA,Files_OTHER,OTHER);
+                }else{ // modified in HEAD
+                    if(!CompareID(name,Files_SP,Files_OTHER)){ // case 3 conflict
+                        Conflict(name,Files_SP,Files_OTHER);
                         add(name);
-                    }else{ // modified in HEAD
-                        if(CompareID(name,splitPoint,OTHER)==false){ // case 3 conflict
-                            //TODO
-                            Conflict();
-                            return;
-                        }
                     }
                 }
             }
-            // TODO : the file was absent at the split point and has different contents in the given and current branches. ---CONFLICT
-
-            // case5 : File added in Other ---- checkout OTHER filename && add filename
-            String[] case_5 = NBtable.complement(OTHER.NBCommit,splitPoint.NBCommit,"FullName");
-            for(String name: case_5){
-                checkout(new String[]{"checkout",OTHER_SHA,"--",name});
+        }
+        // case3 : the file was absent at the split point and has different contents in the given and current branches. ---CONFLICT
+        // case5 : File added in Other ---- checkout OTHER filename && add filename
+        String[] case_3_5 = NBtable.complement(Files_OTHER,Files_SP,"FullName");
+        String[] files_head = NBtable.NBtoString(Files_HEAD,"FullName");
+        String[] case_5 = NBtable.complement(case_3_5,files_head);
+        String[] case_3_C = NBtable.intersection(case_5,files_head);
+        for(String name : case_5){
+            updateFile(name,OTHER_SHA,Files_OTHER,OTHER);
+        }
+        for(String name : case_3_C){
+            if(!CompareID(name,Files_HEAD,Files_OTHER)){ // case 3 conflict
+                Conflict(name,Files_HEAD,Files_OTHER);
                 add(name);
             }
-            // case6 : File removed from Other and not changed in Current ---- REMOVE
-            String[] case_6 = NBtable.complement(splitPoint.NBCommit,OTHER.NBCommit,"FullName");
-            for(String name: case_6){
-                if (CompareID(name,OTHER,HEAD)==true) {
-                    File file = new File(fileWD, name);
-                    if(file.exists()){file.delete();}// removed and untracked
-                }
-            }
-            // automatically commit with the log message "Merged [given branch name] into [current branch name]"
-            // records as parents both the head of CB (the first parent) and GB
-            String message = "Merged " + branchName + " into " + branchManager.head.getFullName();
-            try {
-                commit(message, OTHER_SHA);
-            }catch (Exception e){
-                System.out.println("Encountered a merge conflict.");
-            }
-
-            //TODO:  now we have finish merge function, next will be test
         }
+        // case6 : File removed from Other and not changed in Current ---- REMOVE
+        String[] case_6 = NBtable.complement(Files_SP,Files_OTHER,"FullName");
+        for(String name: case_6){
+            if (CompareID(name,Files_OTHER,Files_HEAD)) {
+                File file = new File(fileWD, name);
+                if(file.exists()){file.delete();}// removed and untracked
+            }
+        }
+        // automatically commit with the log message "Merged [given branch name] into [current branch name]"
+        // records as parents both the head of CB (the first parent) and GB
+        String message = "Merged " + branchName + " into " + branchManager.head.getFullName();
+        try {
+            commit(message, OTHER_SHA);
+        }catch (Exception e){
+            System.out.println("Encountered a merge conflict.");
+        }
+
+        //TODO:  now we have finish merge function, next will be test
     }
 
     //help-functions
     public Commit createNewCommit(String arg,String SecondParent){
         Commit newCommit;
         String Firstparent = branchManager.head.getSHA1Value();
+        // TODO: empty String  isEmpty or ==
         if(SecondParent.isEmpty()){
             newCommit = new Commit(Firstparent, arg, new NBtable[0]);
         }else{
@@ -581,21 +594,52 @@ public class Gitlet implements Serializable {
             }
         }
     }
-    private static Boolean CompareID(String fileName,Commit c1,Commit c2){
-        String ID1 = NBtable.FindSHAinNBArray(fileName,c1.NBCommit);
-        String ID2 = NBtable.FindSHAinNBArray(fileName,c2.NBCommit);
+    private static Boolean CompareID(String fileName,NBtable[] n1,NBtable[] n2){
+        String ID1 = NBtable.FindSHAinNBArray(fileName,n1);
+        String ID2 = NBtable.FindSHAinNBArray(fileName,n2);
         // in both commit with same ID. if it equals to "Wrong", it doesn't exist in Commit
         return ID1==ID2 && ID1 != "Wrong";
     }
-    private static void Conflict(String name,Commit Other,Commit HEAD) throws IOException {
-        String content_HEAD = Utils.readContentsAsString(new File(fileB,NBtable.FindSHAinNBArray(name,HEAD.NBCommit)));
-        String content_OTHER = Utils.readContentsAsString(new File(fileB,NBtable.FindSHAinNBArray(name,OTHER.NBCommit)));
+    private static void Conflict(String name,NBtable[] Other,NBtable[] Head) throws IOException {
+        String content_HEAD = Utils.readContentsAsString(new File(fileB,NBtable.FindSHAinNBArray(name,Head)));
+        String content_OTHER = Utils.readContentsAsString(new File(fileB,NBtable.FindSHAinNBArray(name,Other)));
         File Confilct_file = new File(fileWD,name);
         String content = "<<<<<<< HEAD"+"/n" +
                 content_HEAD + "/n" +
                 content_OTHER + "/n" +
                 ">>>>>>>";
         writeFile(Confilct_file,content);
+    }
+    private static void FileListsAlongPath(NBtable[] HEAD_List, NBtable[] OTHER_List, LimeFamily.LimeTree node,LimeFamily tree){
+        if(node.equals(tree.root)){ return;}
+        if(!node.Parents_pair[0].Metadata[0].equals(node.parent.Parents_pair[0].Metadata[0])){
+            updateFileList(node.parent.Parents_pair[0].NBCommit,HEAD_List);
+        } // update Current Branch
+        else{
+            updateFileList(node.parent.Parents_pair[1].NBCommit,OTHER_List);
+        } // update Given Branch
+        FileListsAlongPath(HEAD_List,OTHER_List,node.parent,tree);
+    }
+    private static void updateFileList(NBtable[] parentList,NBtable[] dest_List){
+        for(NBtable element : parentList){
+            NBtable oldElement = NBtable.UseNameFindNBtable(element.getFullName(),dest_List);
+            if(oldElement.getSHA1Value().length() > 5){ // in dest_List otherwise "noid".length() == 4
+                oldElement.setSHA1Value(element.getSHA1Value());
+            }else{
+                NBtable.add(dest_List,element);
+            }
+        }
+    }
+    private void updateFile(String name,String destID,NBtable[] srcList,Commit srcCommit) throws IOException {
+        if(NBtable.FileNameinNBArray(name,srcCommit.NBCommit)){
+            checkout(new String[]{"checkout",destID,"--",name});
+        }else{ // file in given branch but not in the latest commit
+            File file = new File(fileWD,name);
+            String blobID = NBtable.FindSHAinNBArray(name,srcList);
+            Blob fileBlob = Utils.readObject(new File(fileB,blobID),Blob.class);
+            writeFile(file,fileBlob.getcontent());
+        }
+        add(name);
     }
     //test-functions
     public void numOfBranch() throws FileNotFoundException {
@@ -613,10 +657,6 @@ public class Gitlet implements Serializable {
             System.out.println("*************************");
         }
     }
-/*    public static void MakeACommitTree() throws FileNotFoundException {
-        BranchManager.CommitTree CT = Gitlet.MakeACT("master","main");
-        CT.print();
-    }*/
     public void printSet(Set<String> sets){
         printString(NBtable.SetToString(sets));
     }

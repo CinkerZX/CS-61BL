@@ -29,25 +29,6 @@ public class BranchManager implements Serializable {
         }
         head.setSHA1Value(newSHA);
     }
-
-    // copy current commit and set it as the parent commit
-    public Commit NewCommit(String message) throws FileNotFoundException {
-        return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
-
-    public static Commit FindCommit(String SHA1Value) throws FileNotFoundException{
-        if (SHA1Value== null){
-            return null;
-        }
-        File file = new File(Gitlet.fileC,SHA1Value);
-        return Utils.readObject(file, Commit.class);
-    }
-
-    public Boolean inCurrentCommit(String filename) throws FileNotFoundException { return NBtable.FileNameinNBArray(filename, FindCommit(head.getSHA1Value()).NBCommit); }
-
-    public static Boolean inCommit(String filename, String commitID) throws FileNotFoundException{ return NBtable.FileNameinNBArray(filename, FindCommit(commitID).NBCommit); }
-
-    public static Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException { return FindCommit(CurrentCommit.getPaSHA()[0]); }
-
     public static void writeBM() throws IOException {
         if(Gitlet.fileBM.exists()){
             PrintWriter writer = new PrintWriter(Gitlet.fileBM);
@@ -58,9 +39,19 @@ public class BranchManager implements Serializable {
         }
         Utils.writeObject(Gitlet.fileBM,Gitlet.branchManager);
     }
-
+    // copy current commit and set it as the parent commit
+    public Commit NewCommit(String message) throws FileNotFoundException {return new Commit(head.getSHA1Value(),message,new NBtable[0]); }
+    public static Commit FindCommit(String SHA1Value) throws FileNotFoundException{
+        if (SHA1Value== null){
+            return null;
+        }
+        File file = new File(Gitlet.fileC,SHA1Value);
+        return Utils.readObject(file, Commit.class);
+    }
+    public Boolean inCurrentCommit(String filename) throws FileNotFoundException { return NBtable.FileNameinNBArray(filename, FindCommit(head.getSHA1Value()).NBCommit); }
+    public static Boolean inCommit(String filename, String commitID) throws FileNotFoundException{ return NBtable.FileNameinNBArray(filename, FindCommit(commitID).NBCommit); }
+    public static Commit ParentCommit(Commit CurrentCommit) throws FileNotFoundException { return FindCommit(CurrentCommit.getPaSHA()[0]); }
     public static Boolean InPastedCommit(String filename) throws FileNotFoundException { return InPastedCommitHelper(filename, Gitlet.branchManager.head.getSHA1Value()); }
-
     public static Boolean InPastedCommitHelper(String filename, String commitID) throws FileNotFoundException {
         if(FindCommit(commitID).getPaSHA()[0].length()<2){
             return false;
@@ -74,30 +65,23 @@ public class BranchManager implements Serializable {
     public static CommitTree MakeACommitTree(String branchname1,String branchname2,NBtable[] branches) throws FileNotFoundException {
         //root & ends
         CommitTree commitTree = new CommitTree(new Commit(),new Commit[]{FindCommit(NBtable.FindSHAinNBArray(branchname1,branches)),FindCommit(NBtable.FindSHAinNBArray(branchname2,branches))});
-
         //fill in the whole tree
         for(CommitTree.CommitTreeNode head:commitTree.branchHeads){
             commitTree.enlargeTree(head, head.self);
         }
-
         return commitTree;
     }
-
     public static class CommitTree{
         public CommitTreeNode root;
         public CommitTreeNode[] branchHeads;
 
-
         public CommitTree(Commit root){
             this.root = new CommitTreeNode(root);
-
         }
-
         public CommitTree(Commit root,Commit[] branchheads){
             this.root = new CommitTreeNode(root);
             branchHeads = new CommitTreeNode[]{new CommitTreeNode(branchheads[0]),new CommitTreeNode(branchheads[1])};
         }
-
         public void enlargeTree(CommitTreeNode node,Commit nodeCommit) throws FileNotFoundException{
             node.enlargeParent();
             for(CommitTreeNode parent : node.parents){
@@ -107,7 +91,6 @@ public class BranchManager implements Serializable {
                 enlargeTreeHelper(parent,nodeCommit);
             }
         }
-
         public void enlargeTreeHelper(CommitTreeNode node,Commit nodeCommit) throws FileNotFoundException{
             if(nodeCommit.equals(this.root)){
 
@@ -122,8 +105,6 @@ public class BranchManager implements Serializable {
                 node.enlargeChildren(nodeCommit);
             }
         }
-
-
 
         public static class CommitTreeNode{
             public Commit self;
@@ -158,8 +139,6 @@ public class BranchManager implements Serializable {
             }
         }
 
-
-
         public void print() {
             System.out.print(printHelper(root));
         }
@@ -178,8 +157,5 @@ public class BranchManager implements Serializable {
         private String printNode(CommitTree.CommitTreeNode node){
             return "{"+ node.self.Metadata[0] + "}";
         }
-
-
-
     }
 }
