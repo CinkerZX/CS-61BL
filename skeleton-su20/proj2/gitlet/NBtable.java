@@ -220,18 +220,19 @@ public class NBtable implements Serializable {
     }
 
     // add NBtable[] into old NBtable[]
-    public static void add_NBtables(NBtable[] oldNBtableArr, NBtable[] add_NBtable){
+    public static NBtable[] add_NBtables(NBtable[] oldNBtableArr, NBtable[] add_NBtable){
         for(NBtable t : add_NBtable){
-            add_NBtable(oldNBtableArr,t);
+            oldNBtableArr = add_NBtable(oldNBtableArr,t);
         }
+        return oldNBtableArr;
     }
 
     public static NBtable[] rm_NBtable(NBtable[] oldNBtableArr, NBtable rm_NBtable){
         int n = oldNBtableArr.length - 1;
         NBtable[] branches_new = new NBtable[n];
         int i = 0;
-        for(NBtable s : oldNBtableArr){
-            if (!s.getFile_name().equals(rm_NBtable.getFile_name())){
+        for(NBtable s : oldNBtableArr){ //move by sha
+            if (!s.getSha1_file_name().equals(rm_NBtable.getSha1_file_name())){
                 branches_new[i++] = s;
             }
         }

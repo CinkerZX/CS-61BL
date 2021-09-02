@@ -79,7 +79,7 @@ public class LimeTreeFamily {
     /* Add child, move the Sha_pair[0] first, Sha_pair saved in stack */
     public void addChildHelper(LimeTree pa) throws IOException {
         if (!hasNext()) {
-            System.out.println("Fringe is clean");
+            //System.out.println("Fringe is clean");
         }
         else{
             // (1) get the string pair out from fringe
@@ -249,49 +249,57 @@ Just change the (LIFO) stack to a (FIFO) queue
     }
 
     // collect files from the split point (leaves) to root ([current_branch, given_branch])
-    public static Stack<String> commitSha_HEAD = new Stack<String>();
-    public static Stack<String> commitSha_OTHER = new Stack<String>();
+    public static Stack<String> commitSha = new Stack<String>();
 
-    public static void latest_files_BranchToSplit(LimeTreeFamily tree, NBtable[] HEAD_nb_files, NBtable[] OTHER_nb_files) throws IOException {
-        // todo: move from splitPoint to the root, all commit on the left[0](right) is for HEAD_nb_files(OTHER_nb_files)
-        LimeTree curTree = tree.splitPoint();
-        while(!tree.getRoot().equals(curTree)){
-            if(!commitSha_HEAD.contains(curTree.PaSha_pair[0])){
-                commitSha_HEAD.push(curTree.PaSha_pair[0]);
+    public static NBtable[] latest_files_BranchToSplit(LimeTreeFamily tree, int a) throws IOException { // cannot change NBtable[], must use return
+        // a == 0 => HEAD ; a == 1 => OTHER
+        // todo: move from splitPoint to the end, all commit on the left[0](right) is for HEAD_nb_files(OTHER_nb_files)
+        LimeTree split = tree.splitPoint();
+        LimeTree end_tree = tree.getRoot();
+
+        while(!(split.equals(end_tree))) {
+            if (!commitSha.contains(split.PaSha_pair[a]) & !split.PaSha_pair[a].equals(end_tree.PaSha_pair[1-a])) {
+                commitSha.push(split.PaSha_pair[a]);
             }
-            if(!commitSha_OTHER.contains(curTree.PaSha_pair[1])) {
-                commitSha_OTHER.push(curTree.PaSha_pair[1]);
-            }
-            curTree = curTree.parent;
+            split = split.parent;
         }
+        // add the end_tree
+        if(!commitSha.contains(tree.getRoot().PaSha_pair[a])){ //********************** trap
+            commitSha.push(tree.getRoot().PaSha_pair[a]);
+        }
+
+        NBtable[] nb_files = new NBtable[0];
+
         // Update the HEAD_nb_files & OTHER_nb_files
-        while(!commitSha_HEAD.isEmpty()){// just add the files hasn't exists, as the top object from the stack is the latest
-            String commitSha_head = commitSha_HEAD.pop();
-            latest_files_BranchToSplit_helper(commitSha_head, HEAD_nb_files);
+        while(!commitSha.isEmpty()){// just add the files hasn't exists, as the top object from the stack is the latest
+            String commitSha_head = commitSha.pop();
+            nb_files = latest_files_BranchToSplit_helper(commitSha_head, nb_files);
         }
-        while(!commitSha_OTHER.isEmpty()){// just add the files hasn't exists, as the top object from the stack is the latest
-            String commitSha_other = commitSha_OTHER.pop();
-            latest_files_BranchToSplit_helper(commitSha_other, OTHER_nb_files);
-        }
+        return nb_files;
     }
-    public static void latest_files_BranchToSplit_helper(String commitSha, NBtable[] nb_files) throws IOException {
+
+    public static NBtable[] my_table = new NBtable[0];
+
+    public static NBtable[] latest_files_BranchToSplit_helper(String commitSha, NBtable[] nb_files) throws IOException {
         //todo: add files
-        NBtable[] filesCandidate_head = getCommit(commitSha).getNB_commit();
-        int n = filesCandidate_head.length;
-        NBtable[] files_add = new NBtable[n];
-        int i = 0;
-        for(NBtable s : filesCandidate_head){
-            files_add[i++] = s;
-        }
-        if(nb_files.length != 0){
-            for(NBtable t : filesCandidate_head){
-                for(NBtable ta : nb_files){
-                    if(ta.find_sha1(t.getSha1_file_name())){ // file already exist there
-                        rm_NBtable(files_add,t);
+        Commit my_commit = getCommit(commitSha);
+        if(my_commit.getNB_commit() != null){
+            NBtable[] files_add = my_commit.getNB_commit(); // the older commit
+            int n = files_add.length;
+            if(n!=0){ // there are files waiting for add
+                if(nb_files.length != 0){
+                    for(NBtable t : files_add){
+                        for(NBtable ta : nb_files){ // if the file name already recorded, then it should be delete from the candidate by name, as the current version is the latest one
+                            if(ta.getFile_name().equals(t.getFile_name()) & !ta.find_sha1(t.getSha1_file_name()) & files_add.length!=0 ){ //*********** trap
+                                files_add = rm_NBtable(files_add,t);
+                                nb_files = rm_NBtable(nb_files,t);  //***************** trap
+                            }
+                        }
                     }
                 }
+                my_table = add_NBtables(nb_files,files_add); // the left files from the candidates need to be added
             }
         }
-        add_NBtables(nb_files,files_add);
+        return my_table;
     }
 }

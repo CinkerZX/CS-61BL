@@ -1,0 +1,33 @@
+# Check if the files are the latest version
+D branch0 "master"
+D branch1 "xinxin"
+> init
+<<<
+# Filename file content
++ wug.txt wug_version_1.txt
+> add wug.txt
+<<<
+> commit "Commit1"
+<<<
+# Create the new branch
+> branch ${branch1}
+<<<
+# Checkout to the new branch
+> checkout ${branch1}
+<<<
++ wug.txt wug_version_3.txt
+> add wug.txt
+<<<
+> commit "Commit3"
+<<<
+# check out to master again
+> checkout ${branch0}
+<<<
++ wug.txt wug_version_0.txt
+> add wug.txt
+<<<
++ notwug.txt notwug.txt
+> add notwug.txt
+<<<
+> commit "Commit0"
+<<<*

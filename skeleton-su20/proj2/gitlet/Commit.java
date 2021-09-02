@@ -45,7 +45,7 @@ public class Commit implements Serializable {
     public Commit(){
         pa_sha = new String[]{""};
         metadata = new String[] {"initial commit", "00:00:00 UTC, Thu, 1 Jan 1970"}; //create a new array object and assign to metadata
-        NB_commit = null; //null n is lower case
+        NB_commit = null;
     }
 
     //Constructor: commit n

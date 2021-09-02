@@ -609,7 +609,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
     // merge [branch name]
     public void merge(String branch_name) throws IOException {
-        NBtable[] OTHER_nb_files = new NBtable[0];
+        NBtable[] OTHER_nb_files = new NBtable[0];// a == 0 => HEAD ; a == 1 => OTHER
         NBtable[] HEAD_nb_files = new NBtable[0];
         //false case 1: If there are staged additions or removals present, print the error message, and exist
         if (staging_empty()) {
@@ -655,7 +655,9 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         }
 
                         // case(2) Files added in OTHER
-                        latest_files_BranchToSplit(my_tree, HEAD_nb_files, OTHER_nb_files);
+                        HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
+                        OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
+
                         NBtable[] SPLIT_nb_files = split_commit.getNB_commit();
                         String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
                         for (String s : add_filenames){
@@ -756,7 +758,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     }
 
     // get the blob by bolb_sha
-    public Blob getBlob(String sha){
+    public static Blob getBlob(String sha){
         File blob = new File("./.gitlet/Blobs", sha);
         Blob myBlob = Utils.readObject(blob, Blob.class);
         return(myBlob);

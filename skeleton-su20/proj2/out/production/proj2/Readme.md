@@ -1,4 +1,5 @@
-### Complete the file operations of merge function
+### To do: test merge
+ 
 ### add the methods of reset, branchmanagement, checkout
 
 ### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 
