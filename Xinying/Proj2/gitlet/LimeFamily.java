@@ -67,17 +67,24 @@ public class LimeFamily {
     public LimeTree SplitPoint() {
         LimeTreeDFSIterator LimeTreeDFSiterator = new LimeTreeDFSIterator();
         LimeTree tempAncestor = new LimeTree();
+        int num = 0;
         while(LimeTreeDFSiterator.hasNext()){
             LimeTree node = LimeTreeDFSiterator.next();
-            if(SplitPointHelper(node,tempAncestor)){
+            num +=1;
+            if(SplitPointHelper1(node,tempAncestor)){
                 tempAncestor = node;
+            }else if(node.Parents_pair[0].Metadata[0].equals("initial commit")){
+                tempAncestor = node;
+                tempAncestor.height = 10000;
             }
         }
         return tempAncestor;
     }
-    private Boolean SplitPointHelper(LimeTree node,LimeTree tempAncestor){
+    private Boolean SplitPointHelper1(LimeTree node,LimeTree tempAncestor){
         if(node.Parents_pair[0].Metadata[0].equals(node.Parents_pair[1].Metadata[0])){
             if(tempAncestor.height > node.height){return true;}
+        }else if(node.Parents_pair[0].Metadata[0].equals("initial commit")){
+            return true;
         }
         return false;
     }
