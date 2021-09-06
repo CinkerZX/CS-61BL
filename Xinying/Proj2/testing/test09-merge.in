@@ -1,0 +1,37 @@
+D BRANCH1 "master"
+D BRANCH2 "main"
+> init
+<<<
+> branch ${BRANCH2}
+<<<
+#+ 2.txt 2.txt
+#> add 2.txt
+#<<<
+#> commit "add2.txt"
+#<<<
++ 1.txt 1.txt
+> add 1.txt
+<<<
+> commit "add1.txt"
+<<<
+> checkout ${BRANCH2}
+<<<
++ 3.txt 3.txt
+> add 3.txt
+<<<
+> commit "add3.txt"
+<<<
++ 4.txt 4.txt
+> add 4.txt
+<<<
+> commit "add4.txt"
+<<<
+> checkout ${BRANCH1}
+<<<
++ 0.txt 0.txt
+> add 0.txt
+<<<
+> commit "add0.txt"
+<<<
+> merge ${BRANCH2}
+<<<
