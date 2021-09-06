@@ -227,7 +227,7 @@ public class NBtable implements Serializable {
         return oldNBtableArr;
     }
 
-    public static NBtable[] rm_NBtable(NBtable[] oldNBtableArr, NBtable rm_NBtable){
+    public static NBtable[] rm_NBtable_byName(NBtable[] oldNBtableArr, NBtable rm_NBtable){
         int n = oldNBtableArr.length - 1;
         NBtable[] branches_new = new NBtable[n];
         int i = 0;
@@ -238,4 +238,12 @@ public class NBtable implements Serializable {
         }
         return(branches_new);
     }
+
+//    public static NBtable[] rm_NBtable_repeat(NBtable[] oldNBtableArr){
+//        int n = oldNBtableArr.length;
+//        NBtable[] branches_new = new NBtable[n];
+//        int i = 0;
+//        for (){
+//        }
+//    }
 }

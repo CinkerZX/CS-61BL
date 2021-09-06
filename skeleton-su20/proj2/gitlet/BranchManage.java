@@ -43,14 +43,19 @@ public class BranchManage implements Serializable {
         }
     }
 
-    public void update_branches(String newSHA){
-        for (NBtable branch : branches){
-            if(branch.find_sha1(branch_head.getSha1_file_name())){
-                branch.setSha1_file_name(newSHA);
+    public void update_head(NBtable new_head){
+        branch_head = new_head;
+    }
+
+    public void update_branches(NBtable new_t){
+        int i = 0;
+        for (NBtable t : branches){
+            if(t.getFile_name().equals(new_t.getFile_name())){
                 break;
             }
+            else i+=1;
         }
-        branch_head.setSha1_file_name(newSHA);
+        branches[i] = new_t;
     }
 
     public void add_branches(String working_directory, NBtable newBranch){
@@ -70,7 +75,7 @@ public class BranchManage implements Serializable {
         // get the name of all the branches
         NBtable[] existing_Branches = branch.getBranches();
         NBtable re_tabel = new NBtable(branch_name, "");
-        NBtable[] branches_new = NBtable.rm_NBtable(existing_Branches, re_tabel);
+        NBtable[] branches_new = NBtable.rm_NBtable_byName(existing_Branches, re_tabel);
         setBranches(branches_new);
     }
 

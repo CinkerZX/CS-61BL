@@ -7,6 +7,7 @@ package gitlet;
 // update the pointers
 // log
 
+import com.sun.org.apache.xpath.internal.Arg;
 import org.apache.commons.lang3.ArrayUtils;
 //import sun.text.normalizer.NormalizerBase;
 
@@ -160,7 +161,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
                 // generate a new commit object (newCommit) by coping NBtable from "current commit"
                 Commit new_Commit = branch.new_commit(Args, working_directory);
-                if (!pa_sha_1.isEmpty()){
+                if (!pa_sha_1.isEmpty() & !getCommit(pa_sha_1).getMetadata()[0].equals("initial commit")){
                     new_Commit.addPa_sha(pa_sha_1, pa_sha_2);
                 }
                 // make a list of tracking files combining the info from staging area
@@ -206,7 +207,9 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 Utils.writeObject(commit_add, new_Commit); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
 
                 // Update branches and update_head
-                branch.update_branches(Utils.sha1(Utils.serialize(new_Commit)));
+                NBtable new_head = new NBtable(branch.getBranch_head().getFile_name(), Utils.sha1(Utils.serialize(new_Commit)));
+                branch.update_head(new_head);
+                branch.update_branches(new_head);      // ********************************* trap
                 branch.wt(working_directory,branch); // write the branch management object
             } catch (Exception e){
                 throw new RuntimeException(e);
@@ -430,7 +433,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
             // get the name of all the branches
             NBtable[] existing_Branches = branch.getBranches();
-            String[] branch_Names = new String[existing_Branches.length];
             int i = 0;
             for (NBtable t : existing_Branches){
                 if (Args.equals(t.getFile_name())){
@@ -443,6 +445,11 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 NBtable new_branch_head = new NBtable(Args, "");
                 branch.add_branches(working_directory, new_branch_head);
                 branch.wt(working_directory, branch); // write the branch management object
+                NBtable b = getBranch(Args);
+                if (b.getSha1_file_name().equals("")){
+                    branch.update_head(Args,branch.getBranch_head().getSha1_file_name());
+                    branch.wt(working_directory, branch); // write the branch management object
+                }
             }
         } catch (Exception e){
             throw new RuntimeException(e);
@@ -534,10 +541,14 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // checkout branchname
     public void checkoutBranch(String Args) throws IOException {
         // get the head with the branch name Args
-        NBtable object_branch = getBranch(Args);
+        NBtable object_branch = getBranch(Args);  //NBtable: branch name | latest commit sha
+        //System.out.println(object_branch.getFile_name());
         Commit object_commit = getCommit(object_branch.getSha1_file_name());
+        //System.out.println(object_commit.getMetadata()[0]);
+
         BranchManage cur_branch = getCurrentBranch();
         Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
+
         // if new branch doesn't have any commit
         if(object_commit.getPa_sha()[0].equals("")){
             File[] files_Working = get_all_files(working_directory);
@@ -552,7 +563,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         else {
             checkout_by_commit_id(object_commit, cur_commit);
         }
-        cur_branch.update_head(Args, object_branch.getSha1_file_name());
+        cur_branch.update_head(object_branch);
         cur_branch.wt(working_directory, cur_branch);
         // Clean the staging area
         clean_staging();

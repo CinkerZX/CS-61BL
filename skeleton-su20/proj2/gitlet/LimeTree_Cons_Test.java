@@ -13,7 +13,7 @@ public class LimeTree_Cons_Test {
     public static void main(String... args){
         //Todo: check the current branches; construct the tree based on the branches
         String working_directory;
-        working_directory = "C:/Users/Cinker/Documents/Doc second year/Course/CS 61BL/skeleton-su20/proj2/testing/test08-latestfileBranchToSplit_0";
+        working_directory = "C:/Users/Cinker/Documents/Doc second year/Course/CS 61BL/skeleton-su20/proj2/testing/test09-merge_0";
 
         BranchManage branchManage;
 
@@ -37,11 +37,10 @@ public class LimeTree_Cons_Test {
             my_tree.depth_First_Tra();
             // Check if the splitPoint function
             Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
+            System.out.println(split_commit.getMetadata()[0]);
 
             HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
             OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
-
-            File b = new File(working_directory,".gitlet/Blobs");
 
             for(NBtable t : HEAD_nb_files){
                 Blob myBlob = getBlob(t.getSha1_file_name());

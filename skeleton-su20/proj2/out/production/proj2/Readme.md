@@ -1,4 +1,4 @@
-### To do: test merge
+### To do: test merge: the operations on set
  
 ### add the methods of reset, branchmanagement, checkout
 

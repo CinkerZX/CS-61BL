@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.zip.GZIPOutputStream;
 
 import static gitlet.BranchManage.getCommit;
 import static gitlet.NBtable.*;
@@ -70,14 +71,15 @@ public class LimeTreeFamily {
     public Stack<String[]> fringe = new Stack<String[]>();
 
     public void addChild() throws IOException {
+        int count_pass_root = 1;
         if (root != null){
             fringe.push(new String[] {root.PaSha_pair[0],root.PaSha_pair[1]});
-            addChildHelper(root);
+            addChildHelper(root, count_pass_root);
         }
     }
 
     /* Add child, move the Sha_pair[0] first, Sha_pair saved in stack */
-    public void addChildHelper(LimeTree pa) throws IOException {
+    public void addChildHelper(LimeTree pa, int counter) throws IOException {
         if (!hasNext()) {
             //System.out.println("Fringe is clean");
         }
@@ -85,41 +87,52 @@ public class LimeTreeFamily {
             // (1) get the string pair out from fringe
             String[] move_compare = fringe.pop();  // (2) get out from the fringe
             // ensure pa
-            while((!pa.PaSha_pair[0].equals(move_compare[0]) & !pa.PaSha_pair[0].equals(move_compare[1])) || (!pa.PaSha_pair[1].equals(move_compare[0]) & !pa.PaSha_pair[1].equals(move_compare[1]))){
+            while((!pa.PaSha_pair[0].equals(move_compare[0]) & !pa.PaSha_pair[0].equals(move_compare[1])) || (!pa.PaSha_pair[1].equals(move_compare[0]) & !pa.PaSha_pair[1].equals(move_compare[1])) || (pa.PaSha_pair[0].equals(pa.PaSha_pair[1]))) {
                 pa = pa.parent;
+                if (pa.PaSha_pair[0].equals(move_compare[0]) & pa.PaSha_pair[1].equals(move_compare[1]) & hasNext()){
+                    move_compare = fringe.pop();  // (2) get out from the fringe
+                }
             }
+
+            if(pa.PaSha_pair[0].equals(root.PaSha_pair[0]) & pa.PaSha_pair[1].equals(root.PaSha_pair[1])){
+                counter = counter+1;
+            }
+
             // Get the pa_sha by pa_tree.PaSha_pair[0](move)
             Commit this_commit = getCommit(move_compare[0]);
             // Pay attention to the pushing requirements
-            if(!this_commit.getMetadata()[0].equals("initial commit") & !move_compare[0].equals(move_compare[1])){
-                if (!getCommit(this_commit.getPa_sha()[0]).getMetadata()[0].equals("initial commit") & !move_compare[1].equals(move_compare[0])) {
-                    fringe.push(new String[]{move_compare[1], move_compare[0]}); // (3) put the changed position pairs in
+            if(counter != 4){ //**************************trap
+                if(!this_commit.getMetadata()[0].equals("initial commit") & !move_compare[0].equals(move_compare[1])){
+                    if (!getCommit(this_commit.getPa_sha()[0]).getMetadata()[0].equals("initial commit") & !move_compare[1].equals(move_compare[0])) {
+                        fringe.push(new String[]{move_compare[1], move_compare[0]}); // (3) put the changed position pairs in
+                    }
+                    String[] pre_sha = this_commit.getPa_sha();
+                    LimeTree child_tree = new LimeTree(pre_sha[0], move_compare[1], pa);
 
-                }
-                String[] pre_sha = this_commit.getPa_sha();
-                LimeTree child_tree = new LimeTree(pre_sha[0], move_compare[1], pa);
-                //add tree
-                pa.children.add(child_tree); // trace back and add tree
-                // Put the rest into the fringe
-                if(pre_sha.length > 1){
-                    Collections.reverse(Arrays.asList(pre_sha)); // reverse Arrays.asList can be used to String or Integer
-                    for(String s : pre_sha){
-                        if(!move_compare[1].equals(s) & !move_compare[1].equals("initial commit")) {
-                            fringe.push(new String[]{move_compare[1], s});
+                    //add tree
+                    pa.children.add(child_tree); // trace back and add tree
+
+                    // Put the rest into the fringe
+                    if(pre_sha.length > 1){
+                        Collections.reverse(Arrays.asList(pre_sha)); // reverse Arrays.asList can be used to String or Integer
+                        for(String s : pre_sha){
+                            if(!move_compare[1].equals(s) & !getCommit(move_compare[1]).getMetadata()[0].equals("initial commit")) {
+                                fringe.push(new String[]{move_compare[1], s});
+                            }
                         }
                     }
-                }
-                else{
-                    if(!move_compare[1].equals(pre_sha[0]) & !move_compare[1].equals("initial commit")){
-                        fringe.push(new String[]{move_compare[1],pre_sha[0]}); // (4) put the traced back pair into
+                    else{
+                        if(!move_compare[1].equals(pre_sha[0]) & !getCommit(move_compare[1]).getMetadata()[0].equals("initial commit")){
+                            fringe.push(new String[]{move_compare[1],pre_sha[0]}); // (4) put the traced back pair into
+                        }
                     }
+                    if(!pre_sha[0].equals(move_compare[1]) & !getCommit(pre_sha[0]).getMetadata()[0].equals("initial commit")) {
+                        fringe.push(new String[]{pre_sha[0], move_compare[1]}); // (5) put the added tree pair into, so that next time will trace back from here
+                    }
+                    pa = child_tree;
                 }
-                if(!pre_sha[0].equals(move_compare[1]) & !pre_sha[0].equals("initial commit")) {
-                    fringe.push(new String[]{pre_sha[0], move_compare[1]}); // (5) put the added tree pair into, so that next time will trace back from here
-                }
-                pa = child_tree;
+                addChildHelper(pa, counter);
             }
-            addChildHelper(pa);
         }
     }
 
@@ -127,16 +140,16 @@ public class LimeTreeFamily {
     public boolean hasNext() {
         return !fringe.isEmpty();
     }
-    /* iteration*/
-    public void next(LimeTree pa) throws IOException {
-        if (!hasNext()) {
-            throw new NoSuchElementException("Fringe is clean");
-        }
-        // get the string pair out from fringe
-        String[] move_compare = fringe.pop();
-        LimeTree child_tree = new LimeTree(move_compare[0], move_compare[1], pa);
-        addChildHelper(child_tree);
-    }
+//    /* iteration*/
+//    public void next(LimeTree pa) throws IOException {
+//        if (!hasNext()) {
+//            throw new NoSuchElementException("Fringe is clean");
+//        }
+//        // get the string pair out from fringe
+//        String[] move_compare = fringe.pop();
+//        LimeTree child_tree = new LimeTree(move_compare[0], move_compare[1], pa);
+//        addChildHelper(child_tree, );
+//    }
 
     /* Returns the split point */
     public void splitPoint_helper(LimeTree splitPoint){
@@ -290,9 +303,9 @@ Just change the (LIFO) stack to a (FIFO) queue
                 if(nb_files.length != 0){
                     for(NBtable t : files_add){
                         for(NBtable ta : nb_files){ // if the file name already recorded, then it should be delete from the candidate by name, as the current version is the latest one
-                            if(ta.getFile_name().equals(t.getFile_name()) & !ta.find_sha1(t.getSha1_file_name()) & files_add.length!=0 ){ //*********** trap
-                                files_add = rm_NBtable(files_add,t);
-                                nb_files = rm_NBtable(nb_files,t);  //***************** trap
+                            if(ta.getFile_name().equals(t.getFile_name()) & !ta.find_sha1(t.getSha1_file_name()) & files_add.length!=0){ //*********** trap
+                                files_add = rm_NBtable_byName(files_add,t);
+                                nb_files = rm_NBtable_byName(nb_files,t);  //***************** trap
                             }
                         }
                     }
