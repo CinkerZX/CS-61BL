@@ -20,43 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/testing/samples/test" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testing/samples/test09-merge.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTreeFamily.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/BranchManage.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/BranchManage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily$LimeTree.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily$LimeTree.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTreeFamily.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTree_Cons_Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTree_Cons_Test.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/802a4f57332c9ab270dbda6fe7b66edbddba8055" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/bafd8438edd236270de780d2cda1252e6acf1e04" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/dfeb802b9ca33355368e9b60d3d20aa1643a3dd5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/f0c4b011ca5345873202c2317be5a7510f909009" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/07beb649e9e7e285ca30bad96a5b42c76750370e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/3cb546f8e2bbf49e2cb73c7292bfc49f226d8a91" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/459f1fb6127afd4beb72afc486c64e476148d46a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/45b0bc7b0c5d9b0a60c30010c742e941c102fce7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/.gitlet/branch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/notwug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test08-latestfileBranchToSplit_0/wug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/802a4f57332c9ab270dbda6fe7b66edbddba8055" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/bafd8438edd236270de780d2cda1252e6acf1e04" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/dfeb802b9ca33355368e9b60d3d20aa1643a3dd5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Blobs/f0c4b011ca5345873202c2317be5a7510f909009" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/07beb649e9e7e285ca30bad96a5b42c76750370e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/3cb546f8e2bbf49e2cb73c7292bfc49f226d8a91" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/459f1fb6127afd4beb72afc486c64e476148d46a" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/Commits/45b0bc7b0c5d9b0a60c30010c742e941c102fce7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/.gitlet/branch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/notwug.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test08-latestfileBranchToSplit_0/wug.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -311,37 +275,37 @@
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state x="-1429" y="280" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630941415932" />
-    <state width="1431" height="241" key="GridCell.Tab.0.bottom" timestamp="1630955870754">
+    <state width="694" height="176" key="GridCell.Tab.0.bottom" timestamp="1630957504692">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.bottom/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512978" />
-    <state width="1431" height="241" key="GridCell.Tab.0.bottom/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870754" />
+    <state width="694" height="176" key="GridCell.Tab.0.bottom/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504692" />
     <state width="1431" height="159" key="GridCell.Tab.0.bottom/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="1431" height="241" key="GridCell.Tab.0.center" timestamp="1630955870753">
+    <state width="694" height="176" key="GridCell.Tab.0.center" timestamp="1630957504691">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.center/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
-    <state width="1431" height="241" key="GridCell.Tab.0.center/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870753" />
+    <state width="694" height="176" key="GridCell.Tab.0.center/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504691" />
     <state width="1431" height="159" key="GridCell.Tab.0.center/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="1431" height="241" key="GridCell.Tab.0.left" timestamp="1630955870753">
+    <state width="694" height="176" key="GridCell.Tab.0.left" timestamp="1630957504691">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.left/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
-    <state width="1431" height="241" key="GridCell.Tab.0.left/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870753" />
+    <state width="694" height="176" key="GridCell.Tab.0.left/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504691" />
     <state width="1431" height="159" key="GridCell.Tab.0.left/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="1431" height="241" key="GridCell.Tab.0.right" timestamp="1630955870753">
+    <state width="694" height="176" key="GridCell.Tab.0.right" timestamp="1630957504692">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.right/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
-    <state width="1431" height="241" key="GridCell.Tab.0.right/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870753" />
+    <state width="694" height="176" key="GridCell.Tab.0.right/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504692" />
     <state width="1431" height="159" key="GridCell.Tab.0.right/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
     <state width="1431" height="284" key="GridCell.Tab.1.bottom" timestamp="1630955870749">
       <screen x="-1920" y="0" width="1474" height="960" />

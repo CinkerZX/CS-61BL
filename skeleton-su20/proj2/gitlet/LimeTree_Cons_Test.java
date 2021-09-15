@@ -8,6 +8,7 @@ import static gitlet.BranchManage.current_commit;
 import static gitlet.BranchManage.getCommit;
 import static gitlet.LimeTreeFamily.*;
 import static gitlet.Gitlet.*;
+import static gitlet.NBtable.*;
 
 public class LimeTree_Cons_Test {
     public static void main(String... args){
@@ -42,16 +43,13 @@ public class LimeTree_Cons_Test {
             HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
             OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
 
-            for(NBtable t : HEAD_nb_files){
-                Blob myBlob = getBlob(t.getSha1_file_name());
-                System.out.println(myBlob.getContent());
-            }
-
-            for(NBtable t : OTHER_nb_files){
-                Blob myBlob = getBlob(t.getSha1_file_name());
-                System.out.println(myBlob.getContent());
-            }
-
+            NBtable[] HEAD_nb_files_new = rm_NBtable_repeat(HEAD_nb_files);
+            NBtable[] OTHER_nb_files_new = rm_NBtable_repeat(OTHER_nb_files);
+//            System.out.println("files in HEAD");
+//            for(NBtable t : HEAD_nb_files_new){
+//                Blob myBlob = getBlob(t.getSha1_file_name());
+//                System.out.println(myBlob.getContent());
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

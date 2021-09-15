@@ -239,11 +239,33 @@ public class NBtable implements Serializable {
         return(branches_new);
     }
 
-//    public static NBtable[] rm_NBtable_repeat(NBtable[] oldNBtableArr){
-//        int n = oldNBtableArr.length;
-//        NBtable[] branches_new = new NBtable[n];
-//        int i = 0;
-//        for (){
-//        }
-//    }
+    public static NBtable[] rm_NBtable_repeat(NBtable[] oldNBtableArr){
+        int n = oldNBtableArr.length;
+        NBtable[] newNBtable = new NBtable[n];
+        int i = 0; //the index for going through oldNBtable
+        int j = 0; //the index for going through newNBtable
+        int k = 1; //the number of files put into oldNBtable
+        int n_diff = 0; // the number of files that new have different with i
+        newNBtable[j] = oldNBtableArr[i]; // put the first element into newNBtable
+        for (i = 1; i<n; i++){
+            for (j = 0; j <= k-1; j++){
+                if(oldNBtableArr[i].getSha1_file_name().equals(newNBtable[j].getSha1_file_name()) || oldNBtableArr[i] == null){
+                    break;
+                }
+                else{
+                    n_diff++;
+                }
+            }
+            if(n_diff == k) {
+                newNBtable[j] = oldNBtableArr[i];
+                k++;
+            }
+            n_diff = 0;
+        }
+        NBtable[] finalNBtable = new NBtable[k];
+        for(i = 0; i<k ; i++){
+            finalNBtable[i] = newNBtable[i];
+        }
+        return finalNBtable;
+    }
 }

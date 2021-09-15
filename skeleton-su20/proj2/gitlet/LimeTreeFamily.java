@@ -140,16 +140,6 @@ public class LimeTreeFamily {
     public boolean hasNext() {
         return !fringe.isEmpty();
     }
-//    /* iteration*/
-//    public void next(LimeTree pa) throws IOException {
-//        if (!hasNext()) {
-//            throw new NoSuchElementException("Fringe is clean");
-//        }
-//        // get the string pair out from fringe
-//        String[] move_compare = fringe.pop();
-//        LimeTree child_tree = new LimeTree(move_compare[0], move_compare[1], pa);
-//        addChildHelper(child_tree, );
-//    }
 
     /* Returns the split point */
     public void splitPoint_helper(LimeTree splitPoint){
@@ -269,7 +259,6 @@ Just change the (LIFO) stack to a (FIFO) queue
         // todo: move from splitPoint to the end, all commit on the left[0](right) is for HEAD_nb_files(OTHER_nb_files)
         LimeTree split = tree.splitPoint();
         LimeTree end_tree = tree.getRoot();
-
         while(!(split.equals(end_tree))) {
             if (!commitSha.contains(split.PaSha_pair[a]) & !split.PaSha_pair[a].equals(end_tree.PaSha_pair[1-a])) {
                 commitSha.push(split.PaSha_pair[a]);
@@ -280,9 +269,7 @@ Just change the (LIFO) stack to a (FIFO) queue
         if(!commitSha.contains(tree.getRoot().PaSha_pair[a])){ //********************** trap
             commitSha.push(tree.getRoot().PaSha_pair[a]);
         }
-
         NBtable[] nb_files = new NBtable[0];
-
         // Update the HEAD_nb_files & OTHER_nb_files
         while(!commitSha.isEmpty()){// just add the files hasn't exists, as the top object from the stack is the latest
             String commitSha_head = commitSha.pop();
