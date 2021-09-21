@@ -20,6 +20,7 @@ D branch1 "xinxin"
 > add e.txt
 <<<
 > commit "commit1"
+= 0
 <<<
 # Create the new branch
 > branch ${branch1}
@@ -30,7 +31,11 @@ D branch1 "xinxin"
 + a.txt non-a.txt
 + b.txt b.txt
 + e.txt e.txt
-+ f.txt f.txt
++ f.txt non-f.txt
+> rm c.txt
+<<<
+> rm d.txt
+<<<
 > add a.txt
 <<<
 > add b.txt
@@ -40,6 +45,7 @@ D branch1 "xinxin"
 > add f.txt
 <<<
 > commit "Commit3"
+= 0
 <<<
 # check out to master again
 > checkout ${branch0}
@@ -48,6 +54,10 @@ D branch1 "xinxin"
 + b.txt non-b.txt
 + d.txt d.txt
 + g.txt g.txt
+> rm c.txt
+<<<
+> rm e.txt
+<<<
 > add a.txt
 <<<
 > add b.txt
@@ -57,4 +67,5 @@ D branch1 "xinxin"
 > add g.txt
 <<<
 > commit "Commit0"
+= 0
 <<<

@@ -40,16 +40,20 @@ public class LimeTree_Cons_Test {
             Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
             System.out.println(split_commit.getMetadata()[0]);
 
-            HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
-            OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
+            HEAD_nb_files = getCommit(sha_moved).getNB_commit();
+            OTHER_nb_files = getCommit(sha_remain).getNB_commit();
 
-            NBtable[] HEAD_nb_files_new = rm_NBtable_repeat(HEAD_nb_files);
-            NBtable[] OTHER_nb_files_new = rm_NBtable_repeat(OTHER_nb_files);
-//            System.out.println("files in HEAD");
-//            for(NBtable t : HEAD_nb_files_new){
-//                Blob myBlob = getBlob(t.getSha1_file_name());
-//                System.out.println(myBlob.getContent());
-//            }
+            System.out.println("files in "+getCommit(sha_moved).getMetadata()[0]);
+            for(NBtable t : HEAD_nb_files){
+                Blob myBlob = getBlob(t.getSha1_file_name());
+                System.out.println(myBlob.getContent());
+            }
+
+            System.out.println("files in "+getCommit(sha_remain).getMetadata()[0]);
+            for(NBtable t : OTHER_nb_files){
+                Blob myBlob = getBlob(t.getSha1_file_name());
+                System.out.println(myBlob.getContent());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

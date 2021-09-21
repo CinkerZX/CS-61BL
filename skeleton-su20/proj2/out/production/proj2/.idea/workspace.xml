@@ -20,7 +20,49 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/Gitlet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTree_Cons_Test.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/LimeTree_Cons_Test.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/gitlet/MyFilenameFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/samples/test09-merge.in" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/samples/test09-merge.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/src/c.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/src/c.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/src/f.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/src/f.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Blobs/007a18c3c74286115e0dcc7ef9022b641cf9afbd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Blobs/55dbc9c7c8434e447de26d8251d94605117c057d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Blobs/900a52309fd746bfc8e78754f4881c925c052281" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Blobs/b01a420be0871916df25b55c6ca03d799cdec5f2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Blobs/bba47bf2095ed79d8297abf3d7d52adae69b37ad" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Commits/0f65b115d0b83e5e419aed9572dff435381173e0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Commits/262a7784748f823c11900eff72e0e3b87de03e75" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Commits/9c531faafe7e4cb18ce7dd91ec892a6adaf79963" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Staging Area/Staged for addition/3a6661f1dc2d2c05736b2af85df437d6d161a3d2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Staging Area/Staged for addition/900a52309fd746bfc8e78754f4881c925c052281" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/Staging Area/Staged for addition/d10e92a35aa7fdf622140c5d404da7bdd34eb6b2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/b.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/b.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/c.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/c.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/f.txt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/f.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/proj2/testing/test09-merge_0/g.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/samples/test09-merge.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test09-merge.in" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/src/c.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/src/c.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/src/f.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/src/f.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/007a18c3c74286115e0dcc7ef9022b641cf9afbd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/55dbc9c7c8434e447de26d8251d94605117c057d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/900a52309fd746bfc8e78754f4881c925c052281" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/b01a420be0871916df25b55c6ca03d799cdec5f2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/bba47bf2095ed79d8297abf3d7d52adae69b37ad" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/0f65b115d0b83e5e419aed9572dff435381173e0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/262a7784748f823c11900eff72e0e3b87de03e75" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/9c531faafe7e4cb18ce7dd91ec892a6adaf79963" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/branch" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/branch" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/b.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test09-merge_0/b.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/c.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test09-merge_0/c.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/g.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -268,64 +310,71 @@
     </state>
     <state x="146" y="15" width="865" height="682" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626442596808" />
     <state x="-7" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628086417312" />
-    <state x="115" y="30" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1218.720@0.0.1218.720" timestamp="1623483602302" />
     <state x="-1842" y="168" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630949220910" />
     <state x="-1868" y="246" width="1049" height="668" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630586662358" />
     <state x="-1429" y="280" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1630941415932">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state x="-1429" y="280" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630941415932" />
-    <state width="694" height="176" key="GridCell.Tab.0.bottom" timestamp="1630957504692">
+    <state width="1431" height="294" key="GridCell.Tab.0.bottom" timestamp="1632249443962">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.bottom/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.bottom/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512978" />
-    <state width="694" height="176" key="GridCell.Tab.0.bottom/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504692" />
+    <state width="1424" height="288" key="GridCell.Tab.0.bottom/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547364" />
+    <state width="1431" height="294" key="GridCell.Tab.0.bottom/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1632249443962" />
     <state width="1431" height="159" key="GridCell.Tab.0.bottom/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="694" height="176" key="GridCell.Tab.0.center" timestamp="1630957504691">
+    <state width="1431" height="294" key="GridCell.Tab.0.center" timestamp="1632249443962">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.center/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.center/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
-    <state width="694" height="176" key="GridCell.Tab.0.center/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504691" />
+    <state width="1424" height="288" key="GridCell.Tab.0.center/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547363" />
+    <state width="1431" height="294" key="GridCell.Tab.0.center/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1632249443962" />
     <state width="1431" height="159" key="GridCell.Tab.0.center/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="694" height="176" key="GridCell.Tab.0.left" timestamp="1630957504691">
+    <state width="1431" height="294" key="GridCell.Tab.0.left" timestamp="1632249443962">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.left/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.left/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
-    <state width="694" height="176" key="GridCell.Tab.0.left/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504691" />
+    <state width="1424" height="288" key="GridCell.Tab.0.left/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547363" />
+    <state width="1431" height="294" key="GridCell.Tab.0.left/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1632249443962" />
     <state width="1431" height="159" key="GridCell.Tab.0.left/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="694" height="176" key="GridCell.Tab.0.right" timestamp="1630957504692">
+    <state width="1431" height="294" key="GridCell.Tab.0.right" timestamp="1632249443962">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state width="1172" height="237" key="GridCell.Tab.0.right/-1920.0.1215.720/0.0.1215.720@0.0.1215.720" timestamp="1626444808362" />
     <state width="1173" height="195" key="GridCell.Tab.0.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1628106262005" />
     <state width="1174" height="49" key="GridCell.Tab.0.right/-1920.0.1217.720/0.0.1217.720@0.0.1217.720" timestamp="1628709512977" />
-    <state width="694" height="176" key="GridCell.Tab.0.right/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630957504692" />
+    <state width="1424" height="288" key="GridCell.Tab.0.right/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547363" />
+    <state width="1431" height="294" key="GridCell.Tab.0.right/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1632249443962" />
     <state width="1431" height="159" key="GridCell.Tab.0.right/0.0.1472.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630603467041" />
-    <state width="1431" height="284" key="GridCell.Tab.1.bottom" timestamp="1630955870749">
-      <screen x="-1920" y="0" width="1474" height="960" />
+    <state width="1424" height="288" key="GridCell.Tab.1.bottom" timestamp="1631735547364">
+      <screen x="0" y="0" width="1466" height="864" />
     </state>
     <state width="1173" height="209" key="GridCell.Tab.1.bottom/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1627414361710" />
+    <state width="1424" height="288" key="GridCell.Tab.1.bottom/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547364" />
     <state width="1431" height="284" key="GridCell.Tab.1.bottom/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870749" />
-    <state width="1431" height="284" key="GridCell.Tab.1.center" timestamp="1630955870749">
-      <screen x="-1920" y="0" width="1474" height="960" />
+    <state width="1424" height="288" key="GridCell.Tab.1.center" timestamp="1631735547364">
+      <screen x="0" y="0" width="1466" height="864" />
     </state>
     <state width="1173" height="209" key="GridCell.Tab.1.center/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1627414361710" />
+    <state width="1424" height="288" key="GridCell.Tab.1.center/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547364" />
     <state width="1431" height="284" key="GridCell.Tab.1.center/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870749" />
-    <state width="1431" height="284" key="GridCell.Tab.1.left" timestamp="1630955870749">
-      <screen x="-1920" y="0" width="1474" height="960" />
+    <state width="1424" height="288" key="GridCell.Tab.1.left" timestamp="1631735547364">
+      <screen x="0" y="0" width="1466" height="864" />
     </state>
     <state width="1173" height="209" key="GridCell.Tab.1.left/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1627414361710" />
+    <state width="1424" height="288" key="GridCell.Tab.1.left/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547364" />
     <state width="1431" height="284" key="GridCell.Tab.1.left/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870749" />
-    <state width="1431" height="284" key="GridCell.Tab.1.right" timestamp="1630955870749">
-      <screen x="-1920" y="0" width="1474" height="960" />
+    <state width="1424" height="288" key="GridCell.Tab.1.right" timestamp="1631735547364">
+      <screen x="0" y="0" width="1466" height="864" />
     </state>
     <state width="1173" height="209" key="GridCell.Tab.1.right/-1920.0.1216.720/0.0.1216.720@0.0.1216.720" timestamp="1627414361710" />
+    <state width="1424" height="288" key="GridCell.Tab.1.right/-1920.0.1466.864/0.0.1466.864@0.0.1466.864" timestamp="1631735547364" />
     <state width="1431" height="284" key="GridCell.Tab.1.right/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630955870749" />
     <state x="-1533" y="181" key="RollbackChangesDialog" timestamp="1630947704710">
       <screen x="-1920" y="0" width="1474" height="960" />
@@ -347,10 +396,6 @@
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>
     <state x="-1620" y="209" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1466.864/-1920.0.1474.960@-1920.0.1474.960" timestamp="1630947508104" />
-    <state x="266" y="161" key="run.anything.popup" timestamp="1623220857507">
-      <screen x="0" y="0" width="1218" height="720" />
-    </state>
-    <state x="266" y="161" key="run.anything.popup/0.0.1218.720@0.0.1218.720" timestamp="1623220857507" />
     <state x="-1520" y="205" width="672" height="678" key="search.everywhere.popup" timestamp="1630933407082">
       <screen x="-1920" y="0" width="1474" height="960" />
     </state>

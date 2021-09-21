@@ -14,6 +14,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.io.*;
 import java.util.Arrays;
 import static gitlet.LimeTreeFamily.*;
+import static gitlet.NBtable.*;
 
 public class Gitlet implements Serializable{ // class is abstract // tell java this class is Serializable
 
@@ -118,7 +119,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                     //add the sha1(blob) into Staged for removal
                     File f_dele = new File(".gitlet/Staging Area/Staged for removal", blob.getBlob_name());
                     f_dele.createNewFile();
-                    Utils.writeContents(f_dele, blob.getfileName()); // write the file name as its content
+                    Utils.writeContents(f_dele, blob.getfileName());
                     // delete from the working directory
                     f_workingDirec.delete();
                 } // in this condition, the history of adding file Args has already been saved in gitlet, now it's safe to delete it from the working directory
@@ -166,37 +167,51 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 }
                 // make a list of tracking files combining the info from staging area
                 NBtable[] blob_list = new_Commit.getNB_commit();
-
                 File file_blob = new File(working_directory,".gitlet/Blobs"); // we meed to go to the Blobs directory to find the blob
 
                 // staged for addition : append new blobs of "staged for addition" to newCommit's NBtable
                 for (String sha_blob : file_add.list()){
+                    int add_check = 0; // -------------trap need to be initialized in each for loop, or new generated file cannot be added
                     // find the blob object by its hash name
                     File blob = new File(file_blob, sha_blob);
                     Blob add_blob = Utils.readObject(blob, Blob.class); // read the blob out
                     //generate the new NBtable of this blob
                     NBtable new_blob = new NBtable(add_blob.getfileName(), sha_blob);
-                    blob_list = ArrayUtils.add(blob_list,new_blob);
-
+                    if (blob_list==null){
+                        blob_list = ArrayUtils.add(blob_list,new_blob); // add
+                    }
+                    else{
+                        //Compare the blobs in add_blob with in blob_list, if the file name is different, then add, else, remove the blob from blob_list first, add
+                        for (NBtable t : blob_list){
+                            if (add_blob.getfileName().equals(t.getFile_name())){
+                                add_check = 1; // have the same name, update(remove first, then add)
+                                blob_list = rm_NBtable_byName(blob_list,t); // ------------------- trap, ArrayUtils.removeElement doesn't work
+                                blob_list = add_NBtable(blob_list, new_blob);
+                            }
+                        }
+                        if (add_check == 0){ // is a new generated file, add into the blob_list directly
+                            blob_list = add_NBtable(blob_list,new_blob); // add
+                        }
+                    }
                     // clear staging area (clear the file in addition diction)
                     File staging_add = new File(file_add, sha_blob); // delete the file 'sha_blob' in "Staging Area\Staged for addition"
                     staging_add.delete();
                 }
 
                 // staged for removal : remove blobs of "staged for removal" from newCommit's NBtable
+                //System.out.println(file_remove.list().length);
                 for (String sha_blob : file_remove.list()){
                     // find the blob object by its hash name
                     File blob = new File(file_blob, sha_blob);
                     Blob remove_blob = Utils.readObject(blob, Blob.class); // read the blob out
                     //generate the new NBtable of this blob
                     NBtable new_blob = new NBtable(remove_blob.getfileName(), sha_blob);
-                    blob_list = ArrayUtils.removeElement(blob_list,new_blob);
-
+                    blob_list = rm_NBtable_byName(blob_list,new_blob);
                     // clear staging area (clear the file in removal diction)
                     File staging_remove = new File(file_remove, sha_blob);
                     staging_remove.delete();
                 }
-
+                System.out.println(blob_list.length);
                 // Don't forget to write blobs into the commit
                 new_Commit.setNB_commit(blob_list);
                 //System.out.println("already add the blob"+ blob_list.length);
@@ -493,8 +508,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         // get the NBtable list of files of branches by branch name
         NBtable[] object_nb_files = Object_commit.getNB_commit();
         NBtable[] cur_nb_files = Cur_commit.getNB_commit();
-
-        // name of the files in object_nb_files but untraccted by current branch cur_nb_files
+        // name of the files in object_nb_files but untraccted by cur_nb_files
         String[] prepare_add_files = NBtable.get_names_Compliment(object_nb_files, cur_nb_files);
 
         //The blob of files in the working direction (nbtable_working)
@@ -542,9 +556,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     public void checkoutBranch(String Args) throws IOException {
         // get the head with the branch name Args
         NBtable object_branch = getBranch(Args);  //NBtable: branch name | latest commit sha
-        //System.out.println(object_branch.getFile_name());
         Commit object_commit = getCommit(object_branch.getSha1_file_name());
-        //System.out.println(object_commit.getMetadata()[0]);
 
         BranchManage cur_branch = getCurrentBranch();
         Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
@@ -649,12 +661,9 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         Commit HEAD = getCommit(sha_moved);// latest commit of the current branch
                         String sha_remain = myTable(branches, branch_name).getSha1_file_name();// sha1 of xinxin
                         Commit OTHER = getCommit(sha_remain); // latest commit of the merged branch
-                        // Construct LimeTreeFamily
-                        LimeTreeFamily my_tree = new LimeTreeFamily(sha_moved, sha_remain);
-                        // Fulfill the tree
-                        my_tree.addChild();
+
                         // Check if the splitPoint function
-                        Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
+                        Commit split_commit = getSplit_Point(sha_moved,sha_remain);
                         if(split_commit.getMetadata()[0].equals(OTHER.getMetadata()[0])) {
                             System.out.println("Given branch is an ancestor of the current branch.");
                             return; // end up the entire function
@@ -666,54 +675,57 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         }
 
                         // case(2) Files added in OTHER
-                        HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
-                        OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
+                        HEAD_nb_files = latest_files_CommitToSplit(sha_moved,sha_remain,"HEAD"); // a == 0 => HEAD ; a == 1 => OTHER
+                        OTHER_nb_files = latest_files_CommitToSplit(sha_moved,sha_remain,"OTHER");
+
+                        NBtable[] HEAD_nb_files_new = rm_NBtable_repeat(HEAD_nb_files);
+                        NBtable[] OTHER_nb_files_new = rm_NBtable_repeat(OTHER_nb_files);
 
                         NBtable[] SPLIT_nb_files = split_commit.getNB_commit();
-                        String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
+                        String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files_new, SPLIT_nb_files);
                         for (String s : add_filenames){
-                            checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
+                            checkoutNBtableArrFilename(OTHER_nb_files_new, s); // sha_remain := sha1 of OTHER
                         }
 
                         // case (3) Files removed from OTHER and not changed in HEAD
-                        String[] rm_filenames = NBtable.get_names_Compliment(SPLIT_nb_files, OTHER_nb_files);
+                        String[] rm_filenames = NBtable.get_names_Compliment(SPLIT_nb_files, OTHER_nb_files_new);
                         for (String s : rm_filenames){
-                            if (files_sameContent(s,HEAD_nb_files,SPLIT_nb_files)){
+                            if (files_sameContent(s,HEAD_nb_files_new,SPLIT_nb_files)){
                                 // if the same, delete the file from working directory
                                 deleteFile(s);
                             }
                         }
 
-                        // SPLIT_nb_files intersect OTHER_nb_files intersect HEAD_nb_files
-                        String[] set_SOH_Name = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(SPLIT_nb_files),NBtable.getFile_name_array(OTHER_nb_files));
-                        set_SOH_Name = NBtable.get_simple_String_Intersection(set_SOH_Name,NBtable.getFile_name_array(HEAD_nb_files));
-                        String[] files_HO_sameCon = NBtable.get_string_Array(HEAD_nb_files, OTHER_nb_files,"");
+                        // SPLIT_nb_files intersect OTHER_nb_files intersect HEAD_nb_files_new
+                        String[] set_SOH_Name = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(SPLIT_nb_files),NBtable.getFile_name_array(OTHER_nb_files_new));
+                        set_SOH_Name = NBtable.get_simple_String_Intersection(set_SOH_Name,NBtable.getFile_name_array(HEAD_nb_files_new));
+                        String[] files_HO_sameCon = NBtable.get_string_Array(HEAD_nb_files_new, OTHER_nb_files_new,"");
                         String[] files_HO_diffCon = NBtable.get_names_Compliment(set_SOH_Name, files_HO_sameCon);
-                        //String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files,OTHER_nb_files);
+                        //String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files_new,OTHER_nb_files_new);
 
                         // case(1) Files modified in OTHER but not in HEAD
-                        String[] files_SH_sameCon = NBtable.get_string_Array(SPLIT_nb_files, HEAD_nb_files,"");
+                        String[] files_SH_sameCon = NBtable.get_string_Array(SPLIT_nb_files, HEAD_nb_files_new,"");
                         for (String s : NBtable.get_simple_String_Intersection(files_SH_sameCon, files_HO_diffCon)){
-                            checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
+                            checkoutNBtableArrFilename(OTHER_nb_files_new, s); // sha_remain := sha1 of OTHER
                         }
 
                         // case(4) files have different content in head and other but in split point.
                         String[] files_SH_diffCon = NBtable.get_names_Compliment(files_HO_diffCon, files_SH_sameCon);
-                        String[] files_SO_sameCon = NBtable.get_string_Array(SPLIT_nb_files,OTHER_nb_files,"");
+                        String[] files_SO_sameCon = NBtable.get_string_Array(SPLIT_nb_files,OTHER_nb_files_new,"");
                         String[] files_SO_diffCon = NBtable.get_names_Compliment(files_SH_diffCon, files_SO_sameCon);
-                        //String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files);
-                        //String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files);
+                        //String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files_new);
+                        //String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files_new);
                         for (String s : files_SO_diffCon){
-                            new_file(s, HEAD_nb_files, OTHER_nb_files);
+                            new_file(s, HEAD_nb_files_new, OTHER_nb_files_new);
                         }
 
                         // case(5) files have different content in head and other but absent in split point
-                        String[] addInHead_filenames = NBtable.get_names_Compliment(HEAD_nb_files, SPLIT_nb_files);
-                        String[] addInOther_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
+                        String[] addInHead_filenames = NBtable.get_names_Compliment(HEAD_nb_files_new, SPLIT_nb_files);
+                        String[] addInOther_filenames = NBtable.get_names_Compliment(OTHER_nb_files_new, SPLIT_nb_files);
                         String[] addInHO_filenames = NBtable.get_simple_String_Intersection(addInHead_filenames, addInOther_filenames);
                         String[] addInHO_filenames_diffCon = NBtable.get_names_Compliment(addInHO_filenames, files_HO_sameCon);
                         for (String s : addInHO_filenames_diffCon){
-                            new_file(s, HEAD_nb_files, OTHER_nb_files);
+                            new_file(s, HEAD_nb_files_new, OTHER_nb_files_new);
                         }
 
                         //commit
@@ -888,6 +900,39 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
         // add this new file
         add(file_name); // generate blob, staged
+    }
+
+    // Get split point
+    public Commit getSplit_Point(String cur_commitSha, String aim_commitSha) throws IOException {
+        // Construct LimeTreeFamily
+        LimeTreeFamily my_tree = new LimeTreeFamily(cur_commitSha, aim_commitSha);
+        // Fulfill the tree
+        my_tree.addChild();
+        // Check if the splitPoint function
+        Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
+        return split_commit;
+    }
+
+    // Get the files from the current commit to the split point
+    public NBtable[] latest_files_CommitToSplit(String cur_commitSha, String aim_commitSha, String s) throws IOException {
+        // Construct LimeTreeFamily
+        LimeTreeFamily my_tree = new LimeTreeFamily(cur_commitSha, aim_commitSha);
+        // Fulfill the tree
+        my_tree.addChild();
+
+        // case(2) Files added in OTHER
+        NBtable[] HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
+        NBtable[] OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
+
+        NBtable[] HEAD_nb_files_new = rm_NBtable_repeat(HEAD_nb_files);
+        NBtable[] OTHER_nb_files_new = rm_NBtable_repeat(OTHER_nb_files);
+
+        if(s.equals("HEAD")){
+            return HEAD_nb_files_new;
+        }
+        else{
+            return OTHER_nb_files_new;
+        }
     }
 }
 
