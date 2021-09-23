@@ -29,7 +29,7 @@ public class NBtable implements Serializable, Cloneable {
         }else{ return false; }
     }
     public static Boolean FileNameinNBArray(String filename, NBtable[] NBArray){  // find blob commit
-        for(NBtable NB : NBArray){ if(NB.FullName.equals(filename)){ return true; } }
+        for(NBtable NB : NBArray){if(NB != null){if(NB.FullName.equals(filename)){ return true; }}}
         return false;
     }
     public static Boolean SHAinNBArray(String Sha1, NBtable[] NBArray){  // find blob commit
@@ -69,7 +69,7 @@ public class NBtable implements Serializable, Cloneable {
     }
     public static int indexInNBtalbe(NBtable NB, NBtable[] NBtables){
         for(int i=0; i < NBtables.length;i++){
-            if(NB.equals(NBtables[i])){
+            if(NB.FullName.equals(NBtables[i].getFullName()) && NB.SHA1Value.equals(NBtables[i].getSHA1Value())){
                 return i;
             }
         }
@@ -133,10 +133,29 @@ public class NBtable implements Serializable, Cloneable {
         return s;
     }
 
-    public static NBtable[] add(NBtable[] NBtables, NBtable element){
+    /*public static NBtable[] add(NBtable[] NBtables, NBtable element){
         NBtable[] newTables = new NBtable[NBtables.length+1];
         System.arraycopy(NBtables,0,newTables,0,NBtables.length);
         newTables[NBtables.length] = element;
+        return newTables;
+    }*/
+    public static NBtable[] update(NBtable[] NBtables, NBtable element){
+        int index = indexInNBtalbe(element,NBtables);
+        NBtable[] newTables;
+        if(index == -1){
+            newTables = new NBtable[NBtables.length + 1];
+            System.arraycopy(NBtables,0,newTables,0,NBtables.length);
+            newTables[NBtables.length] = element;
+        }else{
+            newTables = new NBtable[NBtables.length];
+            if(index == 0){
+                System.arraycopy(NBtables,index+1,newTables,0,NBtables.length-1);
+            }else{
+                System.arraycopy(NBtables,0,newTables,0,index);
+                System.arraycopy(NBtables,index,newTables,index-1,NBtables.length-index-1);
+            }
+            newTables[NBtables.length-1] = element;
+        }
         return newTables;
     }
     public static NBtable[] remove(NBtable[] NBtables, NBtable element){
@@ -145,11 +164,13 @@ public class NBtable implements Serializable, Cloneable {
         if(index == -1){
             System.out.println("Element doesn't exist in NBtables");
             return NBtables;
-        }
-        else{
+        }else if(index == 0){
+            System.arraycopy(NBtables,1,newTables,0,NBtables.length-1);
+            return newTables;
+        }else{
             System.arraycopy(NBtables,0,newTables,0,index);
             System.arraycopy(NBtables,index,newTables,index-1,NBtables.length-index-1);
-        return newTables;
+            return newTables;
         }
     }
 

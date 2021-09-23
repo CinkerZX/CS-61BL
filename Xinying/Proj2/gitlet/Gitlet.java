@@ -122,14 +122,17 @@ public class Gitlet implements Serializable {
         }
         else {
             Commit newCommit = createNewCommit(arg, SecondParent);
-            NBtable[] newbloblist = newCommit.NBCommit;
+            //NBtable[] newbloblist = newCommit.NBCommit;
+            NBtable[] newbloblist = BranchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;
+            if(newbloblist == null){newbloblist = newCommit.NBCommit;}
 
             // staged for addition
             for (String name : stagingAdd.list()) {
                 File file = new File(fileB, name);  // use the filename stored in staging area locate blob in Blobs directory
                 File file1 = new File(stagingAdd,name);  // but delete the file stored in staging area instead of Blobs directory
                 Blob addition = Utils.readObject(file, Blob.class);
-                newbloblist = NBtable.add(newbloblist, new NBtable(addition.getfilename(), name));
+                newbloblist = NBtable.update(newbloblist, new NBtable(addition.getfilename(), name));
+                //newbloblist = NBtable.add(newbloblist, new NBtable(addition.getfilename(), name));
                 file1.delete();
             }
             // staged for removal
@@ -318,7 +321,7 @@ public class Gitlet implements Serializable {
         if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name already exists.");
         }else{
-            branchManager.branches = NBtable.add(branchManager.branches,new NBtable(branchName,""));
+            branchManager.branches = NBtable.update(branchManager.branches,new NBtable(branchName,""));
 
             NBtable b = NBtable.UseNameFindNBtable(branchName, branchManager.branches);
             if(b.getSHA1Value().equals("")){
@@ -390,12 +393,13 @@ public class Gitlet implements Serializable {
             }
         }else {
             // CheckoutCommit -- other branch
-            /*NBtable[] blobsInCOC = branchManager.FindCommit(Commit_id).NBCommit;*/
-            Result result = FileFromInitial(new NBtable[0],new NBtable[0],Commit_id);
-            NBtable[] blobsInCOC = result.OTHER;
+            NBtable[] blobsInCOC = branchManager.FindCommit(Commit_id).NBCommit;
+            //Result result = FileFromInitial(new NBtable[0],new NBtable[0],Commit_id);  DELETE
+            //NBtable[] blobsInCOC = result.OTHER; DELETE
+
             // DefaultCommit == CurrentCommit (blobsInCC)  -- current branch
-            /*NBtable[] blobsInDC = branchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;*/
-            NBtable[] blobsInDC = result.HEAD;
+            NBtable[] blobsInDC = branchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;
+            //NBtable[] blobsInDC = result.HEAD; DELETE
             for (File file : fileWD.listFiles()) {
                 if (!file.equals(fileG)) {
                     String tempFileName = file.getName();
@@ -426,7 +430,8 @@ public class Gitlet implements Serializable {
                             File blob = new File(fileB, SHAinCOC);
                             writeFile(file, Utils.readObject(blob, Blob.class).getcontent());
                         }
-                    } else if (NameinCC) {
+                    }
+                    if (!NameinCOC && NameinCC) {
                         file.delete(); //tracked in current branch
                     }
                 }
@@ -485,9 +490,11 @@ public class Gitlet implements Serializable {
         //  base on lime tree , from SP along the path( constantly calling parent) till root(the latest Commits pair)
         //  OBS: All files are in the latest versions
         NBtable[] Files_SP = splitPoint.NBCommit;
-        NBtable[] Files_OTHER = new NBtable[0];
-        NBtable[] Files_HEAD = new NBtable[0];
         Boolean SPisNULL = true; // if Split Point is the initial commit
+        NBtable[] Files_HEAD = HEAD.NBCommit;
+        NBtable[] Files_OTHER = OTHER.NBCommit;
+        /*NBtable[] Files_HEAD = new NBtable[0];   DELETE
+        NBtable[] Files_OTHER = new NBtable[0];
         if(Files_SP != null){
             SPisNULL = false;
             int Length = splitPoint.NBCommit.length;
@@ -496,7 +503,9 @@ public class Gitlet implements Serializable {
         }
         Result result;
         if(!SPisNULL){result = FileListsAlongPath(Files_HEAD,Files_OTHER,node,LimeTree);}else{result = FileFromInitial(Files_HEAD,Files_OTHER,OTHER_SHA);}
-        Files_HEAD = result.HEAD; Files_OTHER = result.OTHER;
+        Files_HEAD = result.HEAD; Files_OTHER = result.OTHER;   DELETE*/
+
+
         // Files Operations
         // case1 : File modified in Other but not modified in Current ---- checkout OTHER filename && add filename
 
@@ -660,7 +669,7 @@ public class Gitlet implements Serializable {
             if(oldElement.getSHA1Value().length() > 5){ // in dest_List otherwise "noid".length() == 4
                 oldElement.setSHA1Value(element.getSHA1Value());
             }else{
-                dest_List = NBtable.add(dest_List,element);
+                dest_List = NBtable.update(dest_List,element);
             }
         }
         return dest_List;
@@ -702,18 +711,19 @@ public class Gitlet implements Serializable {
             System.out.println(branch.getFullName());
             File fileTemp = new File(fileC,branch.getSHA1Value());
             Commit commit = Utils.readObject(fileTemp,Commit.class);
-            System.out.println("parent:");
-            System.out.println(commit.getPaSHA()[0]);
             System.out.println("Blobs:");
             for(NBtable blob:commit.NBCommit){
+                if(blob == null){
+                    continue;
+                }
                 System.out.println(blob.getFullName());
-                System.out.println(blob.getSHA1Value());
+                //System.out.println(blob.getSHA1Value());
             }
             System.out.println("*************************");
         }
         for(NBtable bran :branchManager.branches ){
             System.out.println(bran.getFullName());
-            System.out.println(bran.getSHA1Value());
+            //System.out.println(bran.getSHA1Value());
         }
 
     }
