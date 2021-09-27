@@ -37,16 +37,27 @@ D branch1 "xinxin"
 <<<
 > rm d.txt
 <<<
-
 > commit "master"
 <<<
 # Check out to the new branch
+>checkout ${branch1}
+<<<
+
++ b.txt non-b.txt
++ g.txt g.txt
+
+> add b.txt
+<<<
+> add g.txt
+<<<
+> rm c.txt
+<<<
+> rm e.txt
+<<<
+
+> commit "xinxin"
+<<<
 
 
-
-#######
-
-cannot remove F.txt
-check cover and commit
-
-#######
+#> merge ${branch0}
+#<<<

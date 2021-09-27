@@ -68,8 +68,8 @@ public class NBtable implements Serializable, Cloneable {
         return false;
     }
     public static int indexInNBtalbe(NBtable NB, NBtable[] NBtables){
-        for(int i=0; i < NBtables.length;i++){
-            if(NB.FullName.equals(NBtables[i].getFullName()) && NB.SHA1Value.equals(NBtables[i].getSHA1Value())){
+        for(int i = 0; i < NBtables.length;i++){
+            if(NB.FullName.equals(NBtables[i].getFullName())){
                 return i;
             }
         }
@@ -152,7 +152,7 @@ public class NBtable implements Serializable, Cloneable {
                 System.arraycopy(NBtables,index+1,newTables,0,NBtables.length-1);
             }else{
                 System.arraycopy(NBtables,0,newTables,0,index);
-                System.arraycopy(NBtables,index,newTables,index-1,NBtables.length-index-1);
+                System.arraycopy(NBtables,index+1,newTables,index,NBtables.length-index-1);
             }
             newTables[NBtables.length-1] = element;
         }
@@ -169,7 +169,7 @@ public class NBtable implements Serializable, Cloneable {
             return newTables;
         }else{
             System.arraycopy(NBtables,0,newTables,0,index);
-            System.arraycopy(NBtables,index,newTables,index-1,NBtables.length-index-1);
+            System.arraycopy(NBtables,index+1,newTables,index,NBtables.length-index-1);
             return newTables;
         }
     }
