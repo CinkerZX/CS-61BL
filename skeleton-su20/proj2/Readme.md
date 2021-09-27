@@ -1,4 +1,4 @@
-### To do: test merge: delete the trace back operations; check the operations on set
+### To do: test merge log; rebase
  
 ### add the methods of reset, branchmanagement, checkout
 
@@ -42,8 +42,9 @@
                             *java gitlet.Main checkout [commit id] -- [file name]*
                             *java gitlet.Main checkout [branch name]*
     reset // Checks out all the files tracked by the given commit *java gitlet.Main reset [commit id]*
+    merge
     
-    $$ to do $$ merge
+    
     $$ to do $$ rebase // *java gitlet.Main rebase [branch name]*
     
 ### Contents

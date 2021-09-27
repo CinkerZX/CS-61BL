@@ -13,6 +13,8 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
 import java.util.Arrays;
+
+import static gitlet.BranchManage.getCommit;
 import static gitlet.LimeTreeFamily.*;
 import static gitlet.NBtable.*;
 
@@ -675,57 +677,60 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         }
 
                         // case(2) Files added in OTHER
-                        HEAD_nb_files = latest_files_CommitToSplit(sha_moved,sha_remain,"HEAD"); // a == 0 => HEAD ; a == 1 => OTHER
-                        OTHER_nb_files = latest_files_CommitToSplit(sha_moved,sha_remain,"OTHER");
-
-                        NBtable[] HEAD_nb_files_new = rm_NBtable_repeat(HEAD_nb_files);
-                        NBtable[] OTHER_nb_files_new = rm_NBtable_repeat(OTHER_nb_files);
+                        HEAD_nb_files = getCommit(sha_moved).getNB_commit();
+                        OTHER_nb_files = getCommit(sha_remain).getNB_commit();
 
                         NBtable[] SPLIT_nb_files = split_commit.getNB_commit();
-                        String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files_new, SPLIT_nb_files);
-                        for (String s : add_filenames){
-                            checkoutNBtableArrFilename(OTHER_nb_files_new, s); // sha_remain := sha1 of OTHER
+                        String[] add_filenames = NBtable.get_names_Compliment(OTHER_nb_files, SPLIT_nb_files);
+                        if(!(add_filenames == null)){ //**********************trap
+                            for (String s : add_filenames){
+                                checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
+                            }
                         }
 
                         // case (3) Files removed from OTHER and not changed in HEAD
-                        String[] rm_filenames = NBtable.get_names_Compliment(SPLIT_nb_files, OTHER_nb_files_new);
-                        for (String s : rm_filenames){
-                            if (files_sameContent(s,HEAD_nb_files_new,SPLIT_nb_files)){
-                                // if the same, delete the file from working directory
-                                deleteFile(s);
+                        String[] rm_filenames = NBtable.get_names_Compliment(SPLIT_nb_files, OTHER_nb_files);
+                        if(!(rm_filenames == null)){
+                            for (String s : rm_filenames){
+                                if (files_sameContent(s,HEAD_nb_files,SPLIT_nb_files)){
+                                    // if the same, delete the file from working directory
+                                    deleteFile(s);
+                                }
                             }
                         }
 
                         // SPLIT_nb_files intersect OTHER_nb_files intersect HEAD_nb_files_new
-                        String[] set_SOH_Name = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(SPLIT_nb_files),NBtable.getFile_name_array(OTHER_nb_files_new));
-                        set_SOH_Name = NBtable.get_simple_String_Intersection(set_SOH_Name,NBtable.getFile_name_array(HEAD_nb_files_new));
-                        String[] files_HO_sameCon = NBtable.get_string_Array(HEAD_nb_files_new, OTHER_nb_files_new,"");
+                        String[] set_SOH_Name = NBtable.get_simple_String_Intersection(NBtable.getFile_name_array(SPLIT_nb_files),NBtable.getFile_name_array(OTHER_nb_files));
+                        set_SOH_Name = NBtable.get_simple_String_Intersection(set_SOH_Name,NBtable.getFile_name_array(HEAD_nb_files));
+                        String[] files_HO_sameCon = NBtable.get_string_Array(HEAD_nb_files, OTHER_nb_files,"");
                         String[] files_HO_diffCon = NBtable.get_names_Compliment(set_SOH_Name, files_HO_sameCon);
-                        //String[] files_HO_diffCon = files_diffContent(set_SOH_Name,HEAD_nb_files_new,OTHER_nb_files_new);
 
                         // case(1) Files modified in OTHER but not in HEAD
-                        String[] files_SH_sameCon = NBtable.get_string_Array(SPLIT_nb_files, HEAD_nb_files_new,"");
-                        for (String s : NBtable.get_simple_String_Intersection(files_SH_sameCon, files_HO_diffCon)){
-                            checkoutNBtableArrFilename(OTHER_nb_files_new, s); // sha_remain := sha1 of OTHER
+                        String[] files_SH_sameCon = NBtable.get_string_Array(SPLIT_nb_files, HEAD_nb_files,"");
+                        String[] update_files = NBtable.get_simple_String_Intersection(files_SH_sameCon, files_HO_diffCon);
+                        String[] HEAD_files_name = getFile_name_array(HEAD_nb_files);
+                        String[] update_files_2 = get_names_Compliment(update_files, HEAD_files_name);
+                        if(!(update_files_2 == null)) {
+                            for (String s : update_files_2){
+                                checkoutNBtableArrFilename(OTHER_nb_files, s); // sha_remain := sha1 of OTHER
+                            }
                         }
 
                         // case(4) files have different content in head and other but in split point.
-                        String[] files_SH_diffCon = NBtable.get_names_Compliment(files_HO_diffCon, files_SH_sameCon);
-                        String[] files_SO_sameCon = NBtable.get_string_Array(SPLIT_nb_files,OTHER_nb_files_new,"");
-                        String[] files_SO_diffCon = NBtable.get_names_Compliment(files_SH_diffCon, files_SO_sameCon);
-                        //String[] files_SH_diffCon = files_diffContent(files_HO_diffCon, SPLIT_nb_files, HEAD_nb_files_new);
-                        //String[] files_SO_diffCon = files_diffContent(files_SH_diffCon, SPLIT_nb_files, OTHER_nb_files_new);
-                        for (String s : files_SO_diffCon){
-                            new_file(s, HEAD_nb_files_new, OTHER_nb_files_new);
+                        String[] SPLIT_files_name = getFile_name_array(SPLIT_nb_files);
+                        String[] files_SO_diffCon = get_simple_String_Intersection(files_HO_diffCon, SPLIT_files_name);
+                        if(!(files_SO_diffCon == null)){
+                            for (String s : files_SO_diffCon){
+                                new_file(s, HEAD_nb_files, OTHER_nb_files);
+                            }
                         }
 
                         // case(5) files have different content in head and other but absent in split point
-                        String[] addInHead_filenames = NBtable.get_names_Compliment(HEAD_nb_files_new, SPLIT_nb_files);
-                        String[] addInOther_filenames = NBtable.get_names_Compliment(OTHER_nb_files_new, SPLIT_nb_files);
-                        String[] addInHO_filenames = NBtable.get_simple_String_Intersection(addInHead_filenames, addInOther_filenames);
-                        String[] addInHO_filenames_diffCon = NBtable.get_names_Compliment(addInHO_filenames, files_HO_sameCon);
-                        for (String s : addInHO_filenames_diffCon){
-                            new_file(s, HEAD_nb_files_new, OTHER_nb_files_new);
+                        String[] addInHO_filenames_diffCon = NBtable.get_names_Compliment(files_HO_diffCon, SPLIT_files_name);
+                        if(!(addInHO_filenames_diffCon == null)){
+                            for (String s : addInHO_filenames_diffCon){
+                                new_file(s, HEAD_nb_files, OTHER_nb_files);
+                            }
                         }
 
                         //commit
@@ -735,7 +740,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         e.printStackTrace();
                         System.out.println("Encountered a merge conflict.");
                     }
-
                 }
             }
         }
@@ -815,9 +819,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 return(table);
             }
         }
-        NBtable not_found = new NBtable();
-        System.out.println("Failed to find the NBtable");
-        return(not_found);
+        return(null); //**********************trap
     }
 
     // Clean the staging area
@@ -838,7 +840,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     public boolean staging_empty(){
         File[] files_add = get_all_files(".gitlet/Staging Area/Staged for addition");
         File[] files_rm = get_all_files(".gitlet/Staging Area/Staged for removal");
-        if(files_add.length+files_rm.length == 0){
+        if(files_add == null & files_rm == null){
             return(true);
         }
         else return(false);
@@ -854,11 +856,15 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
 
     // judge if two files with the same name have the same content in two NB_table array
     public boolean files_sameContent(String filename, NBtable[] NBtableArr_1, NBtable[] NBtableArr_2){
-        if (myTable(NBtableArr_1,filename).getSha1_file_name().equals(myTable(NBtableArr_2,filename).getSha1_file_name()))
-        {
-            return(true);
-        }else{
-            return(false);
+        if(!(myTable(NBtableArr_1,filename) == null)){ //**********************trap
+            if (myTable(NBtableArr_1,filename).getSha1_file_name().equals(myTable(NBtableArr_2,filename).getSha1_file_name()))
+            {
+                return(true);
+            }else{
+                return(false);
+            }
+        }else {
+            return (false);
         }
     }
 
@@ -911,28 +917,6 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         // Check if the splitPoint function
         Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
         return split_commit;
-    }
-
-    // Get the files from the current commit to the split point
-    public NBtable[] latest_files_CommitToSplit(String cur_commitSha, String aim_commitSha, String s) throws IOException {
-        // Construct LimeTreeFamily
-        LimeTreeFamily my_tree = new LimeTreeFamily(cur_commitSha, aim_commitSha);
-        // Fulfill the tree
-        my_tree.addChild();
-
-        // case(2) Files added in OTHER
-        NBtable[] HEAD_nb_files = latest_files_BranchToSplit(my_tree, 0); // a == 0 => HEAD ; a == 1 => OTHER
-        NBtable[] OTHER_nb_files = latest_files_BranchToSplit(my_tree, 1);
-
-        NBtable[] HEAD_nb_files_new = rm_NBtable_repeat(HEAD_nb_files);
-        NBtable[] OTHER_nb_files_new = rm_NBtable_repeat(OTHER_nb_files);
-
-        if(s.equals("HEAD")){
-            return HEAD_nb_files_new;
-        }
-        else{
-            return OTHER_nb_files_new;
-        }
     }
 }
 

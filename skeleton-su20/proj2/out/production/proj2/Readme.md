@@ -1,4 +1,4 @@
-### To do: test merge: correct checkout branch; check the operations on set
+### To do: test merge: delete the trace back operations; check the operations on set
  
 ### add the methods of reset, branchmanagement, checkout
 
