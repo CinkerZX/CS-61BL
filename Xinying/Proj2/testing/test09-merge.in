@@ -1,37 +1,63 @@
-D BRANCH1 "master"
-D BRANCH2 "main"
+# Check if the files are the latest version
+D branch0 "master"
+D branch1 "xinxin"
 > init
 <<<
-> branch ${BRANCH2}
+# Filename file content
++ a.txt a.txt
++ b.txt b.txt
++ c.txt c.txt
++ d.txt d.txt
++ e.txt e.txt
+
+> add a.txt
 <<<
-#+ 2.txt 2.txt
-#> add 2.txt
+> add b.txt
+<<<
+> add c.txt
+<<<
+> add d.txt
+<<<
+> add e.txt
+<<<
+> commit "split point"
+<<<
+# Create the new branch
+> branch ${branch1}
+<<<
+
++ a.txt non-a.txt
++ f.txt f.txt
+
+> add a.txt
+<<<
+> add f.txt
+<<<
+> rm c.txt
+<<<
+> rm d.txt
+<<<
+> commit "master"
+<<<
+# Check out to the new branch
+>checkout ${branch1}
+<<<
+
++ b.txt non-b.txt
++ g.txt g.txt
+
+> add b.txt
+<<<
+> add g.txt
+<<<
+> rm c.txt
+<<<
+> rm e.txt
+<<<
+
+> commit "xinxin"
+<<<
+
+
+#> merge ${branch0}
 #<<<
-#> commit "add2.txt"
-#<<<
-+ 1.txt 1.txt
-> add 1.txt
-<<<
-> commit "add1.txt"
-<<<
-> checkout ${BRANCH2}
-<<<
-+ 3.txt 3.txt
-> add 3.txt
-<<<
-> commit "add3.txt"
-<<<
-+ 4.txt 4.txt
-> add 4.txt
-<<<
-> commit "add4.txt"
-<<<
-> checkout ${BRANCH1}
-<<<
-+ 0.txt 0.txt
-> add 0.txt
-<<<
-> commit "add0.txt"
-<<<
-> merge ${BRANCH2}
-<<<

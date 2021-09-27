@@ -122,14 +122,17 @@ public class Gitlet implements Serializable {
         }
         else {
             Commit newCommit = createNewCommit(arg, SecondParent);
-            NBtable[] newbloblist = newCommit.NBCommit;
+            //NBtable[] newbloblist = newCommit.NBCommit;
+            NBtable[] newbloblist = BranchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;
+            if(newbloblist == null){newbloblist = newCommit.NBCommit;}
 
             // staged for addition
             for (String name : stagingAdd.list()) {
                 File file = new File(fileB, name);  // use the filename stored in staging area locate blob in Blobs directory
                 File file1 = new File(stagingAdd,name);  // but delete the file stored in staging area instead of Blobs directory
                 Blob addition = Utils.readObject(file, Blob.class);
-                newbloblist = NBtable.add(newbloblist, new NBtable(addition.getfilename(), name));
+                newbloblist = NBtable.update(newbloblist, new NBtable(addition.getfilename(), name));
+                //newbloblist = NBtable.add(newbloblist, new NBtable(addition.getfilename(), name));
                 file1.delete();
             }
             // staged for removal
@@ -153,7 +156,7 @@ public class Gitlet implements Serializable {
     public void log() throws IOException {
         ///merged node of two branches, The first parent is located in the current branch
 
-        //TO-DO different printing format of merge node
+        //TODO: different printing format of merge node
 
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
         PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
@@ -318,7 +321,7 @@ public class Gitlet implements Serializable {
         if(NBtable.FileNameinNBArray(branchName,branchManager.branches)){
             System.out.println("A branch with that name already exists.");
         }else{
-            branchManager.branches = NBtable.add(branchManager.branches,new NBtable(branchName,""));
+            branchManager.branches = NBtable.update(branchManager.branches,new NBtable(branchName,""));
 
             NBtable b = NBtable.UseNameFindNBtable(branchName, branchManager.branches);
             if(b.getSHA1Value().equals("")){
@@ -390,12 +393,13 @@ public class Gitlet implements Serializable {
             }
         }else {
             // CheckoutCommit -- other branch
-            /*NBtable[] blobsInCOC = branchManager.FindCommit(Commit_id).NBCommit;*/
-            Result result = FileFromInitial(new NBtable[0],new NBtable[0],Commit_id);
-            NBtable[] blobsInCOC = result.OTHER;
+            NBtable[] blobsInCOC = branchManager.FindCommit(Commit_id).NBCommit;
+            //Result result = FileFromInitial(new NBtable[0],new NBtable[0],Commit_id);  DELETE
+            //NBtable[] blobsInCOC = result.OTHER; DELETE
+
             // DefaultCommit == CurrentCommit (blobsInCC)  -- current branch
-            /*NBtable[] blobsInDC = branchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;*/
-            NBtable[] blobsInDC = result.HEAD;
+            NBtable[] blobsInDC = branchManager.FindCommit(branchManager.head.getSHA1Value()).NBCommit;
+            //NBtable[] blobsInDC = result.HEAD; DELETE
             for (File file : fileWD.listFiles()) {
                 if (!file.equals(fileG)) {
                     String tempFileName = file.getName();
@@ -426,7 +430,8 @@ public class Gitlet implements Serializable {
                             File blob = new File(fileB, SHAinCOC);
                             writeFile(file, Utils.readObject(blob, Blob.class).getcontent());
                         }
-                    } else if (NameinCC) {
+                    }
+                    if (!NameinCOC && NameinCC) {
                         file.delete(); //tracked in current branch
                     }
                 }
@@ -485,9 +490,11 @@ public class Gitlet implements Serializable {
         //  base on lime tree , from SP along the path( constantly calling parent) till root(the latest Commits pair)
         //  OBS: All files are in the latest versions
         NBtable[] Files_SP = splitPoint.NBCommit;
+        Boolean SPisNULL = (Files_SP == null); // if Split Point is the initial commit
+        NBtable[] Files_HEAD = HEAD.NBCommit;
+        NBtable[] Files_OTHER = OTHER.NBCommit;
+        /*NBtable[] Files_HEAD = new NBtable[0];   DELETE
         NBtable[] Files_OTHER = new NBtable[0];
-        NBtable[] Files_HEAD = new NBtable[0];
-        Boolean SPisNULL = true; // if Split Point is the initial commit
         if(Files_SP != null){
             SPisNULL = false;
             int Length = splitPoint.NBCommit.length;
@@ -496,7 +503,7 @@ public class Gitlet implements Serializable {
         }
         Result result;
         if(!SPisNULL){result = FileListsAlongPath(Files_HEAD,Files_OTHER,node,LimeTree);}else{result = FileFromInitial(Files_HEAD,Files_OTHER,OTHER_SHA);}
-        Files_HEAD = result.HEAD; Files_OTHER = result.OTHER;
+        Files_HEAD = result.HEAD; Files_OTHER = result.OTHER;   DELETE*/
         // Files Operations
         // case1 : File modified in Other but not modified in Current ---- checkout OTHER filename && add filename
 
@@ -505,7 +512,7 @@ public class Gitlet implements Serializable {
             String[] inter_0 = NBtable.intersection(inter_1,NBtable.NBtoString(Files_SP,"FullName"));
             for(String name : inter_0){
                 if(!CompareID(name,Files_OTHER,Files_HEAD)){ //modified in OTHER
-                    if(CompareID(name,Files_SP,Files_HEAD)){  // case1 not modified in HEAD
+                    if(CompareID(name,Files_SP,Files_HEAD) == true){  // case1 not modified in HEAD
                         updateFile(name,OTHER_SHA,Files_OTHER,OTHER);
                     }else{ // modified in HEAD
                         if(!CompareID(name,Files_SP,Files_OTHER)){ // case 3 conflict
@@ -543,7 +550,7 @@ public class Gitlet implements Serializable {
         if(!SPisNULL){
             String[] case_6 = NBtable.complement(Files_SP,Files_OTHER,"FullName");
             for(String name: case_6){
-                if (CompareID(name,Files_OTHER,Files_HEAD)) {
+                if (CompareID(name,Files_SP,Files_HEAD)) {
                     File file = new File(fileWD, name);
                     if(file.exists()){file.delete();}// removed and untracked
                 }
@@ -631,7 +638,7 @@ public class Gitlet implements Serializable {
         String ID1 = NBtable.FindSHAinNBArray(fileName,n1);
         String ID2 = NBtable.FindSHAinNBArray(fileName,n2);
         // in both commit with same ID. if it equals to "Wrong", it doesn't exist in Commit
-        return ID1==ID2 && ID1 != "Wrong";
+        return ID1.equals(ID2) && ID1 != "Wrong";
     }
     private static void Conflict(String name,NBtable[] Other,NBtable[] Head) throws IOException {
         String content_HEAD = Utils.readObject(new File(fileB,NBtable.FindSHAinNBArray(name,Head)),Blob.class).content;
@@ -643,6 +650,7 @@ public class Gitlet implements Serializable {
                 ">>>>>>>";
         writeFile(Confilct_file,content);
     }
+    /*  DELETE
     private Result FileListsAlongPath(NBtable[] HEAD_List, NBtable[] OTHER_List, LimeFamily.LimeTree node,LimeFamily tree){
         Result result = new Result(HEAD_List,OTHER_List);
         if(node.equals(tree.root)){return result;}
@@ -660,12 +668,12 @@ public class Gitlet implements Serializable {
             if(oldElement.getSHA1Value().length() > 5){ // in dest_List otherwise "noid".length() == 4
                 oldElement.setSHA1Value(element.getSHA1Value());
             }else{
-                dest_List = NBtable.add(dest_List,element);
+                dest_List = NBtable.update(dest_List,element);
             }
         }
         return dest_List;
-    }
-    private Result FileFromInitial(NBtable[] HEAD_List, NBtable[] OTHER_List,String branchID) throws FileNotFoundException {
+    }*/
+    /*private Result FileFromInitial(NBtable[] HEAD_List, NBtable[] OTHER_List,String branchID) throws FileNotFoundException {
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
         HEAD_List = FileFromInitialHelper(CurrentCommit,HEAD_List);
         CurrentCommit = branchManager.FindCommit(branchID);
@@ -685,6 +693,7 @@ public class Gitlet implements Serializable {
         }
         return File_List;
     }
+  DETELE  */
     private void updateFile(String name,String destID,NBtable[] srcList,Commit srcCommit) throws IOException {
         if(NBtable.FileNameinNBArray(name,srcCommit.NBCommit)){
             checkout(new String[]{"checkout",destID,"--",name});
@@ -702,18 +711,19 @@ public class Gitlet implements Serializable {
             System.out.println(branch.getFullName());
             File fileTemp = new File(fileC,branch.getSHA1Value());
             Commit commit = Utils.readObject(fileTemp,Commit.class);
-            System.out.println("parent:");
-            System.out.println(commit.getPaSHA()[0]);
             System.out.println("Blobs:");
             for(NBtable blob:commit.NBCommit){
+                if(blob == null){
+                    continue;
+                }
                 System.out.println(blob.getFullName());
-                System.out.println(blob.getSHA1Value());
+                //System.out.println(blob.getSHA1Value());
             }
             System.out.println("*************************");
         }
         for(NBtable bran :branchManager.branches ){
             System.out.println(bran.getFullName());
-            System.out.println(bran.getSHA1Value());
+            //System.out.println(bran.getSHA1Value());
         }
 
     }

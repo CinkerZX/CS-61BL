@@ -84,7 +84,7 @@ public class LimeFamily {
         if(node.Parents_pair[0].Metadata[0].equals(node.Parents_pair[1].Metadata[0])){
             if(tempAncestor.height > node.height){return true;}
         }else if(node.Parents_pair[0].Metadata[0].equals("initial commit")){
-            return true;
+            return false;
         }
         return false;
     }
