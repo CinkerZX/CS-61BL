@@ -7,7 +7,7 @@ package gitlet;
 // update the pointers
 // log
 
-import com.sun.org.apache.xpath.internal.Arg;
+//import com.sun.org.apache.xpath.internal.Arg;
 import org.apache.commons.lang3.ArrayUtils;
 //import sun.text.normalizer.NormalizerBase;
 
@@ -241,19 +241,11 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         try{
             BranchManage branch = Utils.readObject(branchMa, BranchManage.class); //BranchManage is a class
             Commit cur_commit = branch.current_commit(working_directory); // get the current commit
-            System.out.println("===");
-            System.out.println("commit" + " " + branch.get_cur_commit_sha1()); // print the sha1
-            System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
-            System.out.println(cur_commit.getMetadata()[0]);// print the message
-            System.out.println();
+            print_commit(cur_commit, branch);
 
             while(!cur_commit.getPa_sha()[0].isEmpty()){ // pa_sha = "";   .isEmpty() <=> "" != null)<=> null
-                System.out.println("===");
-                System.out.println("commit" + " " + cur_commit.getPa_sha()[0]); // print the sha1
                 cur_commit = cur_commit.pa_commit(cur_commit.getPa_sha()[0]);
-                System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
-                System.out.println(cur_commit.getMetadata()[0]);// print the message
-                System.out.println();
+                print_commit(cur_commit, branch);
             }
         } catch (Exception e){
             throw new RuntimeException(e);
@@ -734,7 +726,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                         }
 
                         //commit
-                        String commit_m = "Merged"+ branch_name + "into" + cur_branch.getBranch_head().getFile_name()+".";
+                        String commit_m = "Merged "+ branch_name + " into " + cur_branch.getBranch_head().getFile_name()+".";
                         commit(commit_m, sha_moved, sha_remain);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -917,6 +909,25 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         // Check if the splitPoint function
         Commit split_commit = getCommit(my_tree.splitPoint().PaSha_pair[0]);
         return split_commit;
+    }
+
+    // print commit
+    public void print_commit(Commit cur_commit, BranchManage branch){
+        if(cur_commit.getPa_sha().length == 1){ // *************** trap if use getPa_sha()[1] will have unexpected pointer error, thus need to use length to judge
+            System.out.println("===");
+            System.out.println("commit" + " " + branch.get_cur_commit_sha1()); // print the sha1
+            System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
+            System.out.println(cur_commit.getMetadata()[0]);// print the message
+            System.out.println();
+        }
+        else {
+            System.out.println("===");
+            System.out.println("commit" + " " + branch.get_cur_commit_sha1()); // print the sha1
+            System.out.println("Merge: " + cur_commit.getPa_sha()[0].substring(0, Math.min(cur_commit.getPa_sha()[0].length(), 7)) + " " + cur_commit.getPa_sha()[1].substring(0, Math.min(cur_commit.getPa_sha()[0].length(), 7)));
+            System.out.println("Date:" + " " + cur_commit.getMetadata()[1]);// print the time
+            System.out.println(cur_commit.getMetadata()[0]);// print the message
+            System.out.println();
+        }
     }
 }
 

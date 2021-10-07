@@ -68,3 +68,5 @@ D branch1 "xinxin"
 <<<
 > merge ${branch1}
 <<<
+> log
+<<<

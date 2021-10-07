@@ -1,4 +1,8 @@
-### To do: test merge log; rebase
+### To do: rebase
+rebase: when files are conflict, their version in "current commit" is base
+For files didn't change in current branch, but changed in the given branch, should copy the changing history.
+Pay attention to the special case, only need to change the pointer of the latest commit of the current branch to that of given branch.
+
  
 ### add the methods of reset, branchmanagement, checkout
 
