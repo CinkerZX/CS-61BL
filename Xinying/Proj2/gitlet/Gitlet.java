@@ -154,15 +154,19 @@ public class Gitlet implements Serializable {
     }
 
     public void log() throws IOException {
-        ///merged node of two branches, The first parent is located in the current branch
-
-        //TODO: different printing format of merge node
-
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
-        PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
-        //while(!cur_commit.getPa_sha().isEmpty()){ // pa_sha = "";
+        if(CurrentCommit.getPaSHA().getClass().equals(String[].class) && !CurrentCommit.getPaSHA()[1].equals("")){ // hava second parent
+            PrintCommit(CurrentCommit,branchManager.head.getSHA1Value(),"Parent");
+        }else{
+            PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
+        }
         while(!CurrentCommit.getPaSHA()[0].equals("")){  // Commit0.paSHA = null
             Commit parentCommit = branchManager.ParentCommit(CurrentCommit);
+            if(parentCommit.getPaSHA().length == 2){ // hava second parent
+                PrintCommit(parentCommit,CurrentCommit.getPaSHA()[0],"Parent");
+                CurrentCommit = parentCommit;
+                continue;
+            }
             PrintCommit(parentCommit,CurrentCommit.getPaSHA()[0]);
             CurrentCommit = parentCommit;
         }
@@ -566,6 +570,19 @@ public class Gitlet implements Serializable {
         }
     }
 
+    public void rebase(String branchName) throws IOException {
+        //TODO
+        // 1. one special case : no need to replay
+        // 2. file conflict : A file from the given branch stops propagating through once it meets a modified file in the replayed branch.
+        // e.g.
+        // SP : A B C D
+        // Current : A !B
+        // Given : !A ?B C !D
+        // REPLAYED : !A (from given) !B (from current)
+        //   other changes follows current
+        // 3. failure cases
+    }
+
     //help-functions
     public Commit createNewCommit(String arg,String SecondParent){
         Commit newCommit;
@@ -590,6 +607,16 @@ public class Gitlet implements Serializable {
     public void PrintCommit(Commit commit,String Sha){
         System.out.println("===");
         System.out.println("commit "+Sha);
+        System.out.println("Date: "+ commit.Metadata[1]);
+        System.out.println(commit.Metadata[0]);
+        System.out.println();
+    }
+    public void PrintCommit(Commit commit,String Sha1,String sha2){
+        System.out.println("===");
+        System.out.println("commit "+Sha1);
+        String parent1 = commit.getPaSHA()[0].substring(0, Math.min( commit.getPaSHA()[0].length(), 7));
+        String parent2 = commit.getPaSHA()[1].substring(0, Math.min( commit.getPaSHA()[0].length(), 7));
+        System.out.println("Merge: "+parent1 + " " + parent2);
         System.out.println("Date: "+ commit.Metadata[1]);
         System.out.println(commit.Metadata[0]);
         System.out.println();
@@ -650,50 +677,6 @@ public class Gitlet implements Serializable {
                 ">>>>>>>";
         writeFile(Confilct_file,content);
     }
-    /*  DELETE
-    private Result FileListsAlongPath(NBtable[] HEAD_List, NBtable[] OTHER_List, LimeFamily.LimeTree node,LimeFamily tree){
-        Result result = new Result(HEAD_List,OTHER_List);
-        if(node.equals(tree.root)){return result;}
-        if(!node.Parents_pair[0].Metadata[0].equals(node.parent.Parents_pair[0].Metadata[0])){
-            HEAD_List = updateFileList(node.parent.Parents_pair[0].NBCommit,HEAD_List);
-        } // update Current Branch
-        else{
-            OTHER_List = updateFileList(node.parent.Parents_pair[1].NBCommit,OTHER_List);
-        } // update Given Branch
-        return FileListsAlongPath(HEAD_List,OTHER_List,node.parent,tree);
-    }
-    private static NBtable[] updateFileList(NBtable[] parentList,NBtable[] dest_List){
-        for(NBtable element : parentList){
-            NBtable oldElement = NBtable.UseNameFindNBtable(element.getFullName(),dest_List);
-            if(oldElement.getSHA1Value().length() > 5){ // in dest_List otherwise "noid".length() == 4
-                oldElement.setSHA1Value(element.getSHA1Value());
-            }else{
-                dest_List = NBtable.update(dest_List,element);
-            }
-        }
-        return dest_List;
-    }*/
-    /*private Result FileFromInitial(NBtable[] HEAD_List, NBtable[] OTHER_List,String branchID) throws FileNotFoundException {
-        Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
-        HEAD_List = FileFromInitialHelper(CurrentCommit,HEAD_List);
-        CurrentCommit = branchManager.FindCommit(branchID);
-        if(CurrentCommit.Metadata[0].equals("initial commit")){
-            OTHER_List = new NBtable[0];
-        }else{
-            OTHER_List = FileFromInitialHelper(CurrentCommit,OTHER_List);
-        }
-        return new Result(HEAD_List,OTHER_List);
-    }
-    private NBtable[] FileFromInitialHelper(Commit CurrentCommit,NBtable[] File_List) throws FileNotFoundException {
-        File_List = updateFileList(CurrentCommit.NBCommit,File_List);
-        while(!CurrentCommit.Metadata[0].equals("initial commit")){  // Commit0.paSHA = null
-            Commit parentCommit = branchManager.ParentCommit(CurrentCommit);
-            File_List = updateFileList(CurrentCommit.NBCommit,File_List);
-            CurrentCommit = parentCommit;
-        }
-        return File_List;
-    }
-  DETELE  */
     private void updateFile(String name,String destID,NBtable[] srcList,Commit srcCommit) throws IOException {
         if(NBtable.FileNameinNBArray(name,srcCommit.NBCommit)){
             checkout(new String[]{"checkout",destID,"--",name});
@@ -729,14 +712,5 @@ public class Gitlet implements Serializable {
     }
     public void printSet(Set<String> sets){
         printString(NBtable.SetToString(sets));
-    }
-    class Result{
-        NBtable[] HEAD;
-        NBtable[] OTHER;
-
-        public Result(NBtable[] a,NBtable[] b){
-            HEAD = a;
-            OTHER = b;
-        }
     }
 }

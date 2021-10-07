@@ -83,6 +83,11 @@ public class Main {
                     else if(args.length == 1){ System.out.println("Please enter a brand name."); }
                     else{ System.out.println("gitlet.Main merge [branch name]"); }
                     break;
+                case "rebase":
+                    if(args.length == 2){ gitletRe.rebase(args[1]); }
+                    else if(args.length == 1){ System.out.println("Please enter a brand name."); }
+                    else{ System.out.println("gitlet.Main rebase [branch name]"); }
+                    break;
 
                 case "numOfBranch":
                     gitletRe.numOfBranch();
