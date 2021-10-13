@@ -125,6 +125,15 @@ public class Main {
                         System.out.println("Please enter in the formation: merge [branch name]");
                     }
                     break;
+                // rebase
+                case "rebase":
+                    if (args.length == 2){ //rebase [branch name]
+                        mygitlet.rebase(args[1]);
+                    }
+                    else{
+                        System.out.println("Please enter in the formation: rebase [branch name]");
+                    }
+                    break;
                 default:
                     System.out.println("No command with that name exists.");
                     break;

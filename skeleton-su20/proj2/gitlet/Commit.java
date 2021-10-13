@@ -36,7 +36,7 @@ public class Commit implements Serializable {
     private NBtable[] NB_commit;
 
     // get and format the current time
-    private String timestamp(){ //can be used inside this class directly
+    public static String timestamp(){ //can be used inside this class directly
         String timeStamp = new SimpleDateFormat("HH:mm:ss zzz, EEE, dd MMM yyyy", Locale.UK).format(new Date());
         return timeStamp;
     }

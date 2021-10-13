@@ -13,6 +13,7 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.Stack;
 
 import static gitlet.BranchManage.getCommit;
 import static gitlet.LimeTreeFamily.*;
@@ -219,9 +220,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 //System.out.println("already add the blob"+ blob_list.length);
 
                 // write commit object
-                File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(new_Commit)));
-                commit_add.createNewFile();
-                Utils.writeObject(commit_add, new_Commit); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
+                write_commit(new_Commit);
 
                 // Update branches and update_head
                 NBtable new_head = new NBtable(branch.getBranch_head().getFile_name(), Utils.sha1(Utils.serialize(new_Commit)));
@@ -737,6 +736,88 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         }
     }
 
+    // rebase [branch name]
+    public void rebase(String branch_name) throws IOException {
+        //TODO rebase: when files are conflict, their version in "current commit" is base
+        NBtable[] OTHER_nb_files = new NBtable[0];// a == 0 => HEAD ; a == 1 => OTHER
+        NBtable[] HEAD_nb_files = new NBtable[0];
+        //false case 1: If a branch with the given name does not exist, print the error message, and exist
+        NBtable object_branch = getBranch(branch_name);
+        Commit object_commit = getCommit(object_branch.getSha1_file_name());
+        if (object_commit.getPa_sha()[0].equals("")) {
+            System.out.println("A branch with that name does not exist.");
+            return;
+        }
+        // false case 2: If the given branch name is the same as the current branch name, print the error message
+        else {
+            BranchManage cur_branch = getCurrentBranch();
+            if (cur_branch.getBranch_head().equals(branch_name)) {
+                System.out.println("Cannot rebase a branch onto itself.");
+                return;
+            } else {
+                // get the split_commit
+                try {
+                    NBtable[] branches = cur_branch.getBranches();
+                    String sha_moved = cur_branch.get_cur_commit_sha1(); // sha1 of *master (current branch)
+                    Commit HEAD = getCommit(sha_moved);// latest commit of the current branch
+                    String sha_remain = myTable(branches, branch_name).getSha1_file_name();// sha1 of xinxin (given branch)
+                    Commit OTHER = getCommit(sha_remain); // latest commit of the merged branch (given branch)
+
+                    // If the input branch’s head is in the history of the current branch’s head
+                    Commit split_commit = getSplit_Point(sha_moved,sha_remain);
+                    if(split_commit.getMetadata()[0].equals(OTHER.getMetadata()[0])) {
+                        System.out.println("Already up-to-date.");
+                        return; // end up the entire function
+                    }
+                    // Special case: only need to change the pointer of the latest commit of the current branch to that of given branch.
+                    if(split_commit.getMetadata()[0].equals(HEAD.getMetadata()[0])){
+                        cur_branch.update_head(object_branch);
+                        return;
+                    }
+                    // For files didn't change in current branch, but changed in the given branch, should copy the changing history
+                    HEAD_nb_files = getCommit(sha_moved).getNB_commit();  // current branch
+                    OTHER_nb_files = getCommit(sha_remain).getNB_commit(); // given branch
+
+                    NBtable[] SPLIT_nb_files = split_commit.getNB_commit(); //spilt point
+                    String[] replace_CurBase;
+                    if(SPLIT_nb_files != null){
+                        String[] files_HS_sameCon = NBtable.get_string_Array(HEAD_nb_files,SPLIT_nb_files,"");
+                        String[] files_HO_sameName = NBtable.get_string_Array(HEAD_nb_files,OTHER_nb_files,"name");
+                        replace_CurBase = NBtable.get_names_Compliment(files_HO_sameName,files_HS_sameCon);
+                    }
+                    else{// If split point is the initial point
+                        replace_CurBase = NBtable.get_string_Array(HEAD_nb_files,OTHER_nb_files,"name");
+                    }
+                    // Copy the commits from the given branch by stack
+                    Stack<Commit> fringe = new Stack<Commit>();
+                    Commit pushin = OTHER; // The latest commit of given branch
+                    fringe.push(pushin); // Push it into fringe
+                    while(!pushin.getPa_sha()[0].equals("")){ // push in, until meet init
+                        pushin = getCommit(pushin.getPa_sha()[0]);
+                        fringe.push(pushin);
+                    }
+                    Commit commit_0_given = fringe.pop();
+                    String pa_sha = update_commit(replace_CurBase, commit_0_given, HEAD, HEAD_nb_files, SPLIT_nb_files, sha_moved);
+                    Commit commit_given;
+                    while(!fringe.isEmpty()){
+                        commit_given = fringe.pop();
+                        pa_sha = update_commit(replace_CurBase, commit_given, HEAD, HEAD_nb_files, SPLIT_nb_files, pa_sha);
+                    }
+                    //Remove the old branch
+                    BranchManage.rm_branches(working_directory,branch_name);
+                    // Update branches and update_head
+                    NBtable new_head = new NBtable(branch_name, pa_sha);
+                    cur_branch.update_head(new_head);
+                    cur_branch.update_branches(new_head);
+                    cur_branch.wt(working_directory,cur_branch);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Encountered a merge conflict.");
+                }
+            }
+        }
+    }
+
     // Helping function
     // get current branch
     public BranchManage getCurrentBranch(){
@@ -928,6 +1009,46 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             System.out.println(cur_commit.getMetadata()[0]);// print the message
             System.out.println();
         }
+    }
+
+    // blob replace
+    public NBtable[] replace_blob(String filename, Commit cur, NBtable[] blobList_given){
+        NBtable[] blobList_Cur = cur.getNB_commit();
+        for(NBtable t : blobList_Cur){
+            if(t.find_sha1(filename)){
+                for (NBtable tt : blobList_given){
+                    if(tt.find(filename)){
+                        tt.setSha1_file_name(t.getSha1_file_name());
+                    }
+                }
+            }
+        }
+        return blobList_given;
+    }
+
+    // write commit into file space
+    public void write_commit(Commit commit_new) throws IOException {
+        // write commit object
+        File commit_add = new File(".gitlet/Commits", Utils.sha1(Utils.serialize(commit_new)));
+        commit_add.createNewFile();
+        Utils.writeObject(commit_add, commit_new); // write the commit object in file commit_add whose name is 'Utils.sha1(new_Commit)'
+    }
+
+    // update commit and return pasha
+    public String update_commit(String[] file_names, Commit give, Commit head, NBtable[] head_nb_files, NBtable[] split_nb_files, String pasha) throws IOException {
+        NBtable[] updated_blobList = give.getNB_commit();
+        if(!(file_names == null)){
+            for (String s : file_names){ // replace all the files
+                if (!files_sameContent(s,head_nb_files,split_nb_files)){
+                    //TODO: replace the blob in commits in given branch with the blob in current branch
+                    updated_blobList = replace_blob(s, head, updated_blobList);
+                }
+            }
+        }
+        // copy the commit
+        Commit commit_new = new Commit(pasha, give.getMetadata()[0], updated_blobList);
+        write_commit(commit_new);
+        return(Utils.sha1(Utils.serialize(commit_new)));
     }
 }
 

@@ -20,47 +20,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="92aa5866-29a0-44a6-88f0-0915c19416b2" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/algs4.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/Readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/BranchManage.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/BranchManage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Commit.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Commit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gitlet/Gitlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Gitlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/LimeTree_Cons_Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proj2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/proj2.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/samples/test09-merge.in" beforeDir="false" afterPath="$PROJECT_DIR$/testing/samples/test09-merge.in" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/007a18c3c74286115e0dcc7ef9022b641cf9afbd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/0f2e43eeecab3a9c5b0a1a331462d4d87f3253b8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/1bb6038dc29291f67498e0e17e464859da43632f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/3a6661f1dc2d2c05736b2af85df437d6d161a3d2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/55dbc9c7c8434e447de26d8251d94605117c057d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/73dd87e57cbe27a5acd2894b207730b533f691c0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/b01a420be0871916df25b55c6ca03d799cdec5f2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/bba47bf2095ed79d8297abf3d7d52adae69b37ad" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Blobs/d10e92a35aa7fdf622140c5d404da7bdd34eb6b2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/07beb649e9e7e285ca30bad96a5b42c76750370e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/7b542bca1fb2961a1a595d55f3b35e93bc1e1974" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/7c61c364e1e3dbd36bf6726faaa910fe40044dd1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/Commits/8b4aea9ac786d24d678237460d359e99883e27d5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/.gitlet/branch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/a.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test09-merge_0/a.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/b.txt" beforeDir="false" afterPath="$PROJECT_DIR$/testing/test09-merge_0/b.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_0/d.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/007a18c3c74286115e0dcc7ef9022b641cf9afbd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/0f2e43eeecab3a9c5b0a1a331462d4d87f3253b8" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/1bb6038dc29291f67498e0e17e464859da43632f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/21669e3913b08dbb140b5bb2336817f2d3c08548" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/3a6661f1dc2d2c05736b2af85df437d6d161a3d2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/55dbc9c7c8434e447de26d8251d94605117c057d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/73dd87e57cbe27a5acd2894b207730b533f691c0" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/b01a420be0871916df25b55c6ca03d799cdec5f2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/bba47bf2095ed79d8297abf3d7d52adae69b37ad" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/d10e92a35aa7fdf622140c5d404da7bdd34eb6b2" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Blobs/fef83617b2112ceeec2c41f35c110fd30836cc9c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Commits/07beb649e9e7e285ca30bad96a5b42c76750370e" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Commits/4b1f733376a9b73613cd2ec84028df9dfd82c615" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Commits/df3fb6cdec623d0b70291e96cdc34bc4d0afac6b" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Commits/ea2a824398ceba13a6c5fe0faf36b6740e7cf0c5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/Commits/efc4a2dc7ceaec3f46a1e1095424a6366c972537" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testing/test09-merge_1/.gitlet/branch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gitlet/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/gitlet/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

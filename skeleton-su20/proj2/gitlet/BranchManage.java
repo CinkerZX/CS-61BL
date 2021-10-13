@@ -68,7 +68,7 @@ public class BranchManage implements Serializable {
         setBranches(branches_new);
     }
 
-    public void rm_branches(String working_directory, String branch_name){
+    public static void rm_branches(String working_directory, String branch_name){
         File d = new File(working_directory,".gitlet"); // Must read from the content again
         File branchMa = new File(d.getPath(), "branch");
         BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
