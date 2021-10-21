@@ -5,6 +5,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Stack;
 
 
@@ -137,6 +138,7 @@ public class BranchManager implements Serializable {
                 children = new ArrayList<CommitTree.CommitTreeNode>();
                 children.add(new CommitTreeNode(child));
             }
+            public boolean reachSP(Commit SP){ return self.Metadata[0].equals(SP.Metadata[0]);}
         }
 
         public void print() {
@@ -157,5 +159,7 @@ public class BranchManager implements Serializable {
         private String printNode(CommitTree.CommitTreeNode node){
             return "{"+ node.self.Metadata[0] + "}";
         }
+
+
     }
 }
