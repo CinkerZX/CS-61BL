@@ -152,7 +152,7 @@ public class Gitlet implements Serializable {
 
     public void log() throws IOException {
         Commit CurrentCommit = branchManager.FindCommit(branchManager.head.getSHA1Value());
-        if(CurrentCommit.getPaSHA().getClass().equals(String[].class) && !CurrentCommit.getPaSHA()[1].equals("")){ // hava second parent
+        if(CurrentCommit.getPaSHA().getClass().equals(String[].class) && CurrentCommit.getPaSHA().length==2 && !CurrentCommit.getPaSHA()[1].equals("")){ // have second parent
             PrintCommit(CurrentCommit,branchManager.head.getSHA1Value(),"Parent");
         }else{
             PrintCommit(CurrentCommit,branchManager.head.getSHA1Value());
@@ -553,9 +553,9 @@ public class Gitlet implements Serializable {
         //TODO  ****test****
         // file conflict : A file from the given branch stops propagating through once it meets a modified file in the replayed branch.
         // e.g.
-        // SP : A B C D
-        // Current : A !B
-        // Given : !A ?B C !D
+        // Current :            -1-  !A B C    -2-  !A !B C   -REPLAYED 3´-  !A !B  -4´- !A !B
+        // SP :init --0- A B C D
+        // Given :              -3-  A !B !D   -4-  ?B !C ?D xinxin
         // REPLAYED : !A (from given) !B (from current)
         //   other changes follows current
         if(!NBtable.FileNameinNBArray(branchName,branchManager.branches)){ // failure case 1
@@ -580,7 +580,7 @@ public class Gitlet implements Serializable {
         Boolean SPisNULL = (Files_SP == null); // if Split Point is the initial commit
         //generate under-processing commit stack
         Stack<Commit> fringe = new Stack<Commit>();
-        Commit tempC = HEAD;
+        Commit tempC = OTHER;
         while(!tempC.Metadata[0].equals(splitPoint.Metadata[0])){
             fringe.push(tempC);
             tempC = BranchManager.ParentCommit(tempC);
@@ -590,7 +590,8 @@ public class Gitlet implements Serializable {
         Commit Current;
         while(!fringe.isEmpty()){ // hasNext
             Current = fringe.pop();
-            Current = rebaseHelper(Files_SP,temp_SHA,Current,OTHER,SPisNULL);
+            Current = rebaseHelper(Files_SP,temp_SHA,Current,HEAD,SPisNULL);
+            HEAD = Current;
             temp_SHA = Utils.sha1(Utils.serialize(Current));
             Commit.writeCommit(Current);
         }
@@ -598,6 +599,7 @@ public class Gitlet implements Serializable {
         //update branchManager
         branchManager.update_branch(temp_SHA);
         rm_branch(branchName); // contains writeBM
+
     }
 
     //help-functions
@@ -710,30 +712,44 @@ public class Gitlet implements Serializable {
         LimeFamily.LimeTree node = LimeTree.SplitPoint();  // from left to right, the first leaf node with same ID in pair is the ancestor node
         return node.Parents_pair[0];
     }
-    private Commit rebaseHelper(NBtable[] Files_SP,String Pa_sha, Commit Current, Commit Other, Boolean SPisNULL){
+    private Commit rebaseHelper(NBtable[] Files_SP,String Pa_sha, Commit Other, Commit Current, Boolean SPisNULL){
         NBtable[] Files_OTHER = Other.NBCommit;
         NBtable[] Files_CUR = Current.NBCommit;
         NBtable[] File_replayed = new NBtable[Other.NBCommit.length];
         System.arraycopy(Other.NBCommit,0,File_replayed,0,Other.NBCommit.length);
 
         String[] inter_0 = NBtable.intersection(Files_OTHER,Files_CUR,"FullName");
+        String[] comp_0 = NBtable.complement(Files_OTHER,Files_CUR,"FullName");
+        String[] comp_1 = NBtable.complement(Files_CUR,Files_OTHER,"FullName");
         for(String fileName : inter_0){
             String ID_CUR = NBtable.FindSHAinNBArray(fileName,Files_CUR);
+            String ID_OTHER = NBtable.FindSHAinNBArray(fileName,Files_OTHER);
 
             if(SPisNULL){
-                File_replayed = updateNBTable(File_replayed, fileName, ID_CUR, Files_OTHER);
+                File_replayed = updateNBTable(File_replayed, fileName, ID_CUR, ID_OTHER);
             }else{
                 String[] inter_1 = NBtable.intersection(Files_SP,Files_CUR,"SHA1Value");
-                if(!Arrays.asList(inter_1).contains(ID_CUR)){
-                    File_replayed = updateNBTable(File_replayed, fileName, ID_CUR, Files_OTHER);
+                if(!Arrays.asList(inter_1).contains(ID_OTHER)){
+                    File_replayed = updateNBTable(File_replayed, fileName, ID_CUR, ID_OTHER);
                 }
             }
         }
 
-        return new Commit(Pa_sha,Current.Metadata[0],File_replayed);
+        for(NBtable NBfile: File_replayed){
+            if(Arrays.asList(comp_0).contains(NBfile.getFullName())){
+                File_replayed = NBtable.remove(File_replayed,NBfile);
+            }
+        }
+
+        for(NBtable NBfile : Files_CUR){
+            if(Arrays.asList(comp_1).contains(NBfile.getFullName()) && !SPisNULL && !NBtable.SHAinNBArray(NBfile.getSHA1Value(),Files_SP) ){
+                File_replayed = NBtable.update(File_replayed,NBfile);
+            }
+        }
+
+        return new Commit(Pa_sha,Other.Metadata[0],File_replayed);
     }
-    private NBtable[] updateNBTable(NBtable[] File_replayed,String fileName, String ID_CUR, NBtable[] Files_OTHER){
-        String ID_OTHER = NBtable.FindSHAinNBArray(fileName,Files_OTHER);
+    private NBtable[] updateNBTable(NBtable[] File_replayed,String fileName, String ID_CUR, String ID_OTHER){
         if(!ID_CUR.equals(ID_OTHER) && ID_CUR != "Wrong"){
             NBtable nonPropogate = new NBtable(fileName,ID_CUR);
             return NBtable.update(File_replayed,nonPropogate);
@@ -742,25 +758,25 @@ public class Gitlet implements Serializable {
     }
     //test-functions
     public void numOfBranch() throws FileNotFoundException {
-        for(NBtable branch :branchManager.branches){
+        for(NBtable branch : branchManager.branches){
             System.out.println(branch.getFullName());
             File fileTemp = new File(fileC,branch.getSHA1Value());
             Commit commit = Utils.readObject(fileTemp,Commit.class);
-            System.out.println("Blobs:");
-            for(NBtable blob:commit.NBCommit){
-                if(blob == null){
-                    continue;
+            while(!commit.Metadata[0].equals("initial commit")){
+                System.out.println(commit.Metadata[0]);
+                for(NBtable blob:commit.NBCommit){
+                    if(blob == null){
+                        continue;
+                    }
+                    System.out.println(blob.getFullName());
+                    File file = new File(fileB,blob.getSHA1Value());
+                    System.out.println("    "+Utils.readObject(file,Blob.class).content);
                 }
-                System.out.println(blob.getFullName());
-                //System.out.println(blob.getSHA1Value());
-            }
-            System.out.println("*************************");
-        }
-        for(NBtable bran :branchManager.branches ){
-            System.out.println(bran.getFullName());
-            //System.out.println(bran.getSHA1Value());
-        }
+                System.out.println("*************************");
+                commit = BranchManager.ParentCommit(commit);
 
+            }
+        }
     }
     public void printSet(Set<String> sets){
         printString(NBtable.SetToString(sets));

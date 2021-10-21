@@ -1,0 +1,84 @@
+# Check if the files are the latest version
+D branch0 "master"
+D branch1 "xinxin"
+> init
+<<<
+# Filename file content
++ a.txt a.txt
++ b.txt b.txt
++ c.txt c.txt
++ d.txt d.txt
+
+> add a.txt
+<<<
+> add b.txt
+<<<
+> add c.txt
+<<<
+> add d.txt
+<<<
+> commit "split point--0"
+<<<
+
+
+# Create the new branch
+> branch ${branch1}
+<<<
+
++ a.txt non-a.txt
+
+> add a.txt
+<<<
+> rm d.txt
+<<<
+> commit "master--1"
+<<<
+
++ b.txt non-b.txt
+
+> add b.txt
+<<<
+> commit "master--2"
+<<<
+
+# Check out to the new branch
+>checkout ${branch1}
+<<<
+
++ b.txt non-b.txt
++ d.txt non-d.txt
+
+> add b.txt
+<<<
+> add d.txt
+<<<
+> rm c.txt
+<<<
+
+
+> commit "xinxin--3"
+<<<
+
++ b.txt not-b.txt
++ d.txt not-d.txt
++ c.txt non-c.txt
+
+> add b.txt
+<<<
+> add d.txt
+<<<
+> add c.txt
+<<<
+> rm a.txt
+<<<
+
+
+> commit "xinxin--4"
+<<<
+
+# Check out
+>checkout ${branch0}
+<<<
+
+#> rebase ${branch0}
+#<<<
