@@ -1,11 +1,15 @@
 package gitlet;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static gitlet.Gitlet.fileC;
 
 /*attributes
 
@@ -63,6 +67,13 @@ public class Commit implements Serializable {
     }
     public void setpaSHA(String[] paSHA){ this.paSHA = paSHA; }
     public String[] getPaSHA(){ return paSHA; }
+
+    public static void writeCommit(Commit commit) throws IOException {
+        String ID = Utils.sha1(Utils.serialize(commit));
+        File C = new File(fileC, ID);
+        C.createNewFile();
+        Utils.writeObject(C, commit);
+    }
 
 
 }
