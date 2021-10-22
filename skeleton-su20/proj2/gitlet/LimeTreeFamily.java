@@ -144,7 +144,7 @@ public class LimeTreeFamily {
     /* Returns the split point */
     public void splitPoint_helper(LimeTree splitPoint){
         // todo: this function is for updating the commit id, if the leaf has shorter height, then update sp and h
-        if(splitPoint.level <= h & !splitPoint.equals(sp)){
+        if(splitPoint.level < h & !splitPoint.equals(sp)){
             h = splitPoint.level;
             sp = splitPoint;
         }

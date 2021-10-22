@@ -32,20 +32,6 @@ public class BranchManage implements Serializable {
     }
 
     // Function update_head
-    public void update_head(String name, String sha){
-        branch_head.setfile_name(name);
-        branch_head.setSha1_file_name(sha);
-        for (NBtable branch : branches){ // shit hole: branches also need to be updated
-            if(branch.getFile_name().equals(name)){
-                branch.setSha1_file_name(sha);
-                break;
-            }
-        }
-    }
-
-    public void update_head(NBtable new_head){
-        branch_head = new_head;
-    }
 
     public void update_branches(NBtable new_t){
         int i = 0;
@@ -56,6 +42,10 @@ public class BranchManage implements Serializable {
             else i+=1;
         }
         branches[i] = new_t;
+    }
+
+    public void update_head(NBtable new_head){
+        branch_head = new_head;
     }
 
     public void add_branches(String working_directory, NBtable newBranch){
@@ -74,9 +64,9 @@ public class BranchManage implements Serializable {
         BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
         // get the name of all the branches
         NBtable[] existing_Branches = branch.getBranches();
-        NBtable re_tabel = new NBtable(branch_name, "");
-        NBtable[] branches_new = NBtable.rm_NBtable_byName(existing_Branches, re_tabel);
-        setBranches(branches_new);
+        NBtable re_table = new NBtable(branch_name, "");
+        NBtable[] branches_new = NBtable.rm_NBtable_byName(existing_Branches, re_table);
+        branch.setBranches(branches_new);
     }
 
     public void setBranches(NBtable[] new_branches){

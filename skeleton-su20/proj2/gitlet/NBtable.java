@@ -55,10 +55,6 @@ public class NBtable implements Serializable {
         sha1_file_name = sha1;
     }
 
-    public void setfile_name(String str){
-        file_name = str;
-    }
-
     public String getSha1_file_name() {
         return (sha1_file_name);
     }
@@ -122,21 +118,44 @@ public class NBtable implements Serializable {
 
     // Transfer the string array into hasSet array, and then get the union of them
     public static String[] get_String_Array_Union(String[] str1, String[] str2){
-        Set<String> set1 = new HashSet<String>();
-        Set<String> set2 = new HashSet<String>();
-        for(String s : str1){
-            set1.add(s);
+//        Set<String> set1 = new HashSet<String>();
+//        Set<String> set2 = new HashSet<String>();
+//        for(String s : str1){
+//            set1.add(s);
+//        }
+//        for(String s : str2){
+//            set2.add(s);
+//        }
+//        set1.addAll(set2);
+//        String[] names_union = new String[set1.size()];
+//        int i = 0;
+//        for (String s : set1){
+//            names_union[i++] = s;
+//        }
+//        return names_union;
+        int i = str1.length;
+        int j = str2.length;
+        String[] strUnion = new String[i+j];
+        int k = 0;
+        if(i != 0 & j != 0){
+            for (String s : str1){
+                strUnion[k++] = s;
+            }
+            for (String s : str2){
+                strUnion[i++] = s;
+            }
         }
-        for(String s : str2){
-            set2.add(s);
+        if(i == 0){
+            for (String s : str2){
+                strUnion[k++] = s;
+            }
         }
-        set1.addAll(set2);
-        String[] names_union = new String[set1.size()];
-        int i = 0;
-        for (String s : set1){
-            names_union[i++] = s;
+        if(j == 0){
+            for (String s : str1){
+                strUnion[k++] = s;
+            }
         }
-        return names_union;
+        return strUnion; // if i==0 & j == 0 return a string[] with length 0
     }
 
     // Intersection of names
@@ -212,8 +231,10 @@ public class NBtable implements Serializable {
         int n = oldNBtableArr.length + 1;
         NBtable[] newNBtable = new NBtable[n];
         int i = 0;
-        for(NBtable s : oldNBtableArr){
-            newNBtable[i++] = s;
+        if(n!=1){
+            for(NBtable s : oldNBtableArr){
+                newNBtable[i++] = s;
+            }
         }
         newNBtable[n-1] = add_NBtable;
         return(newNBtable);
@@ -232,7 +253,7 @@ public class NBtable implements Serializable {
         NBtable[] branches_new = new NBtable[n];
         int i = 0;
         for(NBtable s : oldNBtableArr){ //move by sha
-            if (!s.getSha1_file_name().equals(rm_NBtable.getSha1_file_name())){
+            if (!s.getFile_name().equals(rm_NBtable.getFile_name())){
                 branches_new[i++] = s;
             }
         }

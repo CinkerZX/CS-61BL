@@ -18,6 +18,7 @@ import java.util.Stack;
 import static gitlet.BranchManage.getCommit;
 import static gitlet.LimeTreeFamily.*;
 import static gitlet.NBtable.*;
+import static gitlet.NBtable.get_simple_String_Intersection;
 
 public class Gitlet implements Serializable{ // class is abstract // tell java this class is Serializable
 
@@ -163,13 +164,15 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             File branchMa = new File(d.getPath(), "branch");
             try{
                 BranchManage branch = Utils.readObject(branchMa, BranchManage.class);
+                Commit cur_Commit = branch.current_commit(working_directory);
                 // generate a new commit object (newCommit) by coping NBtable from "current commit"
                 Commit new_Commit = branch.new_commit(Args, working_directory);
                 if (!pa_sha_1.isEmpty() & !getCommit(pa_sha_1).getMetadata()[0].equals("initial commit")){
                     new_Commit.addPa_sha(pa_sha_1, pa_sha_2);
                 }
                 // make a list of tracking files combining the info from staging area
-                NBtable[] blob_list = new_Commit.getNB_commit();
+                NBtable[] blob_list = cur_Commit.getNB_commit();
+
                 File file_blob = new File(working_directory,".gitlet/Blobs"); // we meed to go to the Blobs directory to find the blob
 
                 // staged for addition : append new blobs of "staged for addition" to newCommit's NBtable
@@ -214,15 +217,12 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                     File staging_remove = new File(file_remove, sha_blob);
                     staging_remove.delete();
                 }
-                System.out.println(blob_list.length);
                 // Don't forget to write blobs into the commit
                 new_Commit.setNB_commit(blob_list);
-                //System.out.println("already add the blob"+ blob_list.length);
-
                 // write commit object
                 write_commit(new_Commit);
 
-                // Update branches and update_head
+                // Update branches and head
                 NBtable new_head = new NBtable(branch.getBranch_head().getFile_name(), Utils.sha1(Utils.serialize(new_Commit)));
                 branch.update_head(new_head);
                 branch.update_branches(new_head);      // ********************************* trap
@@ -455,7 +455,8 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                 branch.wt(working_directory, branch); // write the branch management object
                 NBtable b = getBranch(Args);
                 if (b.getSha1_file_name().equals("")){
-                    branch.update_head(Args,branch.getBranch_head().getSha1_file_name());
+                    NBtable new_head = new NBtable(Args, branch.getBranch_head().getSha1_file_name());
+                    branch.update_branches(new_head);
                     branch.wt(working_directory, branch); // write the branch management object
                 }
             }
@@ -568,7 +569,7 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         else {
             checkout_by_commit_id(object_commit, cur_commit);
         }
-        cur_branch.update_head(object_branch);
+        cur_branch.update_head(object_branch); //update head
         cur_branch.wt(working_directory, cur_branch);
         // Clean the staging area
         clean_staging();
@@ -616,7 +617,8 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             Commit cur_commit = getCommit(cur_branch.get_cur_commit_sha1());
             checkout_by_commit_id(object_commit, cur_commit);
             //  Moves the current branch’s head to that commit node.
-            cur_branch.update_head(cur_branch.getBranch_head().getFile_name(), commit_id);
+            NBtable new_head = new NBtable(cur_branch.getBranch_head().getFile_name(), commit_id);
+            cur_branch.update_branches(new_head);
             cur_branch.wt(working_directory, cur_branch);
             // clean the staging area
             clean_staging();
@@ -739,6 +741,11 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     // rebase [branch name]
     public void rebase(String branch_name) throws IOException {
         //TODO rebase: when files are conflict, their version in "current commit" is base
+        //TODO test:
+        // Init
+        // SP: ABCD
+        // Current:  -1-  !A B C    -2-  !A !B C   -RPLAYED  -3'-   !A !B  -4'-  !A !B
+        // Given:    -3-  A !B !D   -4-  ?B !C ?D
         NBtable[] OTHER_nb_files = new NBtable[0];// a == 0 => HEAD ; a == 1 => OTHER
         NBtable[] HEAD_nb_files = new NBtable[0];
         //false case 1: If a branch with the given name does not exist, print the error message, and exist
@@ -772,44 +779,46 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
                     // Special case: only need to change the pointer of the latest commit of the current branch to that of given branch.
                     if(split_commit.getMetadata()[0].equals(HEAD.getMetadata()[0])){
                         cur_branch.update_head(object_branch);
+                        NBtable branchName_latestComSha = new NBtable(branch_name, Utils.sha1(Utils.serialize(OTHER)));
+                        cur_branch.update_branches(branchName_latestComSha);
+                        cur_branch.wt(working_directory, cur_branch);
                         return;
-                    }
-                    // For files didn't change in current branch, but changed in the given branch, should copy the changing history
-                    HEAD_nb_files = getCommit(sha_moved).getNB_commit();  // current branch
-                    OTHER_nb_files = getCommit(sha_remain).getNB_commit(); // given branch
-
-                    NBtable[] SPLIT_nb_files = split_commit.getNB_commit(); //spilt point
-                    String[] replace_CurBase;
-                    if(SPLIT_nb_files != null){
-                        String[] files_HS_sameCon = NBtable.get_string_Array(HEAD_nb_files,SPLIT_nb_files,"");
-                        String[] files_HO_sameName = NBtable.get_string_Array(HEAD_nb_files,OTHER_nb_files,"name");
-                        replace_CurBase = NBtable.get_names_Compliment(files_HO_sameName,files_HS_sameCon);
-                    }
-                    else{// If split point is the initial point
-                        replace_CurBase = NBtable.get_string_Array(HEAD_nb_files,OTHER_nb_files,"name");
                     }
                     // Copy the commits from the given branch by stack
                     Stack<Commit> fringe = new Stack<Commit>();
                     Commit pushin = OTHER; // The latest commit of given branch
                     fringe.push(pushin); // Push it into fringe
-                    while(!pushin.getPa_sha()[0].equals("")){ // push in, until meet init
+                    while(!pushin.getPa_sha()[0].equals(Utils.sha1(Utils.serialize(split_commit)))){ // push in, until meet split point
                         pushin = getCommit(pushin.getPa_sha()[0]);
                         fringe.push(pushin);
                     }
                     Commit commit_0_given = fringe.pop();
-                    String pa_sha = update_commit(replace_CurBase, commit_0_given, HEAD, HEAD_nb_files, SPLIT_nb_files, sha_moved);
+
+                    // For files didn't change in current branch, but changed in the given branch, should copy the changing history
+                    HEAD_nb_files = getCommit(sha_moved).getNB_commit();  // current branch
+                    OTHER_nb_files = commit_0_given.getNB_commit(); // given branch
+
+                    NBtable[] SPLIT_nb_files = split_commit.getNB_commit(); //spilt point
+                    String[] replace_CurBase;
+                    replace_CurBase = files_pending_replace(HEAD_nb_files, SPLIT_nb_files, OTHER_nb_files);
+                    String[] delete_files;
+                    delete_files = files_pending_detele(HEAD_nb_files, SPLIT_nb_files, OTHER_nb_files);
+                    String pa_sha = update_commit(replace_CurBase, delete_files, commit_0_given, HEAD,sha_moved);
                     Commit commit_given;
+                    HEAD = getCommit(pa_sha);
+                    HEAD_nb_files = HEAD.getNB_commit();
                     while(!fringe.isEmpty()){
                         commit_given = fringe.pop();
-                        pa_sha = update_commit(replace_CurBase, commit_given, HEAD, HEAD_nb_files, SPLIT_nb_files, pa_sha);
+                        OTHER_nb_files = commit_given.getNB_commit();
+                        replace_CurBase = files_pending_replace(HEAD_nb_files, SPLIT_nb_files, OTHER_nb_files);
+                        delete_files = files_pending_detele(HEAD_nb_files, SPLIT_nb_files, OTHER_nb_files);
+                        pa_sha = update_commit(replace_CurBase, delete_files, commit_given, HEAD, pa_sha);
+                        HEAD = getCommit(pa_sha); //********************trap
+                        HEAD_nb_files = HEAD.getNB_commit();;
                     }
                     //Remove the old branch
                     BranchManage.rm_branches(working_directory,branch_name);
-                    // Update branches and update_head
-                    NBtable new_head = new NBtable(branch_name, pa_sha);
-                    cur_branch.update_head(new_head);
-                    cur_branch.update_branches(new_head);
-                    cur_branch.wt(working_directory,cur_branch);
+//                    cur_branch.wt(working_directory,cur_branch); //***********************trap
                 } catch (Exception e) {
                     e.printStackTrace();
                     System.out.println("Encountered a merge conflict.");
@@ -1011,11 +1020,42 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
         }
     }
 
-    // blob replace
+    // generate the deleted and replace files
+    public String [] files_pending_replace(NBtable[] HEAD_files, NBtable[] SPLIT_files, NBtable[] OTHER_files){
+        String[] replace_CurBase;
+        if(SPLIT_files != null){
+            String[] files_HS_sameCon = NBtable.get_string_Array(HEAD_files,SPLIT_files,"");  //C
+            String[] files_HO_sameName = NBtable.get_string_Array(HEAD_files,OTHER_files,"name");  //B C
+            replace_CurBase = NBtable.get_names_Compliment(files_HO_sameName,files_HS_sameCon);  //same name, different content, B
+        }
+        else{// If split point is the initial point
+            replace_CurBase = NBtable.get_string_Array(HEAD_files,OTHER_files,"name");
+        }
+        return replace_CurBase;
+    }
+
+    // generate the deleted and replace files
+    public String [] files_pending_detele(NBtable[] HEAD_files, NBtable[] SPLIT_files, NBtable[] OTHER_files){
+        String[] files_H = getFile_name_array(HEAD_files);
+        String[] delete_files = new String[0];
+        if(SPLIT_files != null){
+            String[] files_HS_sameCon = NBtable.get_string_Array(HEAD_files,SPLIT_files,"");
+            String[] files_HS_sameName = NBtable.get_string_Array(HEAD_files,SPLIT_files,"name");
+            String[] files_HS_difCon = NBtable.get_names_Compliment(files_HS_sameName,files_HS_sameCon);
+            String[] delete_CurBase = NBtable.get_names_Compliment(SPLIT_files, HEAD_files); // A
+            String[] delete_OthfromSP = NBtable.get_names_Compliment(SPLIT_files, OTHER_files); // deleted from Other
+            delete_OthfromSP = get_simple_String_Intersection(delete_OthfromSP, files_H);// deleted from Other but exists in H
+            delete_OthfromSP = NBtable.get_names_Compliment(delete_OthfromSP, files_HS_difCon); //*********************trap
+            delete_files = get_String_Array_Union(delete_CurBase, delete_OthfromSP);
+        }
+        return delete_files;
+    }
+
+    // blob replace, with the base of cur, replace the file with same name in given
     public NBtable[] replace_blob(String filename, Commit cur, NBtable[] blobList_given){
         NBtable[] blobList_Cur = cur.getNB_commit();
         for(NBtable t : blobList_Cur){
-            if(t.find_sha1(filename)){
+            if(t.find(filename)){  //******************trap
                 for (NBtable tt : blobList_given){
                     if(tt.find(filename)){
                         tt.setSha1_file_name(t.getSha1_file_name());
@@ -1024,6 +1064,24 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
             }
         }
         return blobList_given;
+    }
+
+    // blob delete
+    public NBtable[] delete_blob(String filename, NBtable[] blobList_given){
+        int n = blobList_given.length;
+        for(NBtable s : blobList_given){ //move by sha
+            if (s.getFile_name().equals(filename)){
+                n = n-1;
+            }
+        }
+        NBtable[] blobList_new = new NBtable[n];
+        int i = 0;
+        for(NBtable s : blobList_given){ //move by sha
+            if (!s.getFile_name().equals(filename)){
+                blobList_new[i++] = s;
+            }
+        }
+        return(blobList_new);
     }
 
     // write commit into file space
@@ -1035,19 +1093,26 @@ public class Gitlet implements Serializable{ // class is abstract // tell java t
     }
 
     // update commit and return pasha
-    public String update_commit(String[] file_names, Commit give, Commit head, NBtable[] head_nb_files, NBtable[] split_nb_files, String pasha) throws IOException {
-        NBtable[] updated_blobList = give.getNB_commit();
-        if(!(file_names == null)){
-            for (String s : file_names){ // replace all the files
-                if (!files_sameContent(s,head_nb_files,split_nb_files)){
-                    //TODO: replace the blob in commits in given branch with the blob in current branch
-                    updated_blobList = replace_blob(s, head, updated_blobList);
-                }
+    public String update_commit(String[] file_names, String[] del_files, Commit give, Commit head, String pasha) throws IOException {
+        NBtable[] updated_blobList = head.getNB_commit(); // head is the base **************************trap
+        if(del_files.length!=0){ // delete the files
+            for (String s : del_files){
+                updated_blobList = delete_blob(s,updated_blobList);
+            }
+        }
+        if(file_names != null){
+            for (String s : file_names){
+                updated_blobList = replace_blob(s, head, updated_blobList);
             }
         }
         // copy the commit
         Commit commit_new = new Commit(pasha, give.getMetadata()[0], updated_blobList);
         write_commit(commit_new);
+        // Update branches  ****************************trap
+        BranchManage cur_branch = getCurrentBranch();
+        NBtable new_branch_head = new NBtable(cur_branch.getBranch_head().getFile_name(), Utils.sha1(Utils.serialize(commit_new)));
+        cur_branch.update_branches(new_branch_head);
+        cur_branch.wt(working_directory,cur_branch);
         return(Utils.sha1(Utils.serialize(commit_new)));
     }
 }

@@ -1,0 +1,73 @@
+# Init
+# SP: ABCD
+# Current:  -1-  !A B C    -2-  !A !B C   -RPLAYED  -3'-   !A !B C  -4'-  !A !B !C
+# Given:    -3-  A !B !D   -4-  ?B !C ?D
+
+D branch0 "master"
+D branch1 "xinxin"
+> init
+<<<
+# Filename file content
++ a.txt a.txt
++ b.txt b.txt
++ c.txt c.txt
++ d.txt d.txt
+> add a.txt
+<<<
+> add b.txt
+<<<
+> add c.txt
+<<<
+> add d.txt
+<<<
+> commit "commitSP"
+<<<
+# Create the new branch
+> branch ${branch1}
+<<<
+# Check out to the new branch
+> checkout ${branch1}
+<<<
++ a.txt a.txt
++ b.txt non-b.txt
++ d.txt non-d.txt
+> add a.txt
+<<<
+> add b.txt
+<<<
+> add d.txt
+<<<
+> rm c.txt
+<<<
+> commit "Commit3"
+<<<
++ b.txt non-b-2.txt
++ c.txt non-c.txt
++ d.txt non-d-2.txt
+> add b.txt
+<<<
+> add c.txt
+<<<
+> add d.txt
+<<<
+>rm a.txt
+<<<
+> commit "Commit4"
+<<<
+# check out to master again
+> checkout ${branch0}
+<<<
++ a.txt non-a.txt
+> add a.txt
+<<<
+> rm d.txt
+<<<
+> commit "Commit1"
+<<<
++ b.txt non-b.txt
+> add b.txt
+<<<
+> commit "Commit2"
+<<<
+> rebase ${branch1}
+<<<

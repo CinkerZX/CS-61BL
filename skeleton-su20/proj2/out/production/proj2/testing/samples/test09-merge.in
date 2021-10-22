@@ -66,5 +66,7 @@ D branch1 "xinxin"
 <<<
 > commit "Commit0"
 <<<
-# > merge ${branch1}
-# <<<
+> merge ${branch1}
+<<<
+> log
+<<<

@@ -1,9 +1,3 @@
-### To do: test rebase
- 
-### add the methods of reset, branchmanagement, checkout
-
-### Special condition: users generate new sub-folders under the original working_directory (how to update the directory to the current one) 
-
 # The structure of GITLET
 
 ### Object: Gitlet Repository
@@ -43,9 +37,7 @@
                             *java gitlet.Main checkout [branch name]*
     reset // Checks out all the files tracked by the given commit *java gitlet.Main reset [commit id]*
     merge
-    
-    
-    $$ to do $$ rebase // *java gitlet.Main rebase [branch name]*
+    rebase // *java gitlet.Main rebase [branch name]*
     
 ### Contents
     working directory

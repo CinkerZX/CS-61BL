@@ -97,7 +97,13 @@ public class Commit implements Serializable {
     }
 
     // Fill the blos in
-    public void setNB_commit(NBtable[] NB_commit) {
-        this.NB_commit = NB_commit;
+    public void setNB_commit(NBtable[] new_NB_commit) {
+//        int i = new_NB_commit.length;
+//        NB_commit = new NBtable[i];
+//        int j=0;
+//        for (NBtable t : new_NB_commit){
+//            NB_commit[j++] = t;
+//        }
+        this.NB_commit = new_NB_commit;
     }
 }
