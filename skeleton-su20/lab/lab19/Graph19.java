@@ -245,22 +245,49 @@ public class Graph19 implements Iterable<Integer> {
     private class TopologicalIterator implements Iterator<Integer> {
 
         private Stack<Integer> fringe;
+        private int[] currentInDegree; // nodes int | updated indegree
 
         // TODO: Instance variables here!
 
-        TopologicalIterator() {
+        public TopologicalIterator() {
             fringe = new Stack<Integer>();
-            // TODO: YOUR CODE HERE
+            currentInDegree = new int[vertexCount];
+            // TODO: put all initial indegree into
+            for (int i = 0; i < vertexCount; i++) {
+                int indegree_i = inDegree(i);
+                currentInDegree[i] = indegree_i;
+                if (indegree_i == 0){
+                    fringe.push(i);
+                }
+            }
         }
 
         public boolean hasNext() {
             // TODO: YOUR CODE HERE
+            if (!fringe.isEmpty()) {
+                int i = fringe.pop();
+                while (currentInDegree[i] == -1) { //eliminate the visited (idegree==-1) one
+                    if (fringe.isEmpty()) {
+                        return false;
+                    }
+                    i = fringe.pop();
+                }
+                fringe.push(i);
+                return true;
+            }
             return false;
         }
 
         public Integer next() {
-            // TODO: YOUR CODE HERE
-            return 0;
+            int curr = fringe.pop();
+            for (Integer e : neighbors(curr)) {
+                currentInDegree[e]--;
+                if (currentInDegree[e]==0){
+                    fringe.push(e);
+                }
+            }
+            currentInDegree[curr]--;
+            return curr;
         }
 
         public void remove() {
