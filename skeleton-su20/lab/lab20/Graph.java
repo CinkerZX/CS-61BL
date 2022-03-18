@@ -385,8 +385,9 @@ public class Graph implements Iterable<Integer> {
     public ArrayList<Integer> shortestPath(int start, int stop) {
         // TODO: YOUR CODE HERE
         Queue<Edge> fringe = new PriorityQueue<>(new EdgeComparator());
-        HashMap<Integer,Integer> paths = new HashMap<>();   // HashMap<To, From>
-        HashSet<Integer> notVisited = new HashSet<>();         // visited nodes
+        HashMap<Integer,Integer> paths = new HashMap<>();       // HashMap<To, From>
+        HashMap<Integer,Integer> pathWeight = new HashMap<>();  // weight
+        HashSet<Integer> notVisited = new HashSet<>();          // visited nodes
         HashSet<Integer> updated = new HashSet<>();
         ArrayList<Integer> SPath = new ArrayList<>();
 
@@ -395,16 +396,18 @@ public class Graph implements Iterable<Integer> {
             if (start !=k){
                 fringe.offer(getEdge(start,k));
             }
-//            else{
-//                fringe.offer(new Edge(start,k,0));
-//            }
         }
+
         while(!notVisited.isEmpty() || !fringe.isEmpty()) {
             Edge temp = fringe.poll();
+
             if (temp == null){break;}
-            if (!updated.contains(temp.to)){
+            if (!updated.contains(temp.to) ||(updated.contains(temp.to) && temp.weight<=pathWeight.get(temp.to))){
                 paths.put(temp.to,temp.from);
-                System.out.println("("+temp.to+","+temp.from+")   "+temp.weight);
+                pathWeight.put(temp.to, temp.weight);
+//                pathWeight.put(temp.weight);
+                if (paths.get(temp.to) == 0 && temp.to == 1){
+                System.out.println("("+temp.to+","+temp.from+")   "+temp.weight);}
             }
             updated.add(temp.to);
             if (temp == null){break;}
@@ -418,7 +421,6 @@ public class Graph implements Iterable<Integer> {
         }
 
         if(paths.get(stop) == null){
-
         }else{
             SPath.add(0, stop);
             int vertex = paths.get(stop).intValue();
