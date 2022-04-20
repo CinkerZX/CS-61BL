@@ -18,4 +18,16 @@ public class Position implements Comparable<Position>{
         }
         return -1;
     }
+
+    public static Position[][] initializing(Position[][] p) {
+        int row = p[0].length;
+        int col = p.length;
+        Position position = new Position(0,0);
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                p[i][j] = position;
+            }
+        }
+        return p;
+    }
 }

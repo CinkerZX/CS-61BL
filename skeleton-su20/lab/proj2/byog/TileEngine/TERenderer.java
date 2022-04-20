@@ -12,7 +12,7 @@ import java.awt.Font;
  * messing with this renderer, unless you're trying to do something fancy like
  * allowing scrolling of the screen or tracking the player or something similar.
  */
-public class TERenderer {
+public class TERenderer<E> {
     private static final int TILE_SIZE = 16;
     private int width;
     private int height;
@@ -142,6 +142,8 @@ public class TERenderer {
         }
     }
 
+
+
     /**
      * Calculate the series of p for the n Hexagons
      * The drawing direction is from p0 to
@@ -154,6 +156,46 @@ public class TERenderer {
 //    public static Position[] addMultiHexagonHelperPositionOfP(TETile[][] world, int s, int n){
 //
 //    }
+
+    /**
+     * Calculate all the possible ps in the world
+     * Staring from the left bottom of the world X = s-1+(s+s+2*(s-1))*i (i is odd) Y = s*2*j (j is odd)     ---i = 0,1,2 row j = 0,1,2 col
+     * @param world
+     * @param s
+     * @return a position matrix
+     */
+    public static Position[][] addMultiHexagonHelperPossibleP(TETile[][] world, int s){
+        int i = 0; // n row
+        int j = 0; // n col
+        int maxRow = world[0].length;
+        int maxCol = world.length;
+        int row = maxRow/(2*s);
+        int a = maxCol/(4*s-2);
+        int col = a+(maxCol-a*s)/(3*s-2);
+        Position[][] matrixP = new Position[row][col];
+        matrixP = Position.initializing(matrixP);
+        Position temp = new Position(0,0);
+        while(j < col){
+            if (j%2 ==0){ // j is even
+                temp.X = s-1+(2*s-1)*j; //s-1+(4*s-2)*j/2
+                temp.Y = 0;
+            }
+            else{ // j is odd
+                temp.X=3*s-2+(2*s-1)*(j-1);
+                temp.Y = s;
+            }
+            i = 0;
+            while(i < row && temp.Y+2*s <= maxRow && temp.X + 2*s <= maxCol){
+                Position p = new Position(temp.X,temp.Y);
+                matrixP[i][j] = p;
+                temp.Y += 2*s;
+                i++;
+            }
+            j++;
+        }
+        return matrixP;
+    }
+
 
     /**
      * The position of the numOfRow th row
@@ -178,7 +220,7 @@ public class TERenderer {
     public static Position addHexagonHelperPositionOfLeftTileRow(Position p, int s, int r){
         int X;
         int Y;
-        Y = p.Y+r-1;
+        Y = p.Y+r;
         if (r>=s){
             r = 2*s-1-r;
         }
@@ -209,24 +251,59 @@ public class TERenderer {
         return -1;
     }
 
-
+    private static TETile[][] initializing(TETile[][] myTiles) {
+        int row = myTiles[0].length;
+        int col = myTiles.length;
+        TETile myTile = Tileset.NOTHING;
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                myTiles[i][j] = myTile;
+            }
+        }
+        return myTiles;
+    }
 
     public static void main(String[] args) {
         // Test addHexagon
-        int WIDTH = 50;
-        int HEIGHT = 50;
+//        int WIDTH = 50;
+//        int HEIGHT = 50;
+//        TERenderer ter = new TERenderer();
+//        ter.initialize(WIDTH, HEIGHT);
+//
+//        TETile[][]  myTiles = new TETile[WIDTH][HEIGHT];
+//        for (int i = 0; i < WIDTH; i++) {
+//            for (int j = 0; j < HEIGHT; j++) {
+//                myTiles[i][j] = Tileset.NOTHING;
+//            }
+//        }
+//        Position p = new Position(5,10);
+//        addHexagon(myTiles, p, 3, Tileset.FLOWER);
+//        ter.renderFrame(myTiles);
+
+        //Test position matrix
+        int WIDTH = 18; // col
+        int HEIGHT = 16; // row
         TERenderer ter = new TERenderer();
         ter.initialize(WIDTH, HEIGHT);
 
         TETile[][]  myTiles = new TETile[WIDTH][HEIGHT];
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT; j++) {
-                myTiles[i][j] = Tileset.NOTHING;
+        myTiles = initializing(myTiles);
+        Position[][] p = addMultiHexagonHelperPossibleP(myTiles, 2);
+        int i = 0;
+        int j;
+        while(i<p.length){
+            j = 0;
+            while(j < p[0].length){
+                if (p[i][j].X+p[i][j].Y !=0){
+                    addHexagon(myTiles, p[i][j], 2, Tileset.FLOWER);
+                }
+                j++;
             }
+            i++;
         }
-        Position p = new Position(5,10);
-        addHexagon(myTiles, p, 3, Tileset.FLOWER);
         ter.renderFrame(myTiles);
     }
+
+
 
 }
